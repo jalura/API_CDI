@@ -774,7 +774,12 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
         FEC_BAJA: req.body.fecha_baja
     }
 
+    console.log('==========================================================================');
+    console.log('Alta de una Problematicas ( IMSS-CDI) ');
+    console.log('Responsable: <' +  ooadProblematicaObj.NOM_RESPONSABLE + '>');
+    console.log('--------------------------------------------------------------------------');
     console.log(sql);
+
     conexionBBDD.query(sql, ooadProblematicaObj, error => {
         if (error) throw error;
 
