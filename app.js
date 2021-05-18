@@ -728,7 +728,7 @@ app.get('/ooadProblematicas/:id', ( req, res ) => {
     const {id} = req.params;
 
     console.log('==========================================================================');
-    console.log('Problematicas (IMSS-CDI) : <' + id + '>');
+    console.log('Problematicas (  IMSS-CDI) : <' + id + '>');
     console.log('--------------------------------------------------------------------------');
     const sql = `SELECT * FROM SIAC_OOAD_PROBLEMATICA WHERE CVE_OOAD_PROBLEMATICA = ${id}`;
     console.log(sql);

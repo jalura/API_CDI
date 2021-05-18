@@ -1,7 +1,7 @@
 {
   "name": "API_CDI",
   "version": "1.0.0",
-  "description": "CRUD BBDD CDI - Gestiòn de Problemas",
+  "description": "CRUD BBDD CDI - Gestiòn de Problemas Dummy",
   "main": "App.js",
   "scripts": {
     "start": "node ."
