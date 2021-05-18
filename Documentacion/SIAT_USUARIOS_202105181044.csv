@@ -1,0 +1,6 @@
+"CVE_USUARIO","NOM_NOMBRE","NOM_APELLIDOPATERNO","NOM_APELLIDOMATERNO","CVE_MATRICULA","CVE_CORREO","NOM_CUENTAMETRO","FEC_EXPIRA","FEC_ALTA","FEC_ACTUALIZACION","FEC_BAJA"
+1,Claudia,Vazquez,,"12345678",claudia.vazquez@imss.gob.mx2,metro\claudia.vazquez2,,"2021-12-31",,
+2,Julio Cesar,Lopez,Blanco,"99011004",julio.lopez@imss.gob.mx,julio.lopezb,,"2021-12-31",,
+3,German,Ramos,Orduño,"99028181",german.ramos@imss.gob.mx,occ\german.ramoso,,"2021-12-31",,
+4,Esli Emmanuel,Carillo,Garcia,"99103537",esli.carrillo@imss.gob.mx,occ\esli.carrillo,,"2021-12-31",,
+5,Emmanuel,Berzunza,Rosado,"311040067",emmanuel.berzunza@imss.gob.mx,sur\emmanuel.berzunza,,"2021-12-31",,
