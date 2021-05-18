@@ -1,10 +1,10 @@
 {
-  "name": "API_IMSS_CDI",
+  "name": "API_CDI",
   "version": "1.0.0",
-  "description": "CRUD BBDD CDI-IMSS - Gestiòn de Problemas",
+  "description": "CRUD BBDD CDI - Gestiòn de Problemas",
   "main": "App.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "keywords": [],
   "author": "José Antonio Lugo Rangel",
