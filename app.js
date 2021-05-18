@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 
 // Creamos la instancia de conexion a MySql
 const conexionBBDD = mySql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'macRoot2021',
-    database: 'IMSS_CDI'
+    host: 'us-cdbr-east-03.cleardb.com',
+    user: 'be4c93595247c1',
+    password: '55f78527',
+    database: 'heroku_a4ac2dcd99be87f'
 })
 
 // =====================================================================
