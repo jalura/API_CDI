@@ -17,7 +17,7 @@ const app = servExpress();
 app.use(bodyParser.json());
 
 // Creamos la instancia de conexion a MySql
-const conexionBBDD = mySql.createConnection({
+const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
@@ -828,12 +828,16 @@ app.delete('/ooadProblematicas/delete/:id', ( req, res ) => {
 ////////////////////////////////////////////////////////////////////////////////
 // Se verifica la conexion a la BBDD
 ////////////////////////////////////////////////////////////////////////////////
+/*
 conexionBBDD.connect(error => {
     if (error) throw error;
 
     console.log('DataBase Server Running! ');
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
+*/
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Llamamos a la funciòn listen, para verificar si hay eco en el puerto
