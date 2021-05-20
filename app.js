@@ -73,6 +73,7 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) throw error;
 
+        console.log(resultado);
         if (resultado.length > 0) {
             respuesta = {
                 status: true,
@@ -88,6 +89,7 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
                 respuesta: '{}'
             }
         }
+        console.log(respuesta);
         res.json(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
