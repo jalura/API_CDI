@@ -43,7 +43,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI',
+        message: 'Welcome to my API IMSS_CDI'
     }
     res.send(respuesta);
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
@@ -84,7 +84,8 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'Informaciòn no válida'
+                message: 'Informaciòn no válida',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -126,7 +127,8 @@ app.get('/entidades', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -161,7 +163,8 @@ app.get('/entidades/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -202,7 +205,8 @@ app.get('/unidadesNivel1', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -237,7 +241,8 @@ app.get('/unidadesNivel1/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -280,7 +285,8 @@ app.get('/tipoProblematicas', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -315,7 +321,8 @@ app.get('/tipoProblematicas/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: '{}'
             }
         }
         res.json(respuesta);
@@ -341,7 +348,14 @@ app.post('/tipoProblematicas/add', ( req, res ) => {
     conexionBBDD.query(sql, tipoProblematicaObj, error => {
         if (error) throw error;
 
-        res.send('Tipo de Problematica creado en el catalogo!');
+        respuesta = {
+            status: true,
+            code: 202,
+            message: 'Tipo de Problematica creado en el catalogo!',
+            respuesta: {}
+        }
+    
+        res.send(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
@@ -366,7 +380,14 @@ app.put('/tipoProblematicas/update/:id', ( req, res ) => {
     conexionBBDD.query(sql, error => {
         if (error) throw error;
 
-        res.send('Tipo de Problematica actualizado en el catalogo!');
+        respuesta = {
+            status: true,
+            code: 201,
+            message: 'Tipo de Problematica actualizado en el catalogo!',
+            respuesta: {}
+        }
+    
+        res.send(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
@@ -381,6 +402,15 @@ app.delete('/tipoProblematicas/delete/:id', ( req, res ) => {
     
     conexionBBDD.query(sql, error => {
         if (error) throw error;
+
+        respuesta = {
+            status: true,
+            code: 201,
+            message: 'Tipo de Problematica borrado del Catalog!',
+            respuesta: {}
+        }
+    
+        res.send(respuesta);
 
         res.send('Tipo de Problematica borrado del Catalog!');
     });
@@ -422,7 +452,8 @@ app.get('/problematicas', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -458,7 +489,8 @@ app.get('/problematicas/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -568,7 +600,8 @@ app.get('/niveles', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -603,7 +636,8 @@ app.get('/niveles/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -712,7 +746,8 @@ app.get('/ooadProblematicas', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No hay datos'
+                message: 'No hay datos',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -747,7 +782,8 @@ app.get('/ooadProblematicas/:id', ( req, res ) => {
             respuesta = {
                 status: false,
                 code: 501,
-                message: 'No existe información'
+                message: 'No existe información',
+                respuesta: {}
             }
         }
         res.json(respuesta);
@@ -783,7 +819,14 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     conexionBBDD.query(sql, ooadProblematicaObj, error => {
         if (error) throw error;
 
-        res.send('OOAD Problematica creada!');
+        respuesta = {
+            status: true,
+            code: 201,
+            message: 'OOAD Problematica creada!',
+            respuesta: {}
+        }
+    
+        res.send(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
