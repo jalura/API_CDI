@@ -258,15 +258,15 @@ app.get('/unidadesNivel1/:id', ( req, res ) => {
 // =============================================================================
 app.get('/unidadesEntidad/:id', ( req, res ) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
-    const {cveEntidad} = req.params;
+    const {id} = req.params;
 
     console.log('==========================================================================');
-    console.log('Unidades asociadas a la Entidad (IMSS-CDI) : <' + cveEntidad + '>');
+    console.log('Unidades asociadas a la Entidad (IMSS-CDI) : <' + id + '>');
     console.log('--------------------------------------------------------------------------');
 
 // select CVE_OOAD, NOM_CORTO, NOM_OOAD, CVE_ENTIDAD from IMSS_CDI.SIAC_OOAD WHERE CVE_ENTIDAD = 15;
 
-    const sql = `SELECT CVE_OOAD, NOM_CORTO, NOM_OOAD, CVE_ENTIDAD FROM SIAC_OOAD WHERE CVE_ENTIDAD = ${cveEntidad}`;
+    const sql = `SELECT CVE_OOAD, NOM_CORTO, NOM_OOAD, CVE_ENTIDAD FROM SIAC_OOAD WHERE CVE_ENTIDAD = ${id}`;
 //const sql = `SELECT * FROM SIAC_OOAD WHERE CVE_OOAD = ${id}`;
     console.log(sql);
 
