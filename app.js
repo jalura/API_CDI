@@ -267,7 +267,6 @@ app.get('/unidadesEntidad/:id', ( req, res ) => {
 // select CVE_OOAD, NOM_CORTO, NOM_OOAD, CVE_ENTIDAD from IMSS_CDI.SIAC_OOAD WHERE CVE_ENTIDAD = 15;
 
     const sql = `SELECT CVE_OOAD, NOM_CORTO, NOM_OOAD, CVE_ENTIDAD FROM SIAC_OOAD WHERE CVE_ENTIDAD = ${id}`;
-//const sql = `SELECT * FROM SIAC_OOAD WHERE CVE_OOAD = ${id}`;
     console.log(sql);
 
     conexionBBDD.query(sql, (error, resultado) => {
