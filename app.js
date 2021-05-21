@@ -541,6 +541,50 @@ app.get('/problematicas/:id', ( req, res ) => {
 });
 
 
+
+// =============================================================================
+// End Point. GET - Consulta las Problematicas por Tipo (Ruta: problematicasTipo)
+// =============================================================================
+app.get('/problematicasTipo/:id', ( req, res ) => {
+    // Desestructuramos los paramettros que vienen en el request para obtener el ID
+    const {id} = req.params;
+
+    console.log('==========================================================================');
+    console.log('Problematicas por Tipo (IMSS-CDI) : <' + id + '>');
+    console.log('--------------------------------------------------------------------------');
+
+// SELECT CVE_PROBLEMATICA, NOM_NOMBRE, CVE_TIPO_PROBLEMATICA FROM IMSS_CDI.SAIC_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = 2;
+
+    const sql = `SELECT CVE_PROBLEMATICA, NOM_NOMBRE, CVE_TIPO_PROBLEMATICA FROM SAIC_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${id}`;
+    console.log(sql);
+
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) throw error;
+
+        if (resultado.length > 0) {
+            respuesta = {
+                status: true,
+                code: 200,
+                message: 'Informaciòn de la(s) Problematica(s) asociadas a un Tipo (IMSS-CDI)',
+                respuesta: resultado
+            }
+        } else {
+            respuesta = {
+                status: false,
+                code: 501,
+                message: 'No existe información',
+                respuesta: '{}'
+            }
+        }
+        res.json(respuesta);
+    });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+});
+
+
+
+
+
 // =============================================================================
 // End Point. POST - Agrega una problematica (Ruta: problematicas/add)
 // =============================================================================
