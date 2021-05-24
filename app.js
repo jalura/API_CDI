@@ -433,7 +433,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     const sql = 'INSERT INTO SIAC_OOAD_PROBLEMATICA SET ?';
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
-        NOM_RESPONSABLE: req.body.nombre_responsable,
+        NOM_RESPONSABLELMP69: req.body.nombre_responsable,
         DES_OTRO: req.body.descripcion,
         CVE_OOAD: req.body.clave_ooad, 
         CVE_PROBLEMATICA: req.body.clave_problematica, 
@@ -450,6 +450,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     console.log('--------------------------------------------------------------------------');
 
     conexionBBDD.query(sql, ooadProblematicaObj, error => {
+/*
         if (error) throw error;
 
         respuesta = {
@@ -460,7 +461,24 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
         }
     
         res.send(respuesta);
+*/
+
+        if (error) {
+            //Do not throw err as it will crash the server. 
+            console.log(err.code);
+            console.log(err.message);
+        } else {
+            respuesta = {
+                status: true,
+                code: 201,
+                message: 'OOAD Problematica creada!',
+                respuesta: {}
+            }
+        
+            res.send(respuesta);
+        }
     });
+
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
 
