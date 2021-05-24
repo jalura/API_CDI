@@ -501,6 +501,77 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//                 P A N T A L L A S    W E B 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+// CONSULTA DE OOADD PROBLEMATICAS
+//////////////////////////////////////////////////
+app.get('/consultaOOAD', (peticion, respuesta) => {
+    console.log('==========================================================================');
+    console.log('OOAD Problematicas (IMSS-CDI) - Pantalla de consulta general');
+    console.log('--------------------------------------------------------------------------');
+
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ';
+    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
+    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+    sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC ';
+    console.log(sql);
+    conexionBBDD.query(sql, (error, results)=>{
+        if(error){
+            throw error;
+        }else{
+            respuesta.render('index', {results:results});
+        }
+    });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+});
+
+
+//////////////////////////////////////////////////
+// EDITA UNA OOADD PROBLEMATICAS
+//////////////////////////////////////////////////
+app.get('/editaOOAD/:id', (peticion, respuesta) => {
+    // Desestructuramos los paramettros que vienen en el request para obtener el ID
+    const {id} = peticion.params;
+
+    console.log('==========================================================================');
+    console.log('OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id);
+    console.log('--------------------------------------------------------------------------');
+
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ';
+    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
+    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+    sql = sql + 'WHERE op.CVE_OOAD_PROBLEMATICA = ' + id;
+
+    console.log(sql);
+    conexionBBDD.query(sql, (error, results)=>{
+        if(error){
+            throw error;
+        }else{
+            respuesta.render('edit', {problema:results[0]});
+        }
+    });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+});
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Llamamos a la funciòn listen, para verificar si hay eco en el puerto
 ////////////////////////////////////////////////////////////////////////////////
