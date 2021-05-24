@@ -1,0 +1,259 @@
+
+////////////////////////////////////////////////////////////////////////////////
+//                     V A L I D A   U S U A R I O
+////////////////////////////////////////////////////////////////////////////////
+
+GET  (Validacion matricula)
+https://api-cdi.herokuapp.com/usuarioMatricula/12345678
+====================================
+
+	response:
+		{
+		    "status": true,
+		    "code": 200,
+		    "message": "Informaciòn del Usuario (IMSS-CDI)",
+		    "respuesta": [
+		        {
+		            "CVE_USUARIO": 1,
+		            "NOM_NOMBRE": "Claudia",
+		            "NOM_APELLIDOPATERNO": "Vazquez",
+		            "NOM_APELLIDOMATERNO": null,
+		            "CVE_CORREO": "claudia.vazquez@imss.gob.mx2"
+		        }
+		    ]
+		}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                            E N T I D A D E S
+////////////////////////////////////////////////////////////////////////////////
+
+GET
+https://api-cdi.herokuapp.com/entidades
+====================================
+
+	response:
+		{
+		    "status": true,
+		    "code": 200,
+		    "message": "Catalogo Entidadess (IMSS-CDI)",
+		    "respuesta": [
+		        {
+		            "CVE_ENTIDAD": 1,
+		            "NOM_NOMBRE": "Aguascalientes",
+		            "FEC_EXPIRA": null,
+		            "FEC_ALTA": "2021-12-31T06:00:00.000Z",
+		            "FEC_ACTUALIZACION": null,
+		            "FEC_BAJA": null
+		        },
+		        {
+		            "CVE_ENTIDAD": 2,
+		            "NOM_NOMBRE": "Baja California",
+		            "FEC_EXPIRA": null,
+		            "FEC_ALTA": "2021-12-31T06:00:00.000Z",
+		            "FEC_ACTUALIZACION": null,
+		            "FEC_BAJA": null
+		        },
+		 ...
+		         {
+		            "CVE_ENTIDAD": 32,
+		            "NOM_NOMBRE": "Zacatecas",
+		            "FEC_EXPIRA": null,
+		            "FEC_ALTA": "2021-12-31T06:00:00.000Z",
+		            "FEC_ACTUALIZACION": null,
+		            "FEC_BAJA": null
+		        }
+		    ]
+		}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//               U  N  I  D  A  D  E  S     1er   N  I  V  E  L
+////////////////////////////////////////////////////////////////////////////////
+
+GET
+https://api-cdi.herokuapp.com/unidadesNivel1
+====================================
+
+	response:
+		{
+		    "status": true,
+		    "code": 200,
+		    "message": "Catalogo Unidades Nivel 1 (IMSS-CDI)",
+		    "respuesta": [
+		        {
+		            "CVE_OOAD": 1,
+		            "NOM_NOMBRE": "Aguascalientes",
+		            "NOM_CORTO": "Aguascalientes",
+		            "NOM_OOAD": "Aguascalientes",
+		            "CVE_CORREO_TITULAR": "julio.lopez@imss.gob.mx",
+		            "CVE_TIPO_OOAD": 1,
+		            "CVE_ENTIDAD": 1,
+		            "CVE_ZONA": 1,
+		            "FEC_EXPIRA": null,
+		            "FEC_ALTA": "2021-12-31T06:00:00.000Z",
+		            "FEC_ACTUALIZACION": null,
+		            "FEC_BAJA": null
+		        },
+		...
+		        {
+		            "CVE_OOAD": 5,
+		            "NOM_NOMBRE": "Coahuila",
+		            "NOM_CORTO": "Coahuila",
+		            "NOM_OOAD": "Coahuila",
+		            "CVE_CORREO_TITULAR": "everardo.delbosque@imss.gob.mx",
+		            "CVE_TIPO_OOAD": 1,
+		            "CVE_ENTIDAD": 5,
+		            "CVE_ZONA": 1,
+		            "FEC_EXPIRA": null,
+		            "FEC_ALTA": "2021-12-31T06:00:00.000Z",
+		            "FEC_ACTUALIZACION": null,
+		            "FEC_BAJA": null
+		        }
+		    ]
+		}		 
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                 T I P O S   D E   P R O B L E M A S
+////////////////////////////////////////////////////////////////////////////////
+
+GET
+https://api-cdi.herokuapp.com/tipoProblematicas
+====================================
+
+	response:
+	{
+	    "status": true,
+	    "code": 200,
+	    "message": "Catalogo Tipo de Problematicas (IMSS-CDI)",
+	    "respuesta": [
+	        {
+	            "CVE_TIPO_PROBLEMATICA": 1,
+	            "NOM_NOMBRE": "Equipamiento",
+	            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+	            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+	            "FEC_ACTUALIZACION": "2021-05-11T00:00:00.000Z",
+	            "FEC_BAJA": null
+	        },
+	... 
+	        {
+	            "CVE_TIPO_PROBLEMATICA": 15,
+	            "NOM_NOMBRE": "Recursos Financieros",
+	            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+	            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+	            "FEC_ACTUALIZACION": "2021-05-08T00:00:00.000Z",
+	            "FEC_BAJA": "9999-12-31T00:00:00.000Z"
+	        }
+	    ]
+	}       
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                 P  R  O  B  L  E  M  A  T  I  C  A  S
+////////////////////////////////////////////////////////////////////////////////
+
+GET
+https://api-cdi.herokuapp.com/problematicas
+====================================
+
+	response:
+	{
+	    "status": true,
+	    "code": 200,
+	    "message": "Consulta de Problematicas (IMSS-CDI)",
+	    "respuesta": [
+	        {
+	            "CVE_PROBLEMATICA": 1,
+	            "NOM_NOMBRE": "Mantenimiento de equipo de cómputo / proyectores",
+	            "CVE_TIPO_PROBLEMATICA": 1,
+	            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+	            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+	            "FEC_ACTUALIZACION": "2021-05-02T00:00:00.000Z",
+	            "FEC_BAJA": "9999-12-31T00:00:00.000Z"
+	        },
+	...
+	        {
+	            "CVE_PROBLEMATICA": 195,
+	            "NOM_NOMBRE": "Información contratación servicios integrales ",
+	            "CVE_TIPO_PROBLEMATICA": 6,
+	            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+	            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+	            "FEC_ACTUALIZACION": "2021-05-02T00:00:00.000Z",
+	            "FEC_BAJA": "9999-12-31T00:00:00.000Z"
+	        }
+	    ]
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                          N   I   V   E   L   E   S
+////////////////////////////////////////////////////////////////////////////////
+
+GET
+https://api-cdi.herokuapp.com/niveles
+====================================
+
+	response:
+		{
+		    "status": true,
+		    "code": 200,
+		    "message": "Catalogo de Niveles (IMSS-CDI)",
+		    "respuesta": [
+		        {
+		            "CVE_NIVEL": 1,
+		            "NOM_NOMBRE": "No Aplica",
+		            "NUM_NIVEL": 0,
+		            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+		            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+		            "FEC_ACTUALIZACION": "2021-05-02T00:00:00.000Z",
+		            "FEC_BAJA": "9999-12-31T00:00:00.000Z"
+		        },
+		...
+		        {
+		            "CVE_NIVEL": 6,
+		            "NOM_NOMBRE": "Crítico",
+		            "NUM_NIVEL": 5,
+		            "FEC_EXPIRA": "2021-12-31T00:00:00.000Z",
+		            "FEC_ALTA": "2021-01-01T00:00:00.000Z",
+		            "FEC_ACTUALIZACION": "2021-05-12T00:00:00.000Z",
+		            "FEC_BAJA": "9999-12-31T00:00:00.000Z"
+		        }
+		    ]
+		}        
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                O O A D    P  R  O  B  L  E  M  A  T  I  C  A
+////////////////////////////////////////////////////////////////////////////////
+
+POST  (Crea)
+https://api-cdi.herokuapp.com/ooadProblematicas/add
+====================================
+{
+    "nombre_responsable": "DIGITEK",
+    "descripcion": "12345678 / Aguascalientes",
+    "clave_ooad": 1,
+    "clave_problematica": 2,
+    "clave_nivel": 6,
+    "fecha_expira": "2021-12-31",
+    "fecha_alta": "2021-05-18",
+    "fecha_actualizacion": "2021-05-18",
+    "fecha_baja": "9999-12-31"
+}
+
+
+
+
+
+
+
+
+
+
