@@ -53,7 +53,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 13:13',
+        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 13:20',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -467,6 +467,12 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
             //Do not throw err as it will crash the server. 
             console.log(err.code);
             console.log(err.message);
+            const msgError = "Code: " + err.code + "     Msg: " + err.message;
+            status: false,
+            code: 500,
+            message: msgError,
+            respuesta: {}
+
         } else {
             respuesta = {
                 status: true,
@@ -475,8 +481,8 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
                 respuesta: {}
             }
         
-            res.send(respuesta);
         }
+        res.send(respuesta);
     });
 
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
