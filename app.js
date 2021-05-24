@@ -53,7 +53,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 14:35',
+        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 14:41',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -489,7 +489,11 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
         }
 //        console.log("Problematica-ADD Respuesta:  " + respuesta);
 
-        console.log("Problematica-ADD Respuesta:  " + JSON.stringify(respuesta, ['status'], ['code'], ['message'], ['respuesta']));
+//        console.log("Problematica-ADD Respuesta:  " + JSON.stringify(respuesta, ['status'], ['code'], ['message'], ['respuesta']));
+        console.log("Problematica-ADD Respuesta:  " + JSON.stringify(respuesta, null, '-'));
+
+//        console.log(JSON.stringify(usuario, null,'--'));
+
 
         res.send(respuesta);
     });
