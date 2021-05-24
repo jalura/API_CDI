@@ -56,7 +56,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 15:36',
+        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 15:49',
         respuesta: '{}'
     }
     res.send(respuesta);
