@@ -15,6 +15,9 @@ const PORT = process.env.PORT || 443;    //PORT LivePerson
 // Creamos una instancia del servidor express
 const app = servExpress();
 
+// importamos ejs (Gestor de Plantillas)
+app.set('view engine', 'ejs');
+
 app.use(bodyParser.json());
 
 // Creamos la instancia de conexion a MySql para el IMSS via Google-Digitek
