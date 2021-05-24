@@ -487,7 +487,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
             }
         
         }
-        console.log("Problematica-ADD Respuesta:  " + respuesta;
+        console.log("Problematica-ADD Respuesta:  " + respuesta);
         res.send(respuesta);
     });
 
