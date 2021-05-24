@@ -53,7 +53,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 14:41',
+        message: 'Welcome to my API IMSS_CDI v1.1 Upd msg error 14:45',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -433,7 +433,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     const sql = 'INSERT INTO SIAC_OOAD_PROBLEMATICA SET ?';
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
-        NOM_RESPONSABLELMP69: req.body.nombre_responsable,
+        NOM_RESPONSABLE: req.body.nombre_responsable,
         DES_OTRO: req.body.descripcion,
         CVE_OOAD: req.body.clave_ooad, 
         CVE_PROBLEMATICA: req.body.clave_problematica, 
