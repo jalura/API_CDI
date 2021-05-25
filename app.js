@@ -21,22 +21,22 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
 // Creamos la instancia de conexion a MySql para el IMSS via Google-Digitek
+/*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.42',
     user: 'INVAPLCHAT_USER',
     password: '$nv4plCh4tUs3r',
     database: 'SIABDD'
 })
+*/
 
 
-/*
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-*/
 
 
 
