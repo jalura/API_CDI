@@ -501,7 +501,8 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
         FEC_EXPIRA: req.body.fecha_expira,
         FEC_ALTA: req.body.fecha_alta,
         FEC_ACTUALIZACION: req.body.fecha_actualizacion,
-        FEC_BAJA: req.body.fecha_baja
+        FEC_BAJA: req.body.fecha_baja,
+        CVE_STATUS_PROBLEMATICA: req.body.status
     }
 
     console.log('==========================================================================');
@@ -510,19 +511,6 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
     console.log('--------------------------------------------------------------------------');
 
     conexionBBDD.query(sql, ooadProblematicaObj, error => {
-/*
-        if (error) throw error;
-
-        respuesta = {
-            status: true,
-            code: 201,
-            message: 'OOAD Problematica creada!',
-            respuesta: {}
-        }
-    
-        res.send(respuesta);
-*/
-
         if (error) {
             //Do not throw err as it will crash the server. 
             console.log(error.code);
@@ -547,13 +535,8 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
             }
         
         }
-//        console.log("Problematica-ADD Respuesta:  " + respuesta);
 
-//        console.log("Problematica-ADD Respuesta:  " + JSON.stringify(respuesta, ['status'], ['code'], ['message'], ['respuesta']));
         console.log("Problematica-ADD Respuesta:  " + JSON.stringify(respuesta, null, '-'));
-
-//        console.log(JSON.stringify(usuario, null,'--'));
-
 
         res.send(respuesta);
     });
