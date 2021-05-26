@@ -567,7 +567,7 @@ app.get('/consultaOOAD', (peticion, respuesta) => {
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
     sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
     sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
-    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
     sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
     sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC ';
 
@@ -579,6 +579,7 @@ app.get('/consultaOOAD', (peticion, respuesta) => {
             respuesta.render('index', {results:results});
         }
     });
+    
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
 
