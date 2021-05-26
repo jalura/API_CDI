@@ -13,10 +13,36 @@
 
     <style>
 
+#header {
+      width: 100%;
+      height: 50px;
+      background-color:darkslategrey;
+    }
+
+    #logotipo {
+      display: block;
+      margin: auto;
+      width: 100%;
+      max-width: 1200px;
+      min-width: 500px;
+    }
+
+    #titulo {
+      display: block;
+      margin: auto;
+      width: 50%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:x-large;
+      color: floralwhite;
+      text-align: center;
+      font-weight: bold;
+      padding-bottom: 3px;
+  }
+
         form {
             /* Centrar el formulario en la página */
             margin: 0 auto;
-            width: 800px;
+            width: 1000px;
             /* Esquema del formulario */
             padding: 1em;
             border: 1px solid #CCC;
@@ -36,7 +62,7 @@
         label {
             /* Tamaño y alineación uniforme */
             display: inline-block;
-            width: 175px;
+            width: 85px;
             text-align: right;
             font-size: 12px;
         }
@@ -47,7 +73,7 @@
             font: 1em sans-serif;
 
             /* Tamaño uniforme del campo de texto */
-            width: 550px;
+            width: 350px;
             box-sizing: border-box;
             font-size: 13px;
 
@@ -72,7 +98,6 @@
     <title>IMSS Problematica - CDI</title>
   </head>
   <body>
-
     <% if (problema) { %>
 
     <div class="container mt-4">
@@ -80,7 +105,7 @@
             <div class="card-header">Registro de Problematica</div>     
             <div class="card-body">
                 <form>
-                        <label for="problema" class="form-label">Clave OOAD Problematica: </label>
+                        <label for="problema" class="form-label">Clave OOAD: </label>
                         <input type="text" id="problema" name="CVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly tabindex="1"><br>
 
                         <label for="problema" class="form-label">Responsable: </label>
@@ -94,6 +119,9 @@
 
                         <label for="problema" class="form-label">Problematica: </label>
                         <input type="text" id="problema" name="PROBLEMATICA_NOMBRE" value="<%= problema.PROBLEMATICA_NOMBRE %>" readonly tabindex="5"><br>
+
+                        <label for="problema" class="form-label">Status: </label>
+                        <input type="text" id="problema" name="STATUS" value="<%= problema.STATUS %>" readonly tabindex="6"><br>
 
                         <label for="problema" class="form-label">Nivel: </label>
                         <input type="text" id="problema" name="NIVEL" value="<%= problema.NIVEL %>" readonly tabindex="6"><br>
