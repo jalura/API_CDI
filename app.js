@@ -21,8 +21,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
 // Creamos la instancia de conexion a MySql para el IMSS via Google-Digitek
-/*
-const conexionBBDD = mySql.createPool({
+/*const conexionBBDD = mySql.createPool({
     host: '10.100.8.42',
     user: 'INVAPLCHAT_USER',
     password: '$nv4plCh4tUs3r',
@@ -37,7 +36,6 @@ const conexionBBDD = mySql.createPool({
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-
 
 
 // =====================================================================
@@ -57,7 +55,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.2 se integrab Pantallas WEB',
+        message: 'Welcome to my API IMSS_CDI v1.2 se integra datos en DESC_OTRO',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -81,7 +79,8 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
     console.log('==========================================================================');
     console.log('Valida Matricula de usuario (IMSS-CDI) : <' + id + '>');
     console.log('--------------------------------------------------------------------------');
-    const sql = `SELECT CVE_USUARIO, NOM_NOMBRE, NOM_APELLIDOPATERNO, NOM_APELLIDOMATERNO, CVE_CORREO FROM SIAT_USUARIO WHERE CVE_MATRICULA = ${id}`;
+//    const sql = `SELECT CVE_USUARIO, NOM_NOMBRE, NOM_APELLIDOPATERNO, NOM_APELLIDOMATERNO, CVE_CORREO FROM SIAT_USUARIO WHERE CVE_MATRICULA = ${id}`;
+    const sql = `SELECT CVE_USUARIO, NOM_NOMBRE, NOM_APELLIDOPATERNO, NOM_APELLIDOMATERNO, CVE_CORREO FROM SIAT_USUARIO WHERE CVE_MATRICULA = ${id} ORDER BY CVE_USUARIO LIMIT 1`;
 
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) throw error;
@@ -107,6 +106,63 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
+
+// =============================================================================
+// End Point. GET - Valida matricula de usuario (Ruta: usuarioMat)
+// =============================================================================
+app.get('/usuarioMat/:id', ( req, res ) => {
+    const {id} = req.params;
+
+    console.log('==========================================================================');
+    console.log('Valida Matricula de usuario sea valido para Problematica (IMSS-CDI) : <' + id + '>');
+    console.log('--------------------------------------------------------------------------');
+    var sql = 'SELECT clte.CVE_USUARIO, clte.NOM_NOMBRE, clte.NOM_APELLIDOPATERNO, clte.NOM_APELLIDOMATERNO, ';
+    sql = sql + 'clte.CVE_CORREO, clte.CVE_MATRICULA, ooad.CVE_OOAD, ooad.NOM_CORTO, ooad.NOM_OOAD, ';
+    sql = sql + 'ooad.CVE_TIPO_OOAD FROM SIAT_USUARIO clte ';
+    sql = sql + 'INNER JOIN SIAC_OOAD AS ooad ON clte.CVE_CORREO = ooad.CVE_CORREO_TITULAR ';
+    sql = sql + `WHERE clte.CVE_MATRICULA = ${id} `;
+    console.log(sql);
+
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) {
+            //Do not throw err as it will crash the server. 
+            console.log(error.code);
+            console.log(error.message);
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            console.log(errorResult);
+            respuesta = {
+                status: false,
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+
+        } else {
+            if (resultado.length > 0) {
+                respuesta = {
+                    status: true,
+                    code: 200,
+                    message: 'Informaciòn de Usuario Autorizado (IMSS-CDI)',
+                    respuesta: resultado
+                }
+            } else {
+                respuesta = {
+                    status: false,
+                    code: 501,
+                    message: 'Informaciòn no válida',
+                    respuesta: '{}'
+                }
+            }
+        }
+        console.log("Valida Usuario Autorizado Respuesta:  " + JSON.stringify(respuesta, null, '-'));
+        res.send(respuesta);
+    });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+});
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
