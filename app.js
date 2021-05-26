@@ -55,7 +55,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.2 se integra datos en DESC_OTRO',
+        message: 'Welcome to my API IMSS_CDI v1.2 se integra API Usuario Autorizado 23:45',
         respuesta: '{}'
     }
     res.send(respuesta);
