@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,6 +13,33 @@
 
 
     <style>
+
+    #header {
+      width: 100%;
+      height: 50px;
+      background-color:darkslategrey;
+    }
+
+    #logotipo {
+      display: block;
+      margin: auto;
+      width: 100%;
+      max-width: 1200px;
+      min-width: 500px;
+    }
+
+    #titulo {
+      display: block;
+      margin: auto;
+      width: 50%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:x-large;
+      color: floralwhite;
+      text-align: center;
+      font-weight: bold;
+      padding-bottom: 3px;
+  }
+
 		.centrado_th{text-align:center;border:1px dotted #000; padding:8px; color: white}
 
     #problemas {
@@ -43,14 +70,6 @@
        text-align: justify;
     }  
 
-    #logo {
-        width: 320px;
-        float: left;
-        margin-top: 20px;
-        margin-left: 30px;
-      }
-
-
 	</style>
 
 
@@ -58,22 +77,23 @@
   </head>
   <body>
 
-    <header>
-      <section id="logo">
-        <a href="/consultaOOAD"><img src="./logoIMSS.png" ></a> 
-      </section>
-    </header>
-
+    <div id="container">
+      <div id="header">
+        <img src="/logoIMSS.png" id="logotipo">
+        <div id="titulo">PROBLEMATICA - CDI</div>
+      </div>
+    </div>
 
     <div class="container">
         <table id="problemas" > 
             <thead>
                 <tr  class="centrado_th">
                     <th width="3%" scope="col">ID</th>
-                    <th width="10%" scope="col">Responsable</th>
-                    <th width="26%" scope="col">Descripción</th>
+                    <th width="24%" scope="col">Responsable</th>
+                    <th width="34%" scope="col">Descripción</th>
                     <th width="15%"  scope="col">OOAD</th>
                     <th width="8%" scope="col">Fch Alta</th>
+                    <th width="10%" scope="col">Status</th>
                     <th width="6%" scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -84,6 +104,7 @@
                         <td><%= problems.NOM_RESPONSABLE %></td>
                         <td><%= problems.DES_OTRO %></td>
                         <td><%= problems.OOAD_NOMBRE %></td>
+                        <td><%= problems.STATUS %></td>
                         <td><%= problems.FEC_ALTA %></td>
                         <td>
                             <a href="/editaOOAD/<%= problems.CVE_OOAD_PROBLEMATICA %>" class="btn btn-outline-info btn-sm">Editar</a>

@@ -562,13 +562,15 @@ app.get('/consultaOOAD', (peticion, respuesta) => {
     console.log('OOAD Problematicas (IMSS-CDI) - Pantalla de consulta general');
     console.log('--------------------------------------------------------------------------');
 
-    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ';
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
     sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
     sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_PROBLEMATICA) ';
     sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
     sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC ';
+
     console.log(sql);
     conexionBBDD.query(sql, (error, results)=>{
         if(error){
