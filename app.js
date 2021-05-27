@@ -541,7 +541,18 @@ app.get('/ooadRegistradas/:id', ( req, res ) => {
     console.log('==========================================================================');
     console.log('3 Ultimas Problematicas registradas por (  IMSS-CDI) : <' + id + '>');
     console.log('--------------------------------------------------------------------------');
-    const sql = `SELECT * FROM SIAC_OOAD_PROBLEMATICA WHERE CVE_OOAD= ${id} ORDER BY (CVE_OOAD_PROBLEMATICA) DESC LIMIT 3`;
+//    const sql = `SELECT * FROM SIAC_OOAD_PROBLEMATICA WHERE CVE_OOAD= ${id} ORDER BY (CVE_OOAD_PROBLEMATICA) DESC LIMIT 3`;
+
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.DES_OTRO, ss.NOM_NOMBRE STATUS, ';
+    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
+    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+    sql = sql + `WHERE CVE_OOAD= ${id} `;
+    sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC LIMIT 3'
+    console.log(sql);
 
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) {
