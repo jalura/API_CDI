@@ -286,7 +286,7 @@ app.get('/tipoProblematicas', ( req, res ) => {
                 respuesta: '{}'
             }
         }
-        console.log(respuesta;
+        console.log(respuesta);
         res.json(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
@@ -365,7 +365,7 @@ app.get('/problematicasTipo/:id', ( req, res ) => {
                 respuesta: '{}'
             }
         }
-        console.log(respuesta;
+        console.log(respuesta);
         res.json(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
