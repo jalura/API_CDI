@@ -291,44 +291,44 @@ app.get('/tipoProblematicas', ( req, res ) => {
         res.json(respuesta);
     });
 */
-    if (error) {
-        //Do not throw err as it will crash the server. 
-        console.log(error.code);
-        console.log(error.message);
-        const codError = "ERROR | Codigo: " + error.code;
-        const msgError = "     Mensaje: " + error.message;
-        const errorResult = codError + msgError;
-        console.log(errorResult);
-        respuesta = {
-            status: false,
-            code: 500,
-            message: errorResult,
-            respuesta: {}
-        }
-
-    } else {
-
-        if (resultado.length > 0) {
-            respuesta = {
-                status: true,
-                code: 200,
-                message: 'Catalogo Tipo de Problematicas (IMSS-CDI)',
-                respuesta: resultado
-            }
-        } else {
+        if (error) {
+            //Do not throw err as it will crash the server. 
+            console.log(error.code);
+            console.log(error.message);
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            console.log(errorResult);
             respuesta = {
                 status: false,
-                code: 501,
-                message: 'No hay datos',
-                respuesta: '{}'
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+
+        } else {
+
+            if (resultado.length > 0) {
+                respuesta = {
+                    status: true,
+                    code: 200,
+                    message: 'Catalogo Tipo de Problematicas (IMSS-CDI)',
+                    respuesta: resultado
+                }
+            } else {
+                respuesta = {
+                    status: false,
+                    code: 501,
+                    message: 'No hay datos',
+                    respuesta: '{}'
+                }
             }
         }
-    }
+        console.log(respuesta);
+        res.json(respuesta);
 
-    console.log(respuesta);
-    res.json(respuesta);
-
-    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+        console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+    });
 });
 
 
@@ -706,7 +706,6 @@ app.post('/actualizaOOAD', ( req, res ) => {
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
