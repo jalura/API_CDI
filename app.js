@@ -22,22 +22,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Creamos la instancia de conexion a MySql para el IMSS via Google-Digitek
-/*
+
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.42',
     user: 'INVAPLCHAT_USER',
     password: '$nv4plCh4tUs3r',
     database: 'SIABDD'
 })
-*/
 
+
+/*
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-
+*/
 // =====================================================================
 // Creamos la estructura del header de respuesta
 // =====================================================================
@@ -55,7 +56,7 @@ app.get('/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.3 se integra Pagina WEB de Actualizacion',
+        message: 'Welcome to my API IMSS_CDI v1.3 Validacion Catalogos',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -285,6 +286,7 @@ app.get('/tipoProblematicas', ( req, res ) => {
                 respuesta: '{}'
             }
         }
+        console.log(respuesta;
         res.json(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
@@ -363,6 +365,7 @@ app.get('/problematicasTipo/:id', ( req, res ) => {
                 respuesta: '{}'
             }
         }
+        console.log(respuesta;
         res.json(respuesta);
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
