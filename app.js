@@ -519,8 +519,8 @@ app.get('/ooadProblematicas/:id', ( req, res ) => {
             }
         } else {
             respuesta = {
-                status: false,
-                code: 501,
+                status: true,
+                code: 204,
                 message: 'No existe información',
                 respuesta: {}
             }
@@ -569,7 +569,7 @@ app.get('/ooadRegistradas/:id', ( req, res ) => {
                 }
             } else {
                 respuesta = {
-                    status: false,
+                    status: true,
                     code: 204,
                     message: 'No hay registros que cumplan las condiciones',
                     respuesta: '{}'
