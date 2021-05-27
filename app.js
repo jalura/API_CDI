@@ -23,22 +23,25 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Creamos la instancia de conexion a MySql para el IMSS via Google-Digitek
 
+/*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.42',
     user: 'INVAPLCHAT_USER',
     password: '$nv4plCh4tUs3r',
     database: 'SIABDD'
 })
+*/
 
 
-/*
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-*/
+
+
+
 // =====================================================================
 // Creamos la estructura del header de respuesta
 // =====================================================================
@@ -526,6 +529,60 @@ app.get('/ooadProblematicas/:id', ( req, res ) => {
     });
     console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 });
+
+
+// =============================================================================
+// End Point. GET - Consulta los ultimos 3 registros de una OOAD (Ruta: ooadRegistradas)
+// =============================================================================
+app.get('/ooadRegistradas/:id', ( req, res ) => {
+    // Desestructuramos los paramettros que vienen en el request para obtener el ID
+    const {id} = req.params;
+
+    console.log('==========================================================================');
+    console.log('3 Ultimas Problematicas registradas por (  IMSS-CDI) : <' + id + '>');
+    console.log('--------------------------------------------------------------------------');
+    const sql = `SELECT * FROM SIAC_OOAD_PROBLEMATICA WHERE CVE_OOAD= ${id} ORDER BY (CVE_OOAD_PROBLEMATICA) DESC LIMIT 3`;
+
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) {
+            //Do not throw err as it will crash the server. 
+            console.log(error.code);
+            console.log(error.message);
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            console.log(errorResult);
+            respuesta = {
+                status: false,
+                code: 400,
+                message: errorResult,
+                respuesta: {}
+            }
+
+        } else {
+            if (resultado.length > 0) {
+                respuesta = {
+                    status: true,
+                    code: 200,
+                    message: 'Informaciòn de Usuario Autorizado (IMSS-CDI)',
+                    respuesta: resultado
+                }
+            } else {
+                respuesta = {
+                    status: false,
+                    code: 204,
+                    message: 'No hay registros que cumplan las condiciones',
+                    respuesta: '{}'
+                }
+            }
+        }
+
+        console.log(respuesta);
+        res.json(respuesta);
+    });
+    console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+});
+
 
 
 // =============================================================================
