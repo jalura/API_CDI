@@ -583,7 +583,7 @@ app.get('/ooadRegistradas/:id', ( req, res ) => {
                     status: true,
                     code: 204,
                     message: 'No hay registros que cumplan las condiciones',
-                    respuesta: '{}'
+                    respuesta: ''
                 }
             }
         }
