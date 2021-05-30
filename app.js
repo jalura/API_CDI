@@ -32,14 +32,12 @@ const conexionBBDD = mySql.createPool({
 })
 */
 
-
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-
 
 
 // =====================================================================
@@ -55,11 +53,11 @@ let respuesta = {
 // =====================================================================
 // End Point ... Raiz ... Test
 // =====================================================================
-app.get('/', ( req, res ) => {
+app.get('/cdi/', ( req, res ) => {
     respuesta = {
         status: true,
         code: 200,
-        message: 'Welcome to my API IMSS_CDI v1.3 Validacion Catalogos',
+        message: 'Welcome to my API IMSS_CDI v1.4 Cambio de Rutas /cdi/',
         respuesta: '{}'
     }
     res.send(respuesta);
@@ -77,7 +75,7 @@ app.get('/', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Valida matricula de usuario (Ruta: usuarioMatricula)
 // =============================================================================
-app.get('/usuarioMatricula/:id', ( req, res ) => {
+app.get('/cdi/usuarioMatricula/:id', ( req, res ) => {
     const {id} = req.params;
 
     console.log('==========================================================================');
@@ -114,7 +112,7 @@ app.get('/usuarioMatricula/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Valida matricula de usuario (Ruta: usuarioMat)
 // =============================================================================
-app.get('/usuarioMat/:id', ( req, res ) => {
+app.get('/cdi/usuarioMat/:id', ( req, res ) => {
     const {id} = req.params;
 
     console.log('==========================================================================');
@@ -180,7 +178,7 @@ app.get('/usuarioMat/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos la entidades (Ruta: entidades)
 // =============================================================================
-app.get('/entidades', ( req, res ) => {
+app.get('/cdi/entidades', ( req, res ) => {
     console.log('==========================================================================');
     console.log('Catalogo Entidades (IMSS-CDI)');
     console.log('--------------------------------------------------------------------------');
@@ -222,7 +220,7 @@ app.get('/entidades', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta una unidad nivel 1 por Entidad (Ruta: unidadesEntidad)
 // =============================================================================
-app.get('/unidadesEntidad/:id', ( req, res ) => {
+app.get('/cdi/unidadesEntidad/:id', ( req, res ) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
     const {id} = req.params;
 
@@ -265,7 +263,7 @@ app.get('/unidadesEntidad/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos los tipos de problemas (Ruta: tipoProblematicas)
 // =============================================================================
-app.get('/tipoProblematicas', ( req, res ) => {
+app.get('/cdi/tipoProblematicas', ( req, res ) => {
     console.log('==========================================================================');
     console.log('Catalogo Tipo de Problematicas (IMSS-CDI)');
     console.log('--------------------------------------------------------------------------');
@@ -347,7 +345,7 @@ app.get('/tipoProblematicas', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos la problematica (Ruta: problematicas)
 // =============================================================================
-app.get('/problematicas', ( req, res ) => {
+app.get('/cdi/problematicas', ( req, res ) => {
     console.log('==========================================================================');
     console.log('Problematicas (IMSS-CDI)');
     console.log('--------------------------------------------------------------------------');
@@ -380,7 +378,7 @@ app.get('/problematicas', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta las Problematicas por Tipo (Ruta: problematicasTipo)
 // =============================================================================
-app.get('/problematicasTipo/:id', ( req, res ) => {
+app.get('/cdi/problematicasTipo/:id', ( req, res ) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
     const {id} = req.params;
 
@@ -425,7 +423,7 @@ app.get('/problematicasTipo/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todo el catalogo de niveles (Ruta: niveles)
 // =============================================================================
-app.get('/niveles', ( req, res ) => {
+app.get('/cdi/niveles', ( req, res ) => {
     console.log('==========================================================================');
     console.log('Catalogo Niveles (IMSS-CDI)');
     console.log('--------------------------------------------------------------------------');
@@ -466,7 +464,7 @@ app.get('/niveles', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos los registros de OOAD Problematica (Ruta: ooadProblematicas)
 // =============================================================================
-app.get('/ooadProblematicas', ( req, res ) => {
+app.get('/cdi/ooadProblematicas', ( req, res ) => {
     console.log('==========================================================================');
     console.log('OOAD Problematicas (IMSS-CDI)');
     console.log('--------------------------------------------------------------------------');
@@ -498,7 +496,7 @@ app.get('/ooadProblematicas', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta una OOAD Problematica (Ruta: ooadProblematicas)
 // =============================================================================
-app.get('/ooadProblematicas/:id', ( req, res ) => {
+app.get('/cdi/ooadProblematicas/:id', ( req, res ) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
     const {id} = req.params;
 
@@ -534,7 +532,7 @@ app.get('/ooadProblematicas/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta los ultimos 3 registros de una OOAD (Ruta: ooadRegistradas)
 // =============================================================================
-app.get('/ooadRegistradas/:id', ( req, res ) => {
+app.get('/cdi/ooadRegistradas/:id', ( req, res ) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
     const {id} = req.params;
 
@@ -599,7 +597,7 @@ app.get('/ooadRegistradas/:id', ( req, res ) => {
 // =============================================================================
 // End Point. POST - Agrega una OOAD Problematica (Ruta: ooadProblematicas/add)
 // =============================================================================
-app.post('/ooadProblematicas/add', ( req, res ) => {
+app.post('/cdi/ooadProblematicas/add', ( req, res ) => {
     const sql = 'INSERT INTO SIAC_OOAD_PROBLEMATICA SET ?';
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
@@ -667,7 +665,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
 //////////////////////////////////////////////////
 // CONSULTA DE OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-app.get('/consultaOOAD', (peticion, respuesta) => {
+app.get('/cdi/consultaOOAD', (peticion, respuesta) => {
     console.log('==========================================================================');
     console.log('OOAD Problematicas (IMSS-CDI) - Pantalla de consulta general');
     console.log('--------------------------------------------------------------------------');
@@ -697,7 +695,7 @@ app.get('/consultaOOAD', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // EDITA UNA OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-app.get('/editaOOAD/:id', (peticion, respuesta) => {
+app.get('/cdi/editaOOAD/:id', (peticion, respuesta) => {
     // Desestructuramos los paramettros que vienen en el request para obtener el ID
     const {id} = peticion.params;
 
@@ -729,7 +727,7 @@ app.get('/editaOOAD/:id', (peticion, respuesta) => {
 // =============================================================================
 // End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: actualizaOOAD)
 // =============================================================================
-app.post('/actualizaOOAD', ( req, res ) => {
+app.post('/cdi/actualizaOOAD', ( req, res ) => {
 /*
     console.log(req.body);
     const DES_OTRO = req.body.DES_OTRO;
@@ -767,7 +765,7 @@ app.post('/actualizaOOAD', ( req, res ) => {
             }
 
         } else {
-            res.redirect('/consultaOOAD');
+            res.redirect('/cdi/consultaOOAD');
           }
         console.log("Problematica-Actualizacion Respuesta:  " + JSON.stringify(respuesta, null, '-'));
 //        res.send(respuesta);
