@@ -132,7 +132,7 @@
         <div class="card border-success">
             <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
             <div class="card-body">
-                <form action="/actualizaOOAD" method="POST" >
+                <form action="/cdi/actualizaOOAD" method="POST" >
 
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
@@ -186,7 +186,7 @@
                         <input type="text" id="FEC_ALTA" name="FEC_ALTA" value="<%= problema.FEC_ALTA %>" readonly disabled="disabled" tabindex="7"><br><br>
                     </div>
 
-                    <a href="/consultaOOAD" class="btn btn-secondary" >Regresar</a>
+                    <a href="/cdi/consultaOOAD" class="btn btn-secondary" >Regresar</a>
                     <button type="submit" class="btn btn-primary" tabindex="8">Actualizar</button>     
 
                 </form>
