@@ -1,5 +1,8 @@
 // config.js
-const dotenv = require('dotenv').config();
+if (env !== 'preproduccion') {
+  const dotenv = require('dotenv').config();
+}
+//const dotenv = require('dotenv').config();
 
 module.exports = {
     NODE_ENV: process.env.NODE_ENV || 'desarrollo',
