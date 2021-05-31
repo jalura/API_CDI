@@ -13,10 +13,39 @@
 
 
     <style>
+    .button {
+      border-radius: 2px;
+      color: white;
+      padding: 0px 3px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
+      margin: 1px 1px;
+      transition-duration: 0.4s;
+      background-color: rgb(168, 180, 152);
+      cursor: pointer;
+    }
+
+
+    .button:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .container-boton {
+      background-color: rgb(32, 36, 30);
+      margin-top: 1px;
+      margin-bottom: 1px;
+      padding-left: 20px;
+      padding-right: 20px;
+      border-radius: 10px;
+    }
+
 
     #header {
       width: 100%;
-      height: 50px;
+      height: 35px;
       background-color:darkslategrey;
     }
 
@@ -29,28 +58,32 @@
     }
 
     #titulo {
-      display: block;
-      margin: auto;
       width: 50%;
       font-family: Arial, Helvetica, sans-serif;
-      font-size:x-large;
+      font-size: 18px;
       color: floralwhite;
-      text-align: center;
+      text-align: left;
       font-weight: bold;
-      padding-bottom: 3px;
+      vertical-align: middle;
+      padding: 10px 20px;
   }
 
 		.centrado_th{text-align:center;border:1px dotted #000; padding:8px; color: white}
 
+    table.left {
+      margin-left: auto; 
+      margin-right: auto;
+    }
+
     #problemas {
       font-family: Arial, Helvetica, sans-serif;
       border-collapse: collapse;
-      width: 80%;
+      width: 80%;      
     }
     
     #problemas td, #problemas th {
       border: 1px solid #ddd;
-      padding: 8px;
+      padding: 5px;
     }  
 
     #problemas tr:nth-child(even){background-color: #f2f2f2;}
@@ -83,27 +116,46 @@
       </div>
     </div>
 
+    <div class="container-boton">
+      <a href="/cdi/consultaOOAD" class="button" >TODOS</a>
+      <a href="/cdi/OOADtipoProblematica/1" class="button" >Equipamiento</a>
+      <a href="/cdi/OOADtipoProblematica/2" class="button" >Insumos</a>
+      <a href="/cdi/OOADtipoProblematica/3" class="button" >Redes</a>
+      <a href="/cdi/OOADtipoProblematica/4" class="button" >Personal</a>
+      <a href="/cdi/OOADtipoProblematica/5" class="button" >Admn/Finz</a>
+      <a href="/cdi/OOADtipoProblematica/6" class="button" >Información</a>
+      <a href="/cdi/OOADtipoProblematica/7" class="button" >Abasto</a>
+      <a href="/cdi/OOADtipoProblematica/8" class="button" >Comunicación</a>
+      <a href="/cdi/OOADtipoProblematica/9" class="button" >Directivo</a>
+      <a href="/cdi/OOADtipoProblematica/10" class="button" >Procesos</a>
+      <a href="/cdi/OOADtipoProblematica/11" class="button" >Contratos</a>
+      <a href="/cdi/OOADtipoProblematica/12" class="button" >Seguridad</a>
+      <a href="/cdi/OOADtipoProblematica/13" class="button" >Presupuesto</a>
+      <a href="/cdi/OOADtipoProblematica/14" class="button" >Requerimiento</a>
+      <a href="/cdi/OOADtipoProblematica/15" class="button" >Rec Financ.</a>
+    </div>
+
     <div class="container">
-        <table id="problemas" > 
+        <table id="problemas"> 
             <thead>
                 <tr  class="centrado_th">
                     <th width="3%" scope="col">ID</th>
-                    <th width="20%" scope="col">Responsable</th>
-                    <th width="34%" scope="col">Descripción</th>
                     <th width="19%"  scope="col">OOAD</th>
-                    <th width="9%" scope="col">Status</th>
+                    <th width="9%" scope="col">Estado</th>
+                    <th width="34%" scope="col">Descripción</th>
+                    <th width="20%"  scope="col">Problemática</th>
                     <th width="9%" scope="col">Fch Alta</th>
                     <th width="6%" scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <% results.forEach((problems) => { %>
+                <% resultado.forEach((problems) => { %>
                     <tr>
                         <td><%= problems.CVE_OOAD_PROBLEMATICA %></td>
-                        <td><%= problems.NOM_RESPONSABLE %></td>
-                        <td><%= problems.DES_OTRO %></td>
                         <td><%= problems.OOAD_NOMBRE %></td>
                         <td><%= problems.STATUS %></td>
+                        <td><%= problems.DES_OTRO %></td>
+                        <td><%= problems.PROBLEMATICA_NOMBRE %></td>
                         <td><%= problems.FEC_ALTA %></td>
                         <td>
                             <a href="/cdi/editaOOAD/<%= problems.CVE_OOAD_PROBLEMATICA %>" class="btn btn-success btn-sm">Editar</a>

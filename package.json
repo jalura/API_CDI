@@ -1,9 +1,12 @@
 {
-  "name": "API_CDI",
+  "name": "IMSS_CDI",
   "version": "1.0.0",
-  "description": "CRUD BBDD CDI - Gestiòn de Problemas Dummy",
+  "description": "CDI - BBDD CDI Problematica - Servicios para messajeria LivePerson",
   "main": "app.js",
   "scripts": {
+    "dev": "set NODE_ENV=desarrollo&& node app.js",
+    "prod": "set NODE_ENV=produccion&& node app.js",
+    "test": "set HOST:localhost&& set PORT=3000&& node app.js",
     "start": "node ."
   },
   "keywords": [],
@@ -11,9 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
