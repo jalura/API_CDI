@@ -1,7 +1,7 @@
 // Creamos las instancias de las dependencias para nuestra API
 
 // importamos el archivo de configuracion para obtener las variables de ambiente
-const config = require('./config.js');
+//const config = require('./config.js');
 // importamos el archivo con las funciones de mostra TRACE de los servicios
 const imprimeTRACE = require('./trace.js');
 
@@ -11,6 +11,13 @@ const servExpress = require('express');
 const mySql = require('mysql');
 // importamos body-parse
 const bodyParser = require('body-parser');
+
+// En caso de que se realice el Deployment se define el puerto
+// establecemos por default que si lo corremos localmente se apor el puero 3050
+//const PORT = process.env.PORT || 3050;
+const PORT = process.env.PORT || 443;    //PORT LivePerson
+
+
 // Creamos una instancia del servidor express
 const app = servExpress();
 // Importamos ejs (Gestor de Plantillas)
@@ -21,9 +28,9 @@ app.set('trust proxy', true);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-//const  flagLOG = config.FLOG;
-const  nivelTRACE = config.TRACE;
-const  flagLOG = 'true';
+const  nivelTRACE = 1;
+//const  nivelTRACE = config.TRACE;
+/*
 console.log('=============================================================');
 console.log('   VARIABLES DE AMBIENTE');
 console.log('   ==========================================================');
@@ -36,18 +43,35 @@ console.log(`   DB_PASS=${config.DB_PASS}`);
 console.log(`   DB_NAME=${config.DB_NAME}`);
 console.log(`   TRACE=${config.TRACE}`);
 console.log('   ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::');
-
+*/
 
 // =====================================================================
 // Creamos la conexion a la BBDD de acuerdo a las variables de ambiente
 // =====================================================================
+/*
 const conexionBBDD = mySql.createPool({
     host: config.DB_HOST,
     user: config.DB_USER,
     password: config.DB_PASS,
     database: config.DB_NAME
 });
+*/
 
+/*
+const conexionBBDD = mySql.createPool({
+    host: '10.100.8.42',
+    user: 'INVAPLCHAT_USER',
+    password: '$nv4plCh4tUs3r',
+    database: 'SIABDD'
+})
+*/
+
+const conexionBBDD = mySql.createPool({
+    host: 'us-cdbr-east-03.cleardb.com',
+    user: 'be4c93595247c1',
+    password: '55f78527',
+    database: 'heroku_a4ac2dcd99be87f'
+})
 
 // =====================================================================
 // Creamos la estructura del header de respuesta
@@ -499,7 +523,12 @@ app.post('/cdi/actualizaOOAD', ( peticion, respuesta ) => {
 ////////////////////////////////////////////////////////////////////////////////
 // Llamamos a la funciòn listen, para verificar si hay eco en el puerto
 ////////////////////////////////////////////////////////////////////////////////
+app.listen( PORT, () => console.log(`Server Running on Port ${PORT}`));
+console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+
+/*
 app.listen( config.PORT, config.HOST, function () {
     console.log(`   App NodeJS-Express Running on http://${config.HOST}:${config.PORT}`);
     console.log('=============================================================');
 });
+*/
