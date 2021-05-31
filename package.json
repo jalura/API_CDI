@@ -1,7 +1,7 @@
 {
   "name": "IMSS_CDI",
   "version": "1.0.0",
-  "description": "CDI - BBDD CDI Problematica - Servicios para messajeria LivePerson",
+  "description": "CDI - BBDD CDI Problematica - Servicios para mensajeria LivePerson",
   "main": "app.js",
   "scripts": {
     "start": "node ."
