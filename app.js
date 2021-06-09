@@ -28,7 +28,7 @@ app.set('trust proxy', true);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const  nivelTRACE = 2;
+const  nivelTRACE = '2';
 
 console.log("Nivel de Trace: " + nivelTRACE);
 console.log("Version: Se integran sub tipos de problematicas");
