@@ -477,22 +477,15 @@ app.post('/problematica/add', ( req, res ) => {
                 respuesta: {}
             }
         } else {
-
-            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            console.log(result.insertId);
             resultado = {ID : result.insertId}
-            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
             cadenaJSON = {
                 status: true,
                 code: 201,
                 message: 'Registro de Problematica creada!',
-                respuesta: resultado
+                        respuesta: resultado
             }
         }
         res.json(cadenaJSON);
-        console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
         const cadenaRespuesta = "Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });    
