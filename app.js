@@ -438,8 +438,6 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
 
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -464,7 +462,7 @@ app.post('/problematica/add', ( req, res ) => {
         FEC_BAJA: req.body.fecha_baja
     }
     const sql = 'INSERT INTO SIAC_PROBLEMATICA SET ?';
-    const descOperacion = 'Alta de una Problematicas ( IMSS-CDI) ';
+    const descOperacion = 'Alta Registro de problematica ( IMSS-CDI) ';
     const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematicaObj, null, '-');
     imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
     conexionBBDD.query(sql, ooadProblematicaObj, error => {
@@ -480,15 +478,15 @@ app.post('/problematica/add', ( req, res ) => {
             }
         } else {
 
-            const sqlID = "select LAST_INSERT_ID()";
-            conexionBBDD.query(sqlID, (error, resultado)=>{
+//            const sqlID = "select LAST_INSERT_ID()";
+//            conexionBBDD.query(sqlID, (error, resultado)=>{
                 cadenaJSON = {
                     status: true,
                     code: 201,
-                    message: 'OOAD Problematica creada!',
+                    message: 'Registro de Problematica creada!',
                     respuesta: resultado
                 }
-            });
+//            });
         }
         res.json(cadenaJSON);
         const cadenaRespuesta = "Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
