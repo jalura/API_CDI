@@ -479,6 +479,9 @@ app.post('/problematica/add', ( req, res ) => {
         } else {
 
             const sqlID = "select LAST_INSERT_ID()";
+            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
+            console.log(sqlID);
+            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
             resultado = "";
             conexionBBDD.query(sqlID, (error, resultado)=>{
                 console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
