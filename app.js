@@ -481,33 +481,15 @@ app.post('/problematica/add', ( req, res ) => {
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
             console.log(result.insertId);
+            resultado = {ID : result.insertId}
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            const sqlID = "SELECT LAST_INSERT_ID()";
-            resultado = "";
-            conexionBBDD.query(sqlID, (error, resultado)=>{
-                console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-                console.log(error);
-                if (error) {
-                    const codError = "ERROR | Codigo: " + error.code;
-                    const msgError = "     Mensaje: " + error.message;
-                    const errorResult = codError + msgError;
-                    cadenaJSON = {
-                        status: false,
-                        code: 500,
-                        message: errorResult,
-                        respuesta: {}
-                    }
-                } else {
-                    console.log('Arma cadena JSON');
-                    cadenaJSON = {
-                        status: true,
-                        code: 201,
-                        message: 'Registro de Problematica creada!',
-                        respuesta: resultado
-                    }
-                   }
-            });
+            cadenaJSON = {
+                status: true,
+                code: 201,
+                message: 'Registro de Problematica creada!',
+                respuesta: resultado
+            }
         }
         res.json(cadenaJSON);
         console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
