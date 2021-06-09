@@ -388,6 +388,57 @@ app.get('/ooadRegistradas/:id', ( peticion, respuesta ) => {
 });
 
 
+// =============================================================================
+// End Point. POST - Agrega una OOAD Problematica (Ruta: ooadProblematicas/add)
+// =============================================================================
+app.post('/ooadProblematicas/add', ( req, res ) => {
+    const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/ooadProblematicas/add', nivelTRACE);
+    // Creamos un objeto customer utilizando la dependecia body-parser
+    const ooadProblematicaObj = {
+        NOM_RESPONSABLE: req.body.nombre_responsable,
+        DES_OTRO: req.body.descripcion,
+        CVE_OOAD: req.body.clave_ooad, 
+        CVE_PROBLEMATICA: req.body.clave_problematica, 
+        CVE_NIVEL: req.body.clave_nivel, 
+        FEC_EXPIRA: req.body.fecha_expira,
+        FEC_ALTA: req.body.fecha_alta,
+        FEC_ACTUALIZACION: req.body.fecha_actualizacion,
+        FEC_BAJA: req.body.fecha_baja,
+        CVE_STATUS_PROBLEMATICA: req.body.status
+    }
+    const sql = 'INSERT INTO SIAC_OOAD_PROBLEMATICA SET ?';
+    const descOperacion = 'Alta de una Problematicas ( IMSS-CDI) ';
+    const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematicaObj, null, '-');
+    imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
+    conexionBBDD.query(sql, ooadProblematicaObj, error => {
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            cadenaJSON = {
+                status: false,
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+        } else {
+            cadenaJSON = {
+                status: true,
+                code: 201,
+                message: 'OOAD Problematica creada!',
+                respuesta: {}
+            }
+        }
+        res.json(cadenaJSON);
+        const cadenaRespuesta = "Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+    });    
+});
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
