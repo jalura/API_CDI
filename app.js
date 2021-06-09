@@ -29,6 +29,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 const  nivelTRACE = 2;
+
+console.log("Nivel de Trace: " + nivelTRACE);
+console.log("Version: Se integran sub tipos de problematicas");
+
 //const  nivelTRACE = config.TRACE;
 /*
 console.log('=============================================================');
