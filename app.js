@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const  nivelTRACE = '2';
 
 console.log("Nivel de Trace: " + nivelTRACE);
-console.log("Version: Se integran sub tipos de problematicas  v4");
+console.log("Version: Se integran sub tipos de problematicas  v5");
 
 //const  nivelTRACE = config.TRACE;
 /*
@@ -481,6 +481,8 @@ app.post('/problematica/add', ( req, res ) => {
             const sqlID = "select LAST_INSERT_ID()";
             resultado = "";
             conexionBBDD.query(sqlID, (error, resultado)=>{
+                console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
+                console.log(error);
                 if (error) {
                     const codError = "ERROR | Codigo: " + error.code;
                     const msgError = "     Mensaje: " + error.message;
@@ -492,6 +494,7 @@ app.post('/problematica/add', ( req, res ) => {
                         respuesta: {}
                     }
                 } else {
+                    console.log('Arma cadena JSON');
                     cadenaJSON = {
                         status: true,
                         code: 201,
@@ -502,6 +505,7 @@ app.post('/problematica/add', ( req, res ) => {
             });
         }
         res.json(cadenaJSON);
+        console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
         const cadenaRespuesta = "Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });    
