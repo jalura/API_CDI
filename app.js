@@ -477,12 +477,11 @@ app.post('/problematica/add', ( req, res ) => {
                 respuesta: {}
             }
         } else {
-            resultado = {ID : result.insertId}
             cadenaJSON = {
                 status: true,
                 code: 201,
                 message: 'Registro de Problematica creada!',
-                        respuesta: resultado
+                respuesta: result.insertId
             }
         }
         res.json(cadenaJSON);
