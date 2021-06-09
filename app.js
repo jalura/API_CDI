@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const  nivelTRACE = '2';
 
 console.log("Nivel de Trace: " + nivelTRACE);
-console.log("Version: Se integran sub tipos de problematicas  v2");
+console.log("Version: Se integran sub tipos de problematicas  v3");
 
 //const  nivelTRACE = config.TRACE;
 /*
@@ -478,15 +478,15 @@ app.post('/problematica/add', ( req, res ) => {
             }
         } else {
 
-//            const sqlID = "select LAST_INSERT_ID()";
-//            conexionBBDD.query(sqlID, (error, resultado)=>{
+            const sqlID = "select LAST_INSERT_ID()";
+            conexionBBDD.query(sqlID, (error, resultado)=>{
                 cadenaJSON = {
                     status: true,
                     code: 201,
                     message: 'Registro de Problematica creada!',
-                    respuesta: {}
+                    respuesta: resultado
                 }
-//            });
+            });
         }
         res.json(cadenaJSON);
         const cadenaRespuesta = "Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
