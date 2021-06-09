@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const  nivelTRACE = '2';
 
 console.log("Nivel de Trace: " + nivelTRACE);
-console.log("Version: Se integran sub tipos de problematicas");
+console.log("Version: Se integran sub tipos de problematicas  v2");
 
 //const  nivelTRACE = config.TRACE;
 /*
@@ -484,7 +484,7 @@ app.post('/problematica/add', ( req, res ) => {
                     status: true,
                     code: 201,
                     message: 'Registro de Problematica creada!',
-                    respuesta: resultado
+                    respuesta: {}
                 }
 //            });
         }
