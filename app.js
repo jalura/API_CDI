@@ -117,7 +117,7 @@ app.get('/', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Valida matricula de usuario (Ruta: usuarioMat)
 // =============================================================================
-app.get('/usuarioMat/:id', ( req, res ) => {
+app.get('/cdi/usuarioMat/:id', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/usuarioMat/:id', nivelTRACE);
     const {id} = req.params;
@@ -174,7 +174,7 @@ app.get('/usuarioMat/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos los tipos de problemas (Ruta: tipoProblematicas)
 // =============================================================================
-app.get('/tipoProblematicas', ( req, res ) => {
+app.get('/cdi/tipoProblematicas', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/tipoProblematicas', nivelTRACE);
     const sql = 'SELECT * FROM SIAC_TIPO_PROBLEMATICA';
@@ -227,7 +227,7 @@ app.get('/tipoProblematicas', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta los subTipos de Problematicas(Ruta: cdi/subTipoProblematicas)
 // =============================================================================
-app.get('/subTipoProblematicas/:id', ( peticion, respuesta ) => {
+app.get('/cdi/subTipoProblematicas/:id', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/subTipoProblematicas/:id', nivelTRACE);
     const {id} = peticion.params;
@@ -281,7 +281,7 @@ app.get('/subTipoProblematicas/:id', ( peticion, respuesta ) => {
 // =============================================================================
 // End Point. GET - Consulta las Problematicas por Tipo (Ruta: cdi/problematicasTipo)
 // =============================================================================
-app.get('/problematicasTipo/:id', ( peticion, respuesta ) => {
+app.get('/cdi/problematicasTipo/:id', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/problematicasTipo/:id', nivelTRACE);
     const {id} = peticion.params;
@@ -334,7 +334,7 @@ app.get('/problematicasTipo/:id', ( peticion, respuesta ) => {
 // =============================================================================
 // End Point. GET - Consulta los ultimos 3 registros de una OOAD (Ruta: cdi/ooadRegistradas)
 // =============================================================================
-app.get('/ooadRegistradas/:id', ( peticion, respuesta ) => {
+app.get('/cdi/ooadRegistradas/:id', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/ooadRegistradas/:id', nivelTRACE);
     const {id} = peticion.params;
@@ -387,7 +387,7 @@ app.get('/ooadRegistradas/:id', ( peticion, respuesta ) => {
 // =============================================================================
 // End Point. POST - Agrega una OOAD Problematica (Ruta: ooadProblematicas/add)
 // =============================================================================
-app.post('/ooadProblematicas/add', ( req, res ) => {
+app.post('/cdi/ooadProblematicas/add', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/ooadProblematicas/add', nivelTRACE);
     // Creamos un objeto customer utilizando la dependecia body-parser
@@ -444,7 +444,7 @@ app.post('/ooadProblematicas/add', ( req, res ) => {
 // =============================================================================
 // End Point. POST - Agrega una OOAD Bitacora Problematica (Ruta: ooadBitacora/add)
 // =============================================================================
-app.post('/ooadBitacora/add', ( req, res ) => {
+app.post('/cdi/ooadBitacora/add', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/ooadBitacora/add', nivelTRACE);
     // Creamos un objeto customer utilizando la dependecia body-parser
