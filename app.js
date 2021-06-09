@@ -465,7 +465,7 @@ app.post('/problematica/add', ( req, res ) => {
     const descOperacion = 'Alta Registro de problematica ( IMSS-CDI) ';
     const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematicaObj, null, '-');
     imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
-    conexionBBDD.query(sql, ooadProblematicaObj, error => {
+    conexionBBDD.query(sql, ooadProblematicaObj, (error.¡, result) => {
         if (error) {
             const codError = "ERROR | Codigo: " + error.code;
             const msgError = "     Mensaje: " + error.message;
@@ -478,11 +478,12 @@ app.post('/problematica/add', ( req, res ) => {
             }
         } else {
 
-            lastID = conexionBBDD.insert_id();
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            console.log(lastID);
             console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
-            const sqlID = "select LAST_INSERT_ID()";
+            console.log(result.insertId);
+            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
+            console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
+            const sqlID = "SELECT LAST_INSERT_ID()";
             resultado = "";
             conexionBBDD.query(sqlID, (error, resultado)=>{
                 console.log('ññññññññññññññññññññññññññññññññññññññññññññññññññññ');
