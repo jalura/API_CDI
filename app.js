@@ -28,7 +28,7 @@ app.set('trust proxy', true);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const  nivelTRACE = 1;
+const  nivelTRACE = 2;
 //const  nivelTRACE = config.TRACE;
 /*
 console.log('=============================================================');
@@ -59,10 +59,11 @@ const conexionBBDD = mySql.createPool({
 
 /*
 const conexionBBDD = mySql.createPool({
-    host: '10.100.8.42',
+    host: '10.100.8.43',
     user: 'INVAPLCHAT_USER',
     password: '$nv4plCh4tUs3r',
-    database: 'SIABDD'
+    database: 'SIABDD',
+    port: 3306
 })
 */
 
@@ -112,9 +113,9 @@ app.get('/', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Valida matricula de usuario (Ruta: usuarioMat)
 // =============================================================================
-app.get('/cdi/usuarioMat/:id', ( req, res ) => {
+app.get('/usuarioMat/:id', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/usuarioMat/:id', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/usuarioMat/:id', nivelTRACE);
     const {id} = req.params;
     var sql = 'SELECT clte.CVE_USUARIO, clte.NOM_NOMBRE, clte.NOM_APELLIDOPATERNO, clte.NOM_APELLIDOMATERNO, ';
     sql = sql + 'clte.CVE_CORREO, clte.CVE_MATRICULA, ooad.CVE_OOAD, ooad.NOM_CORTO, ooad.NOM_OOAD, ';
@@ -169,9 +170,9 @@ app.get('/cdi/usuarioMat/:id', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta todos los tipos de problemas (Ruta: tipoProblematicas)
 // =============================================================================
-app.get('/cdi/tipoProblematicas', ( req, res ) => {
+app.get('/tipoProblematicas', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/tipoProblematicas', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/tipoProblematicas', nivelTRACE);
     const sql = 'SELECT * FROM SIAC_TIPO_PROBLEMATICA';
     imprimeTRACE.logOperacion('Desc: Catalogo Tipo de Problematicas (IMSS-CDI)', sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado) => {
@@ -214,6 +215,60 @@ app.get('/cdi/tipoProblematicas', ( req, res ) => {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+//         S U B   T I P O   D E   P  R  O  B  L  E  M  A  T  I  C  A  S
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// =============================================================================
+// End Point. GET - Consulta los subTipos de Problematicas(Ruta: cdi/subTipoProblematicas)
+// =============================================================================
+app.get('/subTipoProblematicas/:id', ( peticion, respuesta ) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/subTipoProblematicas/:id', nivelTRACE);
+    const {id} = peticion.params;
+    const sql = `SELECT CVE_SUBTIPO_PROBLEMATICA, NOM_NOMBRE, DESC_SUBTIPO, CVE_TIPO_PROBLEMATICA FROM SIAC_SUBTIPO_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${id}`;
+    const descOperacion = 'Problematicas por Tipo (IMSS-CDI) : <' + id + '>';
+    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            cadenaJSON = {
+                status: false,
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+        } else {
+            if (resultado.length > 0) {
+                cadenaJSON = {
+                    status: true,
+                    code: 200,
+                    message: 'Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI)',
+                    respuesta: resultado
+                }
+            } else {
+                cadenaJSON = {
+                    status: false,
+                    code: 204,
+                    message: 'No hay registros que cumplan las condiciones',
+                    respuesta: {}
+                }
+            }
+        }
+        respuesta.json(cadenaJSON);
+        const cadenaRespuesta = "Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+    });        
+});
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //                 P  R  O  B  L  E  M  A  T  I  C  A  S
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -222,9 +277,9 @@ app.get('/cdi/tipoProblematicas', ( req, res ) => {
 // =============================================================================
 // End Point. GET - Consulta las Problematicas por Tipo (Ruta: cdi/problematicasTipo)
 // =============================================================================
-app.get('/cdi/problematicasTipo/:id', ( peticion, respuesta ) => {
+app.get('/problematicasTipo/:id', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/problematicasTipo/:id', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/problematicasTipo/:id', nivelTRACE);
     const {id} = peticion.params;
     const sql = `SELECT CVE_PROBLEMATICA, NOM_NOMBRE, CVE_TIPO_PROBLEMATICA FROM SIAC_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${id}`;
     const descOperacion = 'Problematicas por Tipo (IMSS-CDI) : <' + id + '>';
@@ -275,9 +330,9 @@ app.get('/cdi/problematicasTipo/:id', ( peticion, respuesta ) => {
 // =============================================================================
 // End Point. GET - Consulta los ultimos 3 registros de una OOAD (Ruta: cdi/ooadRegistradas)
 // =============================================================================
-app.get('/cdi/ooadRegistradas/:id', ( peticion, respuesta ) => {
+app.get('/ooadRegistradas/:id', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/ooadRegistradas/:id', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/ooadRegistradas/:id', nivelTRACE);
     const {id} = peticion.params;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.DES_OTRO, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
@@ -328,9 +383,9 @@ app.get('/cdi/ooadRegistradas/:id', ( peticion, respuesta ) => {
 // =============================================================================
 // End Point. POST - Agrega una OOAD Problematica (Ruta: ooadProblematicas/add)
 // =============================================================================
-app.post('/cdi/ooadProblematicas/add', ( req, res ) => {
+app.post('/ooadProblematicas/add', ( req, res ) => {
     const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/ooadProblematicas/add', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/ooadProblematicas/add', nivelTRACE);
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
         NOM_RESPONSABLE: req.body.nombre_responsable,
@@ -377,6 +432,61 @@ app.post('/cdi/ooadProblematicas/add', ( req, res ) => {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+//         O O A D   B I T A C O R A   P  R  O  B  L  E  M  A  T  I  C  A
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// =============================================================================
+// End Point. POST - Agrega una OOAD Bitacora Problematica (Ruta: ooadBitacora/add)
+// =============================================================================
+app.post('/ooadBitacora/add', ( req, res ) => {
+    const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/ooadBitacora/add', nivelTRACE);
+    // Creamos un objeto customer utilizando la dependecia body-parser
+
+    
+    const ooadBitacoraObj = {
+        FEC_ALTA: req.body.fecha_alta,
+        FEC_HORA: hora_alta,
+        CVE_MATRICULA: req.body.cve_matricula,
+        CVE_ESTATUS: req.body.status,
+        CVE_SOLICITUD: req.body.solicitud,
+        CVE_OOAD_PROBLEMATICA: req.body.idOOAD
+    }
+    const sql = 'INSERT INTO SIAT_BITACORA_PROBLEMATICA SET ?';
+    const descOperacion = 'Alta de OOAD Bitacora Problematica ( IMSS-CDI) ';
+    const sqlDesc = sql + " JSON: " + JSON.stringify(ooadBitacoraObj, null, '-');
+    imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
+    conexionBBDD.query(sql, ooadBitacoraObj, error => {
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            cadenaJSON = {
+                status: false,
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+        } else {
+            cadenaJSON = {
+                status: true,
+                code: 201,
+                message: 'OOAD Bitacora Problematica creada!',
+                respuesta: {}
+            }
+        }
+        res.json(cadenaJSON);
+        const cadenaRespuesta = "OOAD Bitacora Problematica-ADD. Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+    });    
+});
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //                 P A N T A L L A S    W E B 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -385,9 +495,9 @@ app.post('/cdi/ooadProblematicas/add', ( req, res ) => {
 //////////////////////////////////////////////////
 // CONSULTA DE OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-app.get('/cdi/consultaOOAD', (peticion, respuesta) => {
+app.get('/consultaOOAD', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/consultaOOAD', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/consultaOOAD', nivelTRACE);
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
@@ -403,7 +513,7 @@ app.get('/cdi/consultaOOAD', (peticion, respuesta) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);
-            respuesta.redirect('/cdi/consultaOOAD');
+            respuesta.redirect('/consultaOOAD');
         }else{
             const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
@@ -416,9 +526,9 @@ app.get('/cdi/consultaOOAD', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // CONSULTA DE OOADD PROBLEMATICAS por TIPO DE PROBLEMATICA
 //////////////////////////////////////////////////
-app.get('/cdi/OOADtipoProblematica/:id', (peticion, respuesta) => {
+app.get('/OOADtipoProblematica/:id', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/OOADtipoProblematica', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/OOADtipoProblematica', nivelTRACE);
     const {id} = peticion.params;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sp.CVE_TIPO_PROBLEMATICA, sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
@@ -428,7 +538,7 @@ app.get('/cdi/OOADtipoProblematica/:id', (peticion, respuesta) => {
     sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA stp USING (CVE_TIPO_PROBLEMATICA)';
     sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
     sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
-    sql = sql + 'WHERE sp.CVE_PROBLEMATICA = ' + id + ' ';
+    sql = sql + 'WHERE stp.CVE_TIPO_PROBLEMATICA = ' + id + ' ';
     sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC ';
     imprimeTRACE.logOperacion('Desc: OOAD Problematicas por Tipo de Problematica(IMSS-CDI) - Pantalla de consulta', sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado)=>{
@@ -437,7 +547,7 @@ app.get('/cdi/OOADtipoProblematica/:id', (peticion, respuesta) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);
-            respuesta.redirect('/cdi/consultaOOAD');
+            respuesta.redirect('/consultaOOAD');
         }else{
             const cadenaRespuesta = "Consulta OOAD Problematicas por Tipo de Problematica(IMSS-CDI). Respuesta:  " + JSON.stringify(resultado, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
@@ -450,9 +560,9 @@ app.get('/cdi/OOADtipoProblematica/:id', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // EDITA UNA OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-app.get('/cdi/editaOOAD/:id', (peticion, respuesta) => {
+app.get('/editaOOAD/:id', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/editaOOAD/:id', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
     const {id} = peticion.params;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
@@ -470,7 +580,7 @@ app.get('/cdi/editaOOAD/:id', (peticion, respuesta) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);            
-            respuesta.redirect('/cdi/consultaOOAD');
+            respuesta.redirect('/consultaOOAD');
         } else {
             const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
@@ -482,9 +592,9 @@ app.get('/cdi/editaOOAD/:id', (peticion, respuesta) => {
 // =============================================================================
 // End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: cdi/actualizaOOAD)
 // =============================================================================
-app.post('/cdi/actualizaOOAD', ( peticion, respuesta ) => {
+app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/cdi/actualizaOOAD', nivelTRACE);
+    imprimeTRACE.logRuta(ipAddress, '/actualizaOOAD', nivelTRACE);
     var fechaHoy;
     fechaHoy = new Date();
     fechaHoy = fechaHoy.getUTCFullYear() + '-' +
