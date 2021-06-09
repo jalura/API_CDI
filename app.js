@@ -465,7 +465,7 @@ app.post('/problematica/add', ( req, res ) => {
     const descOperacion = 'Alta Registro de problematica ( IMSS-CDI) ';
     const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematicaObj, null, '-');
     imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
-    conexionBBDD.query(sql, ooadProblematicaObj, (error.¡, result) => {
+    conexionBBDD.query(sql, ooadProblematicaObj, (error, result) => {
         if (error) {
             const codError = "ERROR | Codigo: " + error.code;
             const msgError = "     Mensaje: " + error.message;
