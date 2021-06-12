@@ -538,7 +538,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
             }
         } else {
             if (resultado.length > 0) {
-                var cveUsuario = resultado;
+                var cveUsuario = resultado[0].CVE_USUARIO;
                 const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
                 const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
                 imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
@@ -552,7 +552,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
 
 
 
-                
+
             } else {
                 cadenaJSON = {
                     status: false,
