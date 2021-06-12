@@ -504,7 +504,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
     const {cveSubtipo} = peticion.params;
 
-    const sql = `SELECT CVE_USUARIO, CVE_SUBTIPO_PROBLEMATICA  FROM SIAC_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${icveSubtipo}`;
+    const sql = `SELECT CVE_USUARIO, CVE_SUBTIPO_PROBLEMATICA  FROM SIAC_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${cveSubtipo}`;
     const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
 
