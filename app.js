@@ -508,26 +508,23 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
 
+/*    
 // **********************************************
-
     var cveCorreo="jose.antonio.lugo@alugui.mx";
     // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
     var numIndice = cveCorreo.indexOf("@");    
     nomAgente = cveCorreo.substring(0 , numIndice);
-
     cadenaJSON = {
         status: true,
         code: 200,
         message: 'Agente que debera de ser asignada la conversacion',
         respuesta: nomAgente
     }
-
     respuesta.json(cadenaJSON);
     const cadenaRespuesta = "Informaciòn del agente que se le asignara la conversacion (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
     imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
 // **********************************************
-
-/*    
+*/
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) {
             const codError = "ERROR | Codigo: " + error.code;
@@ -560,10 +557,6 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
         const cadenaRespuesta = "Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });        
-*/
-
-
-
 
 });
 
