@@ -513,7 +513,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     var cveCorreo="jose.antonio.lugo@alugui.mx";
     // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
     var numIndice = cveCorreo.indexOf("@");    
-    nomAgente = cveCorreo.substring(0 [, numIndice]);
+    nomAgente = cveCorreo.substring(0 , numIndice);
 
     cadenaJSON = {
         status: true,
