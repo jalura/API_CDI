@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const  nivelTRACE = '2';
 
 console.log("Nivel de Trace: " + nivelTRACE);
-console.log("Version: Se integran sub tipos de problematicas  v5");
+console.log("Version: Se integran sub tipos de problematicas  v1");
 
 //const  nivelTRACE = config.TRACE;
 /*
@@ -61,7 +61,6 @@ const conexionBBDD = mySql.createPool({
 });
 */
 
-
 /*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.43',
@@ -71,8 +70,6 @@ const conexionBBDD = mySql.createPool({
     port: 3306
 })
 */
-
-
 
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
@@ -494,6 +491,87 @@ app.post('/problematica/add', ( req, res ) => {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+//         A G E N T E   a   A S I G N A R    C O N V E R S A C I O N
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// =============================================================================
+// End Point. GET - Obtiene nombre de agente para signar conversaciòn (Ruta: nombreAgente/cveSubTipo)
+// =============================================================================
+app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
+    const {cveSubtipo} = peticion.params;
+
+    const sql = `SELECT CVE_USUARIO, CVE_SUBTIPO_PROBLEMATICA  FROM SIAC_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_TIPO_PROBLEMATICA = ${icveSubtipo}`;
+    const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
+    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+
+// **********************************************
+
+    var cveCorreo="jose.antonio.lugo@alugui.mx";
+    // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
+    var numIndice = cveCorreo.indexOf("@");    
+    nomAgente = cveCorreo.substring(0 [, numIndice]);
+
+    cadenaJSON = {
+        status: true,
+        code: 200,
+        message: 'Agente que debera de ser asignada la conversacion',
+        respuesta: nomAgente
+    }
+
+    respuesta.json(cadenaJSON);
+    const cadenaRespuesta = "Informaciòn del agente que se le asignara la conversacion (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+// **********************************************
+
+/*    
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            cadenaJSON = {
+                status: false,
+                code: 500,
+                message: errorResult,
+                respuesta: {}
+            }
+        } else {
+            if (resultado.length > 0) {
+                cadenaJSON = {
+                    status: true,
+                    code: 200,
+                    message: 'Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI)',
+                    respuesta: resultado
+                }
+            } else {
+                cadenaJSON = {
+                    status: false,
+                    code: 204,
+                    message: 'No hay registros que cumplan las condiciones',
+                    respuesta: {}
+                }
+            }
+        }
+        respuesta.json(cadenaJSON);
+        const cadenaRespuesta = "Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+    });        
+*/
+
+
+
+
+});
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //         O O A D   B I T A C O R A   P  R  O  B  L  E  M  A  T  I  C  A
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -544,6 +622,7 @@ app.post('/ooadBitacora/add', ( req, res ) => {
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });    
 });
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
