@@ -504,7 +504,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
     const {cveSubtipo} = peticion.params;
 
-    const sql = `SELECT CVE_USUARIO, CVE_SUBTIPO_PROBLEMATICA  FROM SIAT_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
+    const sql = `SELECT CVE_USUARIO FROM SIAT_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
     const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
 
@@ -538,12 +538,21 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
             }
         } else {
             if (resultado.length > 0) {
+                var cveUsuario = resultado;
+                const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
+                const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
+                imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+            
                 cadenaJSON = {
                     status: true,
                     code: 200,
                     message: 'Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI)',
                     respuesta: resultado
                 }
+
+
+
+                
             } else {
                 cadenaJSON = {
                     status: false,
