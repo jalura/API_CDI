@@ -503,28 +503,9 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
     const {cveSubtipo} = peticion.params;
-
     const sql = `SELECT CVE_USUARIO FROM SIAT_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
     const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-
-/*    
-// **********************************************
-    var cveCorreo="jose.antonio.lugo@alugui.mx";
-    // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
-    var numIndice = cveCorreo.indexOf("@");    
-    nomAgente = cveCorreo.substring(0 , numIndice);
-    cadenaJSON = {
-        status: true,
-        code: 200,
-        message: 'Agente que debera de ser asignada la conversacion',
-        respuesta: nomAgente
-    }
-    respuesta.json(cadenaJSON);
-    const cadenaRespuesta = "Informaciòn del agente que se le asignara la conversacion (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-// **********************************************
-*/
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) {
             const codError = "ERROR | Codigo: " + error.code;
@@ -542,13 +523,11 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                 const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
                 const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
                 imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-                console.log ('Antes del QUERY: ' + sql);    
                 conexionBBDD.query(sql, (error, resultado) => {
                     if (error) {
                         const codError = "ERROR | Codigo: " + error.code;
                         const msgError = "     Mensaje: " + error.message;
                         const errorResult = codError + msgError;
-                        console.log ('Ya valio: ' + errorResult);    
                         cadenaJSON = {
                             status: false,
                             code: 500,
@@ -556,14 +535,11 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                             respuesta: {}
                         }
                     } else {
-                        console.log ('tamaño del tresultado: ' + resultado.length);    
                         if (resultado.length > 0) { 
                             var cveCorreo = resultado[0].CVE_CORREO;
-                            console.log ('Clave correo: ' + cveCorreo);    
                             // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
                             var numIndice = cveCorreo.indexOf("@");    
                             var nomAgente = cveCorreo.substring(0 , numIndice);
-                            console.log ('Agente: ' + nomAgente);    
                             cadenaJSON = {
                                 status: true,
                                 code: 200,
@@ -596,15 +572,8 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                 imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
             }
         }
-/*
-        respuesta.json(cadenaJSON);
-        const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-        */
     });        
-
 });
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
