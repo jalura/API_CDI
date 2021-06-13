@@ -554,11 +554,14 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                             respuesta: {}
                         }
                     } else {
+                        console.log ('tamaño del tresultado: ' + resultado.length);    
                         if (resultado.length > 0) { 
                             var cveCorreo = resultado[0].CVE_CORREO;
+                            console.log ('Clave correo: ' + cveCorreo);    
                             // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
                             var numIndice = cveCorreo.indexOf("@");    
                             var nomAgente = cveCorreo.substring(0 , numIndice);
+                            console.log ('Agente: ' + nomAgente);    
                             cadenaJSON = {
                                 status: true,
                                 code: 200,
@@ -586,7 +589,7 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
             }
         }
         respuesta.json(cadenaJSON);
-        const cadenaRespuesta = "Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });        
 
