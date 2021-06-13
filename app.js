@@ -542,11 +542,13 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                 const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
                 const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
                 imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+                console.log ('Antes del QUERY: ' + sql);    
                 conexionBBDD.query(sql, (error, resultado) => {
                     if (error) {
                         const codError = "ERROR | Codigo: " + error.code;
                         const msgError = "     Mensaje: " + error.message;
                         const errorResult = codError + msgError;
+                        console.log ('Ya valio: ' + errorResult);    
                         cadenaJSON = {
                             status: false,
                             code: 500,
