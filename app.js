@@ -542,16 +542,39 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                 const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
                 const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
                 imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-            
-                cadenaJSON = {
-                    status: true,
-                    code: 200,
-                    message: 'Informaciòn de los subtipos de Problematicas asociadas a un tipo (IMSS-CDI)',
-                    respuesta: resultado
-                }
-
-
-
+                conexionBBDD.query(sql, (error, resultado) => {
+                    if (error) {
+                        const codError = "ERROR | Codigo: " + error.code;
+                        const msgError = "     Mensaje: " + error.message;
+                        const errorResult = codError + msgError;
+                        cadenaJSON = {
+                            status: false,
+                            code: 500,
+                            message: errorResult,
+                            respuesta: {}
+                        }
+                    } else {
+                        if (resultado.length > 0) { 
+                            var cveCorreo = resultado[0].CVE_CORREO;
+                            // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
+                            var numIndice = cveCorreo.indexOf("@");    
+                            var nomAgente = cveCorreo.substring(0 , numIndice);
+                            cadenaJSON = {
+                                status: true,
+                                code: 200,
+                                message: 'Nombre Usuario para asignarlo como agente (IMSS-CDI)',
+                                respuesta: nomAgente
+                            }
+                        } else {
+                            cadenaJSON = {
+                                status: false,
+                                code: 204,
+                                message: 'No hay registros que cumplan las condiciones',
+                                respuesta: {}
+                            }
+                        }
+                    }    
+                });        
 
             } else {
                 cadenaJSON = {
