@@ -578,7 +578,14 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                                 respuesta: {}
                             }
                         }
-                    }    
+                    }  
+
+                    respuesta.json(cadenaJSON);
+                    const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                                
+
+                    
                 });        
 
             } else {
@@ -590,9 +597,11 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
                 }
             }
         }
+/*
         respuesta.json(cadenaJSON);
         const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+        */
     });        
 
 });
