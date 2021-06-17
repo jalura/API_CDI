@@ -61,6 +61,7 @@ const conexionBBDD = mySql.createPool({
 });
 */
 
+
 /*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.43',
@@ -70,6 +71,7 @@ const conexionBBDD = mySql.createPool({
     port: 3306
 })
 */
+
 
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
@@ -214,7 +216,6 @@ app.get('/tipoProblematicas', ( req, res ) => {
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });
 });
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -776,6 +777,69 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     });
 });
     
+
+
+
+/*
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*/
+// =============================================================================
+// End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: cdi/actualizaOOAD)
+// =============================================================================
+app.get('/testOOAD', ( peticion, respuesta ) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/testOOAD', nivelTRACE);
+    console.log("agentNote: "+peticion.query.agentNote);
+    console.log("behavior: "+peticion.query.behavior);
+    console.log("behaviorDescription: "+peticion.query.behaviorDescription);
+    console.log("campaign: "+peticion.query.campaign);
+    console.log("campaignDescription: "+peticion.query.campaignDescription);
+    console.log("chatSkill: "+peticion.query.chatSkill);
+    console.log("accountID: "+peticion.query.accountID);
+    console.log("agentID: "+peticion.query.agentID);
+    console.log("agentName: "+peticion.query.agentName);
+    console.log("accountName: "+peticion.query.accountName);
+    console.log("customerID: "+peticion.query.customerID);
+    console.log("imei: "+peticion.query.imei);
+    console.log("userName: "+peticion.query.userName);
+
+    const arregloJSON = {
+        agentNote: peticion.query.agentNote,
+        behavior: peticion.query.behavior,
+        behaviorDescription: peticion.query.behaviorDescription,
+        campaign: peticion.query.campaign,
+        campaignDescription: peticion.query.campaignDescription,
+        chatSkill: peticion.query.chatSkill,
+        accountID: peticion.query.accountID,
+        agentID: peticion.query.agentID,
+        agentName: peticion.agentName,
+        accountName: peticion.query.accountName,
+        customerID: peticion.query.customerID,
+        imei: peticion.query.imei,
+        userName: peticion.query.userName
+    }
+    cadenaJSON = {
+        status: true,
+        code: 200,
+        message: 'Parametros enviados desde LivePersoon',
+        respuesta: arregloJSON
+    }
+
+    respuesta.json(cadenaJSON);
+    const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
+    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+});
+
+/*
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*/
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
