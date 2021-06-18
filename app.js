@@ -882,7 +882,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                   }
                   var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
                   sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ";
-                  sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICAXXX op ';
+                  sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
                   sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
                   sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
                   sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
