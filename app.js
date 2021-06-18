@@ -863,67 +863,69 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
         }else{
-            var arregloSubTipo = [];
-            var subTipos = "";
-            console.log("Length Resultado: " + resultado.length);
-/*
-            if (resultado.length == 0) {
+            if (resultado.length > 0) {
+                var arregloSubTipo = [];
+                var subTipos = "";
 
-            }else{
-
-            }
-*/
-            
-            for (var i = 0; i < resultado.length; i++){
-              var obj = resultado[i];
-              for (var key in obj){
-                if (i > 0) {
-                    subTipos = subTipos + ", ";
-                } 
-                var value = obj[key];
-                arregloSubTipo.push(value);
-                subTipos = subTipos + value;
-                console.log(subTipos);
-              }
-            }
-            var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
-            sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ";
-            sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
-            sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
-            sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
-            sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
-            sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
-            sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')) '; 
-            sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
-            console.log(sql); 
-            console.log('**************************');
-            imprimeTRACE.logOperacion('Desc: OOAD Problematicas por SKILL a(IMSS-CDI)', sql, nivelTRACE);
-            conexionBBDD.query(sql, (error, resultado)=>{
-                if (error) {
-                    const codError = "ERROR | Codigo: " + error.code;
-                    const msgError = "     Mensaje: " + error.message;
-                    const errorResult = codError + msgError;
-                    imprimeTRACE.logResultado(errorResult, nivelTRACE);
-                    cadenaJSON = {
-                        status: true,
-                        code: 204,
-                        message: 'Skill NO autorizado pa consultar',
-                        respuesta: {}
+                for (var i = 0; i < resultado.length; i++){
+                    var obj = resultado[i];
+                    for (var key in obj){
+                      if (i > 0) {
+                          subTipos = subTipos + ", ";
+                      } 
+                      var value = obj[key];
+                      arregloSubTipo.push(value);
+                      subTipos = subTipos + value;
+                      console.log(subTipos);
                     }
-                    respuesta.json(cadenaJSON);
-                    const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
-                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-        
-//                    respuesta.redirect('/consultaOOAD');
-                }else{
-                    respuesta.json(resultado);
-                    const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
-                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-//                    respuesta.render('index', {resultado:resultado});
+                  }
+                  var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+                  sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ";
+                  sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+                  sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+                  sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
+                  sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+                  sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+                  sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')) '; 
+                  sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
+                  console.log(sql); 
+                  console.log('**************************');
+                  imprimeTRACE.logOperacion('Desc: OOAD Problematicas por SKILL a(IMSS-CDI)', sql, nivelTRACE);
+                  conexionBBDD.query(sql, (error, resultado)=>{
+                      if (error) {
+                          const codError = "ERROR | Codigo: " + error.code;
+                          const msgError = "     Mensaje: " + error.message;
+                          const errorResult = codError + msgError;
+                          imprimeTRACE.logResultado(errorResult, nivelTRACE);
+                          cadenaJSON = {
+                              status: true,
+                              code: 204,
+                              message: 'Skill NO autorizado pa consultar',
+                              respuesta: {}
+                          }
+                          respuesta.json(cadenaJSON);
+                          const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+                          imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+              
+      //                    respuesta.redirect('/consultaOOAD');
+                      }else{
+                          respuesta.json(resultado);
+                          const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
+                          imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+      //                    respuesta.render('index', {resultado:resultado});
+                      }
+                  });
+            }else{
+                cadenaJSON = {
+                    status: true,
+                    code: 204,
+                    message: 'Skill NO autorizado pa consultar',
+                    respuesta: {}
                 }
-            });
-        
-
+                respuesta.json(cadenaJSON);
+                const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+            }
             
 
 /*
