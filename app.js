@@ -860,7 +860,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                 respuesta: {}
             }
             respuesta.json(cadenaJSON);
-            const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
+            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
         }else{
             var arregloSubTipo = [];
@@ -901,12 +901,41 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
             sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
             sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
-            sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')'; //(4,114)) 
+            sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')) '; 
             sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
             console.log(sql); 
             console.log('**************************');
+            imprimeTRACE.logOperacion('Desc: OOAD Problematicas por SKILL a(IMSS-CDI)', sql, nivelTRACE);
+            conexionBBDD.query(sql, (error, resultado)=>{
+                if (error) {
+                    const codError = "ERROR | Codigo: " + error.code;
+                    const msgError = "     Mensaje: " + error.message;
+                    const errorResult = codError + msgError;
+                    imprimeTRACE.logResultado(errorResult, nivelTRACE);
 
+                    cadenaJSON = {
+                        status: true,
+                        code: 204,
+                        message: 'Skill NO autorizado pa consultar',
+                        respuesta: {}
+                    }
+                    respuesta.json(cadenaJSON);
+                    const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+        
+//                    respuesta.redirect('/consultaOOAD');
+                }else{
+                    respuesta.json(cadenaJSON);
+                    const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
+                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+//                    respuesta.render('index', {resultado:resultado});
+                }
+            });
+        
 
+            
+
+/*
 
             cadenaJSON = {
                 status: true,
@@ -917,6 +946,8 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             respuesta.json(cadenaJSON);
             const cadenaRespuesta = "Consulta CVE_USUARIO por CVE_CORREO. Respuesta: " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+*/
+
         }
 
     });
