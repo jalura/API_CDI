@@ -145,8 +145,8 @@
                     <th width="11%" scope="col">Estado</th>
                     <th width="46%" scope="col">Descripción</th>
                     <th width="4%" scope="col">ID</th>
-                    <th width="0%" scope="col">usuario</th>
-                    <th width="0%" scope="col">skill</th>
+                    <th width="0%" scope="col" class="hidden-xs">usuario</th>
+                    <th width="0%" scope="col" class="hidden-xs">skill</th>
                 </tr>
             </thead>
             <tbody>
@@ -159,8 +159,8 @@
                         <td><%= problems.OOAD_NOMBRE %></td>
                         <td><%= problems.STATUS %></td>
                         <td><%= problems.DES_OTRO %></td>
-                        <td><%= problems.USUARIO %></td>
                         <td><%= problems.CVE_OOAD_PROBLEMATICA %></td>
+                        <td><%= problems.USUARIO %></td>
                         <td><%= problems.SKILL %></td>
                     </tr>
                 <% }) %>
