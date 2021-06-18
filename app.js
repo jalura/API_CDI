@@ -919,30 +919,16 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                 cadenaJSON = {
                     status: true,
                     code: 204,
-                    message: 'Skill NO autorizado pa consultar',
+                    message: 'Skill NO autorizado para consultar (No existe en SIAT_USUARIO)',
                     respuesta: {}
                 }
-                respuesta.json(cadenaJSON);
+//                respuesta.json(cadenaJSON);
                 const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
                 imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                respuesta.render('ooadskill', {resultado:resultado});
             }
         }
     });
-/*    
-    conexionBBDD.query(sql, (error, resultado)=>{
-        if (error) {
-            const codError = "ERROR | Codigo: " + error.code;
-            const msgError = "     Mensaje: " + error.message;
-            const errorResult = codError + msgError;
-            imprimeTRACE.logResultado(errorResult, nivelTRACE);
-            respuesta.redirect('/consultaOOAD');
-        }else{
-            const cadenaRespuesta = "Consulta OOAD Problematicas por Tipo de Problematica(IMSS-CDI). Respuesta:  " + JSON.stringify(resultado, null, '-');
-            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.render('index', {resultado:resultado});
-        }
-    });
-*/
 });
 
 
