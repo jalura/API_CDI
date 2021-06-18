@@ -847,7 +847,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
     var sqlUsuario = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
     sqlUsuario = sqlUsuario + 'where CVE_USUARIO = (select CVE_USUARIO from siat_usuario where CVE_CORREO = ' + cveCorreo + ')';
     imprimeTRACE.logOperacion('Desc: Obtiene Cve Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
-    conexionBBDD.query(sql, (error, resultado)=>{
+    conexionBBDD.query(sqlUsuario, (error, resultado)=>{
         if (error) {
             const codError = "ERROR | Codigo: " + error.code;
             const msgError = "     Mensaje: " + error.message;
