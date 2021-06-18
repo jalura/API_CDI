@@ -871,9 +871,20 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
               for (var key in obj){
                 var value = obj[key];
                 console.log('*** '+ key + ": " + value);
-                arregloSubTipo(i) = value;
+                arregloSubTipo.push(value);
               }
             }
+
+
+            console.log('**************************');
+            console.log('ARREGLO DE SUB TIPOS');
+            console.log('**************************');
+            for (var i = 0; i < arregloSubTipo.length; i++){
+                console.log("Index: <" + i + ">  Valor:<" + arregloSubTipo[i] + ">");
+              }
+            console.log('**************************');
+            console.log(" ");  
+            console.log(" ");  
 
             cadenaJSON = {
                 status: true,
