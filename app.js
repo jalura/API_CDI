@@ -863,19 +863,23 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
         }else{
-
             var arregloSubTipo = [];
+            var subTipos = "";
             for (var i = 0; i < resultado.length; i++){
-              console.log("array index: " + i);
+//              console.log("array index: " + i);
               var obj = resultado[i];
               for (var key in obj){
+                if (i > 0) {
+                    subTipos = subTipos + ",";
+                } 
                 var value = obj[key];
-                console.log('*** '+ key + ": " + value);
+//                console.log('*** '+ key + ": " + value);
                 arregloSubTipo.push(value);
+                subTipos = subTipos + value;
               }
             }
 
-
+/*
             console.log('**************************');
             console.log('ARREGLO DE SUB TIPOS');
             console.log('**************************');
@@ -885,6 +889,23 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             console.log('**************************');
             console.log(" ");  
             console.log(" ");  
+*/            
+
+            console.log('**************************');
+            console.Console("Subtipos: " + subTipos);   
+            var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+            sql = sql + 'sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ';
+            sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+            sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+            sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
+            sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+            sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+            sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')'; //(4,114)) 
+            sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
+            console.log(sql); 
+            console.log('**************************');
+
+
 
             cadenaJSON = {
                 status: true,
@@ -904,6 +925,18 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
 
     cve_usuario = 5
     select CVE_SUBTIPO_PROBLEMATICA from siat_usuario_subtipo_problematica where CVE_USUARIO = '5';
+
+
+var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+sql = sql + 'sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ';
+sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
+sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from siac_problematica where CVE_SUBTIPO_PROBLEMATICA in (4,114)) 
+sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
+
 
 
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
