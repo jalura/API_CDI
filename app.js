@@ -925,7 +925,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
         
 //                    respuesta.redirect('/consultaOOAD');
                 }else{
-                    respuesta.json(cadenaJSON);
+                    respuesta.json(resultado);
                     const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
                     imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
 //                    respuesta.render('index', {resultado:resultado});
