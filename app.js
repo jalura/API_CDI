@@ -713,11 +713,6 @@ app.get('/OOADtipoProblematica/:id', (peticion, respuesta) => {
 app.get('/editaOOAD', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
-
-    console.log("id: "+peticion.query.id);
-    console.log("skill: "+peticion.query.skill);
-    
-//    const {id} = peticion.params;
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
@@ -760,6 +755,8 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
         ('00' + fechaHoy.getUTCDate()).slice(-2);
     var fecha_actualizacion = fechaHoy;
     const idOOAD = peticion.body.id;
+    const cveSkill = peticion.body.SKILL;
+    const.log("Clave SKILL:" + cveSkill);
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
         DES_OTRO: peticion.body.DES_OTRO,
@@ -776,12 +773,14 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
             const codError = "ERROR | Codigo: " + error.code;
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
-            imprimeTRACE.logResultado(errorResult, nivelTRACE);            
-            respuesta.redirect('/cdi/consultaOOAD');
+            imprimeTRACE.logResultado(errorResult, nivelTRACE);       
+            respuesta.redirect('/OOADProblematicaSkill/'+cveSkill);
+//            respuesta.redirect('/cdi/consultaOOAD');
         } else {
             const cadenaRespuesta = "Problematica-Actualizada (IMSS-CDI).";
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.redirect('/cdi/consultaOOAD');
+            respuesta.redirect('/OOADProblematicaSkill/'+cveSkill);
+//            respuesta.redirect('/cdi/consultaOOAD');
         }
     });
 });
