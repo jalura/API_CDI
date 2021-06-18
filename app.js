@@ -863,8 +863,6 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
         }else{
-            const cadenaRespuesta = "Consulta CVE_USUARIO por CVE_CORREO. Respuesta:  " + JSON.stringify(resultado, null, '-');
-            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
             cadenaJSON = {
                 status: true,
                 code: 200,
