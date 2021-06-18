@@ -881,13 +881,12 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                     }
                   }
                   var nombreUsuario = "";
-                  var sqlUsuario = `select NOM_NOMBRE, NOM_APELLIDOPATERNO,  NOM_APELLIDOMATERNO from SIAT_USUARIO where CVE_CORREO = '` + cveCorreo + `')`;
+                  var sqlUsuario = `select NOM_NOMBRE, NOM_APELLIDOPATERNO,  NOM_APELLIDOMATERNO from SIAT_USUARIO where CVE_CORREO = '` + cveCorreo + `'`;
                   imprimeTRACE.logOperacion('Desc: Obtiene Nombre Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
                   conexionBBDD.query(sqlUsuario, (error, resultado)=>{
                     if (error) {
                         nombreUsuario = cveCorreo;
                     } else {
-
                         var nameUser = JSON.parse(resultado);
                         console.log(nameUser);
                         nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
