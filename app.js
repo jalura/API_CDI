@@ -890,7 +890,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
 
                     var nameUser = JSON.parse(resultado);
                     console.log(nameUser);
-                    nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " nameUser[0].NOM_APELLIDOMATERNO; 
+                    nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
                     console.log("NOMBRE USUARIO: " + nombreUsuario);    
                   }
                   var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
