@@ -870,12 +870,13 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
               var obj = resultado[i];
               for (var key in obj){
                 if (i > 0) {
-                    subTipos = subTipos + ",";
+                    subTipos = subTipos + ", ";
                 } 
                 var value = obj[key];
 //                console.log('*** '+ key + ": " + value);
                 arregloSubTipo.push(value);
                 subTipos = subTipos + value;
+                console.log(subTipos);
               }
             }
 
@@ -892,7 +893,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
 */            
 
             console.log('**************************');
-            console.Console("Subtipos: " + subTipos);   
+            console.log("Subtipos: " + subTipos);   
             var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
             sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ";
             sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
