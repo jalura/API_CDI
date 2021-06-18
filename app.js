@@ -833,6 +833,87 @@ app.get('/testOOAD', ( peticion, respuesta ) => {
     imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
 });
 
+
+
+
+//////////////////////////////////////////////////
+// CONSULTA DE OOADD PROBLEMATICAS dependiendo del SKILL del Agente
+//////////////////////////////////////////////////
+app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/OOADProblematicaSkill', nivelTRACE);
+    const {cveSkill} = peticion.params;
+    const cveCorreo = cveSkill + '@imss.gob.mx';   
+    var sqlUsuario = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+    sqlUsuario = sqlUsuario + 'where CVE_USUARIO = (select CVE_USUARIO from siat_usuario where CVE_CORREO = ' + cveCorreo + ')';
+    imprimeTRACE.logOperacion('Desc: Obtiene Cve Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
+    conexionBBDD.query(sql, (error, resultado)=>{
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            imprimeTRACE.logResultado(errorResult, nivelTRACE);
+            cadenaJSON = {
+                status: true,
+                code: 204,
+                message: 'Skill NO autorizado pa consultar',
+                respuesta: {}
+            }
+            respuesta.json(cadenaJSON);
+            const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
+            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+        }else{
+            const cadenaRespuesta = "Consulta CVE_USUARIO por CVE_CORREO. Respuesta:  " + JSON.stringify(resultado, null, '-');
+            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+            cadenaJSON = {
+                status: true,
+                code: 200,
+                message: 'CVE USUARIO autorizado para consulta',
+                respuesta: resultado
+            }
+            respuesta.json(cadenaJSON);
+            const cadenaRespuesta = "Consulta CVE_USUARIO por CVE_CORREO. Respuesta: " + JSON.stringify(cadenaJSON, null, '-');
+            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+        }
+
+    });
+
+
+/*    
+
+    cve_usuario = 5
+    select CVE_SUBTIPO_PROBLEMATICA from siat_usuario_subtipo_problematica where CVE_USUARIO = '5';
+
+
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sp.CVE_TIPO_PROBLEMATICA, sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
+    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA stp USING (CVE_TIPO_PROBLEMATICA)';
+    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+    sql = sql + 'WHERE stp.CVE_TIPO_PROBLEMATICA = ' + id + ' ';
+    sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC ';
+    imprimeTRACE.logOperacion('Desc: OOAD Problematicas por Tipo de Problematica(IMSS-CDI) - Pantalla de consulta', sql, nivelTRACE);
+    conexionBBDD.query(sql, (error, resultado)=>{
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            imprimeTRACE.logResultado(errorResult, nivelTRACE);
+            respuesta.redirect('/consultaOOAD');
+        }else{
+            const cadenaRespuesta = "Consulta OOAD Problematicas por Tipo de Problematica(IMSS-CDI). Respuesta:  " + JSON.stringify(resultado, null, '-');
+            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+            respuesta.render('index', {resultado:resultado});
+        }
+    });
+*/
+});
+
+
+
 /*
 *************************************************************************************
 *************************************************************************************
