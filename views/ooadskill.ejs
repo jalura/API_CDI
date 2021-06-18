@@ -186,26 +186,20 @@
           var table = $('#problemas').DataTable({
              bJQueryUI : true,
              orderCellsTop: true,
-             fixedHeader: true 
+             fixedHeader: true,
+             columnDefs: [
+                {
+                    "targets": [ 5 ],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [ 6 ],
+                    "visible": false
+                }
+              ]
           });
-
-          $('#problemas').DataTable( {
-        "columnDefs": [
-            {
-                "targets": [ 5 ],
-                "visible": false,
-                "searchable": false
-            },
-            {
-                "targets": [ 6 ],
-                "visible": false
-            }
-          ]
-        } );
-      
       });
-      
-      
       </script>
       
 
