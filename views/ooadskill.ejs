@@ -97,7 +97,7 @@
     #problemas {
       font-family: Arial, Helvetica, sans-serif;
       border-collapse: collapse;
-      width: 80%;      
+      width: 70%;      
     }
     
     #problemas td, #problemas th {
@@ -145,8 +145,8 @@
                     <th width="11%" scope="col">Estado</th>
                     <th width="46%" scope="col">Descripción</th>
                     <th width="4%" scope="col">ID</th>
-                    <th width="0%" scope="col" class="hidden-xs">usuario</th>
-                    <th width="0%" scope="col" class="hidden-xs">skill</th>
+                    <th width="1%" scope="col" >usuario</th>
+                    <th width="1%" scope="col" >skill</th>
                 </tr>
             </thead>
             <tbody>
@@ -188,6 +188,20 @@
              orderCellsTop: true,
              fixedHeader: true 
           });
+
+          $('#problemas').DataTable( {
+        "columnDefs": [
+            {
+                "targets": [ 5 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 6 ],
+                "visible": false
+            }
+          ]
+        } );
       
       });
       
