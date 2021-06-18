@@ -755,7 +755,7 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
         ('00' + fechaHoy.getUTCDate()).slice(-2);
     var fecha_actualizacion = fechaHoy;
     const idOOAD = peticion.body.id;
-    const cveSkill = peticion.body.SKILL;
+    const cveSkill = peticion.body.skill;
     console.log("Clave SKILL:" + cveSkill);
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
