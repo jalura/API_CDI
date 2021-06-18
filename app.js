@@ -718,8 +718,8 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     console.log("skill: "+peticion.query.skill);
     
 //    const {id} = peticion.params;
-    const {id} = peticion.query.id;
-    const {cveSkill} = peticion.query.skill;
+    const id = peticion.query.id;
+    const cveSkill = peticion.query.skill;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
     sql = sql + "'" + cveSkill + "' as SKILL '";
