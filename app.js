@@ -885,8 +885,11 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                   imprimeTRACE.logOperacion('Desc: Obtiene Nombre Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
                   conexionBBDD.query(sqlUsuario, (error, resultado)=>{
                     if (error) {
+                        console.log("ERROR AL ACCESAR LA BBDD PARA OBTENER EL NOMBRE DEL USUARIO");
                         nombreUsuario = cveCorreo;
                     } else {
+                        console.log("SE OBTIENE EL NOMBRE DEL USUARIO");
+                        console.log(JSON.stringify(resultado, null, '-'));
                         var nameUser = JSON.parse(resultado);
                         console.log(nameUser);
                         nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
