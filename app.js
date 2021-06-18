@@ -863,7 +863,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             console.log("Resultado: <" + resError + ">");
             const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.render('ooadskill', {resError:resError});
+            respuesta.render('ooadskill', {resultado:resError});
         }else{
             if (resultado.length > 0) {
                 var arregloSubTipo = [];
