@@ -859,7 +859,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                 message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD)',
                 respuesta: {}
             }
-            resultado = "";
+            resultado = {};
             const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
             respuesta.render('ooadskill', {resultado:resultado});
