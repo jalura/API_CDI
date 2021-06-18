@@ -890,7 +890,10 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                     } else {
                         console.log("SE OBTIENE EL NOMBRE DEL USUARIO");
                         console.log(JSON.stringify(resultado, null, '-'));
-                        var nameUser = JSON.parse(resultado);
+                        var nameUser = JSON.stringify(resultado);
+                        console.log("PASO JSON.stringify");
+                        nameUser = JSON.parse(nameUser);    
+                        console.log("PASO JSON.parse");
                         console.log(nameUser);
                         nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
                         console.log("NOMBRE USUARIO: " + nombreUsuario);    
