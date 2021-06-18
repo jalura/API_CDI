@@ -863,7 +863,6 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             console.log("Resultado: <" + resError + ">");
             const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            alert("Error al accesar la BBDD");
             respuesta.render('ooadskill', {resError:resError});
         }else{
             if (resultado.length > 0) {
