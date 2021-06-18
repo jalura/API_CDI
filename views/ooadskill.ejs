@@ -134,6 +134,7 @@
                 </tr>
             </thead>
             <tbody>
+                <% if (resultado.length > 0) { %>
                 <% resultado.forEach((problems) => { %>
                     <tr>
                         <td>
@@ -145,7 +146,8 @@
                         <td><%= problems.CVE_OOAD_PROBLEMATICA %></td>
                     </tr>
                 <% }) %>
-            </tbody>
+                <% } %>   
+              </tbody>
         </table>
     </div>
 
