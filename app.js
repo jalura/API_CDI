@@ -845,7 +845,7 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
     const {cveSkill} = peticion.params;
     const cveCorreo = cveSkill + '@imss.gob.mx';   
     var sqlUsuario = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
-    sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from siat_usuario where CVE_CORREO = '` + cveCorreo + `')`;
+    sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIOX from siat_usuario where CVE_CORREO = '` + cveCorreo + `')`;
     imprimeTRACE.logOperacion('Desc: Obtiene Cve Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
     conexionBBDD.query(sqlUsuario, (error, resultado)=>{
         if (error) {
@@ -856,12 +856,12 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
             cadenaJSON = {
                 status: true,
                 code: 204,
-                message: 'Skill NO autorizado pa consultar',
+                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD)',
                 respuesta: {}
             }
-            respuesta.json(cadenaJSON);
             const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+            respuesta.render('ooadskill', {resultado:resultado});
         }else{
             if (resultado.length > 0) {
                 var arregloSubTipo = [];
@@ -922,7 +922,6 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                     message: 'Skill NO autorizado para consultar (No existe en SIAT_USUARIO)',
                     respuesta: {}
                 }
-//                respuesta.json(cadenaJSON);
                 const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
                 imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
                 respuesta.render('ooadskill', {resultado:resultado});
