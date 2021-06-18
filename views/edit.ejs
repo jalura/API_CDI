@@ -13,31 +13,31 @@
 
     <style>
 
-        #header {
-            width: 100%;
-            height: 50px;
-            background-color:darkslategrey;
-        }
+#header {
+      width: 100%;
+      height: 35px;
+      display: inline-block;
+      background-color:darkslategrey;
+    }
 
-        #logotipo {
-            display: block;
-            margin: auto;
-            width: 100%;
-            max-width: 1200px;
-            min-width: 500px;
-        }
+    #logotipo {
+      display: inline-block;
+      margin: auto;
+      width: 50%;
+      max-width: 100px;
+      min-width: 30px;
+    }
 
-        #titulo {
-            display: block;
-            margin: auto;
-            width: 50%;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size:x-large;
-            color: floralwhite;
-            text-align: center;
-            font-weight: bold;
-            padding-bottom: 3px;
-        }
+    #titulo {
+      width: 50%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      color: floralwhite;
+      text-align: left;
+      font-weight: bold;
+      vertical-align: middle;
+      padding: 10px 20px;
+  }
 
         form {
             /* Centrar el formulario en la página */
@@ -122,7 +122,7 @@
 
     <div id="container">
         <div id="header">
-          <div id="titulo">PROBLEMATICA - CDI / BIOMEDICO</div>
+            <div id="titulo">PROBLEMATICA - CDI / BIOMEDICO</div>
         </div>
       </div>
   
@@ -132,10 +132,11 @@
         <div class="card border-success">
             <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
             <div class="card-body">
-                <form action="/cdi/actualizaOOAD" method="POST" >
+                <form action="/actualizaOOAD" method="POST" >
 
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
+                        <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  width="10px">
                         <label for="problema" class="form-label">Clave OOAD: </label>
                         <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" tabindex="1"><br>
                     </div>
@@ -185,8 +186,7 @@
                         <label for="problema" class="form-label">Fecha alta: </label>
                         <input type="text" id="FEC_ALTA" name="FEC_ALTA" value="<%= problema.FEC_ALTA %>" readonly disabled="disabled" tabindex="7"><br><br>
                     </div>
-
-                    <a href="/cdi/consultaOOAD" class="btn btn-secondary" >Regresar</a>
+                    <a href="/OOADProblematicaSkill/<%= problems.SKILL %>" class="btn btn-secondary" >Regresar</a>
                     <button type="submit" class="btn btn-primary" tabindex="8">Actualizar</button>     
 
                 </form>
