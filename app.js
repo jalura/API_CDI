@@ -884,15 +884,16 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                   var sqlUsuario = `select NOM_NOMBRE, NOM_APELLIDOPATERNO,  NOM_APELLIDOMATERNO from SIAT_USUARIO where CVE_CORREO = '` + cveCorreo + `')`;
                   imprimeTRACE.logOperacion('Desc: Obtiene Nombre Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
                   conexionBBDD.query(sqlUsuario, (error, resultado)=>{
-                  if (error) {
-                    nombreUsuario = cveCorreo;
-                  } else {
+                    if (error) {
+                        nombreUsuario = cveCorreo;
+                    } else {
 
-                    var nameUser = JSON.parse(resultado);
-                    console.log(nameUser);
-                    nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
-                    console.log("NOMBRE USUARIO: " + nombreUsuario);    
-                  }
+                        var nameUser = JSON.parse(resultado);
+                        console.log(nameUser);
+                        nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
+                        console.log("NOMBRE USUARIO: " + nombreUsuario);    
+                    }
+                  });
                   var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
                   sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, "
                   sql = sql + "'" + cveSkill + "' as SKILL, '" + nombreUsuario + "' as USUARIO ";
