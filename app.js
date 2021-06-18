@@ -709,12 +709,20 @@ app.get('/OOADtipoProblematica/:id', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // EDITA UNA OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-app.get('/editaOOAD/:id', (peticion, respuesta) => {
+//app.get('/editaOOAD/:id', (peticion, respuesta) => {
+app.get('/editaOOAD', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
-    const {id} = peticion.params;
+
+    console.log("id: "+peticion.query.id);
+    console.log("skill: "+peticion.query.skill);
+    
+//    const {id} = peticion.params;
+    const {id} = peticion.query.id;
+    const {cveSkill} = peticion.query.skill;
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA ";
+    sql = sql + "'" + cveSkill + "' as SKILL '";
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
     sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
     sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
@@ -729,7 +737,8 @@ app.get('/editaOOAD/:id', (peticion, respuesta) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);            
-            respuesta.redirect('/consultaOOAD');
+//            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
+            respuesta.redirect('/OOADProblematicaSkill/'+cveSkill);
         } else {
             const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
