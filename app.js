@@ -865,35 +865,27 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
         }else{
             var arregloSubTipo = [];
             var subTipos = "";
+            console.log("Length Resultado: " + resultado.length);
+/*
+            if (resultado.length == 0) {
+
+            }else{
+
+            }
+*/
+            
             for (var i = 0; i < resultado.length; i++){
-//              console.log("array index: " + i);
               var obj = resultado[i];
               for (var key in obj){
                 if (i > 0) {
                     subTipos = subTipos + ", ";
                 } 
                 var value = obj[key];
-//                console.log('*** '+ key + ": " + value);
                 arregloSubTipo.push(value);
                 subTipos = subTipos + value;
                 console.log(subTipos);
               }
             }
-
-/*
-            console.log('**************************');
-            console.log('ARREGLO DE SUB TIPOS');
-            console.log('**************************');
-            for (var i = 0; i < arregloSubTipo.length; i++){
-                console.log("Index: <" + i + ">  Valor:<" + arregloSubTipo[i] + ">");
-              }
-            console.log('**************************');
-            console.log(" ");  
-            console.log(" ");  
-*/            
-
-            console.log('**************************');
-            console.log("Subtipos: " + subTipos);   
             var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
             sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA  ";
             sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
@@ -912,7 +904,6 @@ app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
                     const msgError = "     Mensaje: " + error.message;
                     const errorResult = codError + msgError;
                     imprimeTRACE.logResultado(errorResult, nivelTRACE);
-
                     cadenaJSON = {
                         status: true,
                         code: 204,
