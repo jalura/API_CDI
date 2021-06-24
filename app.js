@@ -609,27 +609,6 @@ app.get('/nombreAgenteHumano/:cveSubtipo', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
     const {cveSubtipo} = peticion.params;
-
-/*
-select susp.CVE_USUARIO, susp.CVE_SUBTIPO_PROBLEMATICA, su.cve_correo, su.ind_liveperson
-from siat_usuario_subtipo_problematica susp, siat_usuario su 
-where CVE_SUBTIPO_PROBLEMATICA = 44
-and susp.CVE_USUARIO  = su.CVE_USUARIO
-and su.IND_LIVEPERSON = 1;
-
-var sql = "select susp.CVE_USUARIO, susp.CVE_SUBTIPO_PROBLEMATICA, su.CVE_CORREO, su.IND_LIVEPERSON ";
-sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
-sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
-sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
-
-var sql = "select su.CVE_CORREO ";
-sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
-sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
-sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
-*/
-
-
-//    const sql = `SELECT CVE_USUARIO FROM SIAT_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
     var sql = "select su.CVE_CORREO ";
     sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
     sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
@@ -649,51 +628,16 @@ sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
             }
         } else {
             if (resultado.length > 0) {
-
-/*
-                var cveUsuario = resultado[0].CVE_USUARIO;
-                const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
-                const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
-                imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-                conexionBBDD.query(sql, (error, resultado) => {
-                    if (error) {
-                        const codError = "ERROR | Codigo: " + error.code;
-                        const msgError = "     Mensaje: " + error.message;
-                        const errorResult = codError + msgError;
-                        cadenaJSON = {
-                            status: false,
-                            code: 500,
-                            message: errorResult,
-                            respuesta: {}
-                        }
-                    } else {
-                        if (resultado.length > 0) { 
-
-*/                            
-                            var cveCorreo = resultado[0].CVE_CORREO;
-                            // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
-                            var numIndice = cveCorreo.indexOf("@");    
-                            var nomAgente = cveCorreo.substring(0 , numIndice);
-                            cadenaJSON = {
-                                status: true,
-                                code: 200,
-                                message: 'Nombre Usuario para asignarlo como agente (IMSS-CDI)',
-                                respuesta: nomAgente
-                            }
-                        } else {
-                            cadenaJSON = {
-                                status: false,
-                                code: 204,
-                                message: 'No hay registros que cumplan las condiciones',
-                                respuesta: {}
-                            }
-                        }
-                    }  
-                    respuesta.json(cadenaJSON);
-                    const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                });       
-/*
+                var cveCorreo = resultado[0].CVE_CORREO;
+                // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
+                var numIndice = cveCorreo.indexOf("@");    
+                var nomAgente = cveCorreo.substring(0 , numIndice);
+                cadenaJSON = {
+                    status: true,
+                    code: 200,
+                    message: 'Nombre Usuario para asignarlo como agente (IMSS-CDI)',
+                    respuesta: nomAgente
+                }
             } else {
                 cadenaJSON = {
                     status: false,
@@ -701,13 +645,12 @@ sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
                     message: 'No hay registros que cumplan las condiciones',
                     respuesta: {}
                 }
-                respuesta.json(cadenaJSON);
-                const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
             }
-        }
-    });        
-*/    
+        }  
+        respuesta.json(cadenaJSON);
+        const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
+        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+    });       
 });
 
 // --------------------------------------------------------------------------------
