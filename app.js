@@ -14,8 +14,8 @@ const bodyParser = require('body-parser');
 
 // En caso de que se realice el Deployment se define el puerto
 // establecemos por default que si lo corremos localmente se apor el puero 3050
-//const PORT = process.env.PORT || 3050;
-const PORT = process.env.PORT || 443;    //PORT LivePerson
+const PORT = process.env.PORT || 4050;
+//const PORT = process.env.PORT || 443;    //PORT LivePerson
 
 
 // Creamos una instancia del servidor express
@@ -29,9 +29,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 const  nivelTRACE = '2';
-
-console.log("Nivel de Trace: " + nivelTRACE);
-console.log("Version: Se integran sub tipos de problematicas  v1");
 
 //const  nivelTRACE = config.TRACE;
 /*
@@ -62,7 +59,7 @@ const conexionBBDD = mySql.createPool({
 */
 
 
-
+ /*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.43',
     user: 'INVAPLCHAT_USER',
@@ -70,16 +67,23 @@ const conexionBBDD = mySql.createPool({
     database: 'SIABDD',
     port: 3306
 })
+console.log("Nivel de Trace: " + nivelTRACE);
+console.log("BBDD.Produccion => IMSS");
+console.log("Version: Se integran columnas a consulta de problematicas  v1.5");
+ */
 
-
-/*
+// /*
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
     password: '55f78527',
     database: 'heroku_a4ac2dcd99be87f'
 })
-*/
+console.log("Nivel de Trace: " + nivelTRACE);
+console.log("BBDD.Desarrollo => HEROKU");
+console.log("Version: Se integran columnas a consulta de problematicas  v1.5");
+// */
+
 
 // =====================================================================
 // Creamos la estructura del header de respuesta
@@ -100,12 +104,12 @@ app.get('/', ( req, res ) => {
     cadenaJSON = {
         status: true,
         code: 200,
-        message: 'API IMSS_CDI v1.0 Jun-2021',
+        message: 'API IMSS_CDI v1.5 Sep-2021',
         respuesta: ''
     }
     imprimeTRACE.logOperacion('Desc: API Raiz', '', nivelTRACE);
     res.json(cadenaJSON);
-    imprimeTRACE.logResultado('API IMSS_CDI v1.0 Jun-2021', nivelTRACE);
+    imprimeTRACE.logResultado('API IMSS_CDI v1.5 Sep-2021', nivelTRACE);
 });
 
 
@@ -504,111 +508,6 @@ app.get('/nombreAgente/:cveSubtipo', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
     const {cveSubtipo} = peticion.params;
-
-/*
-select susp.CVE_USUARIO, susp.CVE_SUBTIPO_PROBLEMATICA, su.cve_correo, su.ind_liveperson
-from siat_usuario_subtipo_problematica susp, siat_usuario su 
-where CVE_SUBTIPO_PROBLEMATICA = 44
-and susp.CVE_USUARIO  = su.CVE_USUARIO
-and su.IND_LIVEPERSON = 1;
-
-var sql = "select susp.CVE_USUARIO, susp.CVE_SUBTIPO_PROBLEMATICA, su.CVE_CORREO, su.IND_LIVEPERSON ";
-sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
-sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
-sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
-
-var sql = "select su.CVE_CORREO ";
-sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
-sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
-sql = sql + " and susp.CVE_USUARIO  = su.CVE_USUARIO and su.IND_LIVEPERSON = 1";
-*/
-
-
-    const sql = `SELECT CVE_USUARIO FROM SIAT_USUARIO_SUBTIPO_PROBLEMATICA WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
-    const descOperacion = 'Obtiene usuario para atender Sub Tipo Problematica (IMSS-CDI) : <' + cveSubtipo + '>';
-    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-    conexionBBDD.query(sql, (error, resultado) => {
-        if (error) {
-            const codError = "ERROR | Codigo: " + error.code;
-            const msgError = "     Mensaje: " + error.message;
-            const errorResult = codError + msgError;
-            cadenaJSON = {
-                status: false,
-                code: 500,
-                message: errorResult,
-                respuesta: {}
-            }
-        } else {
-            if (resultado.length > 0) {
-                var cveUsuario = resultado[0].CVE_USUARIO;
-                const sql = `SELECT CVE_CORREO FROM SIAT_USUARIO WHERE CVE_USUARIO = ${cveUsuario} and IND_LIVEPERSON = 1`;
-                const descOperacion = 'Obtiene correo usuario, para asociar agente (IMSS-CDI) : <' + cveUsuario + '>';
-                imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-                conexionBBDD.query(sql, (error, resultado) => {
-                    if (error) {
-                        const codError = "ERROR | Codigo: " + error.code;
-                        const msgError = "     Mensaje: " + error.message;
-                        const errorResult = codError + msgError;
-                        cadenaJSON = {
-                            status: false,
-                            code: 500,
-                            message: errorResult,
-                            respuesta: {}
-                        }
-                    } else {
-                        if (resultado.length > 0) { 
-                            var cveCorreo = resultado[0].CVE_CORREO;
-                            // Regresa la posicion donde se encuentra @, -1 si no lo encuentra 
-                            var numIndice = cveCorreo.indexOf("@");    
-                            var nomAgente = cveCorreo.substring(0 , numIndice);
-                            cadenaJSON = {
-                                status: true,
-                                code: 200,
-                                message: 'Nombre Usuario para asignarlo como agente (IMSS-CDI)',
-                                respuesta: nomAgente
-                            }
-                        } else {
-                            cadenaJSON = {
-                                status: false,
-                                code: 204,
-                                message: 'No hay registros que cumplan las condiciones',
-                                respuesta: {}
-                            }
-                        }
-                    }  
-                    respuesta.json(cadenaJSON);
-                    const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                });       
-
-            } else {
-                cadenaJSON = {
-                    status: false,
-                    code: 204,
-                    message: 'No hay registros que cumplan las condiciones',
-                    respuesta: {}
-                }
-                respuesta.json(cadenaJSON);
-                const cadenaRespuesta = "Informaciòn del usuario a ser asignado como Agente (IMSS-CDI). Respuesta:  " + JSON.stringify(cadenaJSON, null, '-');
-                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            }
-        }
-    });        
-});
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-// =============================================================================
-// End Point. GET - Obtiene nombre de agente para signar conversaciòn (Ruta: nombreAgente/cveSubTipo)
-// =============================================================================
-app.get('/nombreAgenteHumano/:cveSubtipo', ( peticion, respuesta ) => {
-    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/nombreAgente/:cveSubtipo', nivelTRACE);
-    const {cveSubtipo} = peticion.params;
     var sql = "select su.CVE_CORREO ";
     sql = sql + "from SIAT_USUARIO_SUBTIPO_PROBLEMATICA susp, SIAT_USUARIO su ";
     sql = sql + ` WHERE CVE_SUBTIPO_PROBLEMATICA = ${cveSubtipo}`;
@@ -652,13 +551,6 @@ app.get('/nombreAgenteHumano/:cveSubtipo', ( peticion, respuesta ) => {
         imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
     });       
 });
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -793,21 +685,53 @@ app.get('/OOADtipoProblematica/:id', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // EDITA UNA OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
-//app.get('/editaOOAD/:id', (peticion, respuesta) => {
 app.get('/editaOOAD', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
+    const cveCorreo = cveSkill + '@imss.gob.mx';   
+
+    var categoriaFlag = 0;
+    var sqlUsuario = 'select count(CVE_SUBTIPO_PROBLEMATICA) numSubtipos from siac_subtipo_problematica';
+    imprimeTRACE.logOperacion('Desc: Obtiene total de subtipo_problematica', sqlUsuario, nivelTRACE);
+    conexionBBDD.query(sqlUsuario, (error, resultado)=>{
+        if (error) {
+            categoriaFlag = 0;                  // No se autoriza a modificar Categoria / SubCategoria
+        } else {
+            var numSubtipos = parsetInt(resultado[0].numSubtipos);
+            var sqlUsuario = 'select count(CVE_SUBTIPO_PROBLEMATICA) numSTskill from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+            sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`; 
+            imprimeTRACE.logOperacion('Desc: Obtiene total de subtipo_problematica del SKILL', sqlUsuario, nivelTRACE);
+            conexionBBDD.query(sqlUsuario, (error, resultado)=>{
+                if (error) {
+                    categoriaFlag = 0;                  // No se autoriza a modificar Categoria / SubCategoria
+                } else {
+                    var numSTskill = parsetInt(resultado[0].numSTskill);
+                    if (numSubtipos === numSTskill){
+                        categoriaFlag = 1;                  // Se autoriza a modificar Categoria / SubCategoria
+                    }
+                }
+            });
+        }
+    
+    imprimeTRACE.logOperacion('Desc: Bandera para editar (1) campos categoria/subcategoria: ', categoriaFlag, nivelTRACE);
+
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
+    sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
+    sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE,";
     sql = sql + "'" + cveSkill + "' as SKILL ";
+    sql = sql + "'" + categoriaFlag + "' as categoriaUPD ";
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
     sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
     sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
     sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
     sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+    sql = sql + 'JOIN  SIAC_SUBTIPO_PROBLEMATICA stp USING(CVE_SUBTIPO_PROBLEMATICA)';
+    sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA tp USING(CVE_TIPO_PROBLEMATICA)';
     sql = sql + 'WHERE op.CVE_OOAD_PROBLEMATICA = ' + id;
+
     const descOperacion = 'OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id;
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado)=>{
@@ -816,7 +740,6 @@ app.get('/editaOOAD', (peticion, respuesta) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);            
-//            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
             respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
         } else {
             const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
@@ -825,6 +748,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
         }
     });
 });
+
 
 // =============================================================================
 // End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: cdi/actualizaOOAD)
@@ -858,26 +782,137 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
             const msgError = "     Mensaje: " + error.message;
             const errorResult = codError + msgError;
             imprimeTRACE.logResultado(errorResult, nivelTRACE);       
-            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
+            respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
         } else {
             const cadenaRespuesta = "Problematica-Actualizada (IMSS-CDI).";
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
+            respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
         }
     });
 });
     
 
+//////////////////////////////////////////////////
+// CONSULTA DE OOADD PROBLEMATICAS dependiendo del SKILL del Agente
+//////////////////////////////////////////////////
+app.get('/OOADProblematicaSkill', (peticion, respuesta) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/OOADProblematicaSkill', nivelTRACE);
+    var cveSkill = peticion.query.skill;
+    // Si la consulta la realiza un agente humano, se coloca por default el skill de
+    // amanda.arenas, que tiene acceso a todos los registros de las problematicas
+    if (cveSkill === 'Agente_Humano'){
+        cveSkill = 'amanda.arenas';
+    }
+    const cveCorreo = cveSkill + '@imss.gob.mx';   
+    var sqlUsuario = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+    sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
+    imprimeTRACE.logOperacion('Desc: Obtiene Cve Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
+    conexionBBDD.query(sqlUsuario, (error, resultado)=>{
+        if (error) {
+            const codError = "ERROR | Codigo: " + error.code;
+            const msgError = "     Mensaje: " + error.message;
+            const errorResult = codError + msgError;
+            imprimeTRACE.logResultado(errorResult, nivelTRACE);
+            cadenaJSON = {
+                status: true,
+                code: 204,
+                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD <SIAT_USUARIO / SIAT_USUARIO_SUBTIPO_PROBLEMATICA>)',
+                respuesta: {}
+            }
+            var resError = {};
+            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+            respuesta.render('ooadskill', {resultado:resError});
+        }else{
+            if (resultado.length > 0) {
+                var arregloSubTipo = [];
+                var subTipos = "";
+
+                for (var i = 0; i < resultado.length; i++){
+                    var obj = resultado[i];
+                    for (var key in obj){
+                      if (i > 0) {
+                          subTipos = subTipos + ", ";
+                      } 
+                      var value = obj[key];
+                      arregloSubTipo.push(value);
+                      subTipos = subTipos + value;
+                     
+                    }
+                  }
+                  var nombreUsuario = "";
+                  var sqlUsuario = `select NOM_NOMBRE, NOM_APELLIDOPATERNO,  NOM_APELLIDOMATERNO from SIAT_USUARIO where CVE_CORREO = '` + cveCorreo + `'`;
+                  imprimeTRACE.logOperacion('Desc: Obtiene Nombre Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
+                  conexionBBDD.query(sqlUsuario, (error, resultado)=>{
+                    if (error) {
+                        console.log("ERROR AL ACCESAR LA BBDD PARA OBTENER EL NOMBRE DEL USUARIO");
+                        nombreUsuario = cveCorreo;
+                    } else {
+                        var nameUser = JSON.stringify(resultado);
+                        nameUser = JSON.parse(nameUser);    
+                        nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
+                    }
+                    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+                    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, ";
+                    sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA, ";
+                    sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE, ";
+                    sql = sql + "DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
+                    sql = sql + "'" + cveSkill + "' as SKILL, '" + nombreUsuario + "' as USUARIO ";
+                    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+                    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+                    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
+                    sql = sql + 'JOIN  SIAC_SUBTIPO_PROBLEMATICA stp USING(CVE_SUBTIPO_PROBLEMATICA)';
+                    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+                    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+                    sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA tp USING(CVE_TIPO_PROBLEMATICA)';
+                    sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from SIAC_PROBLEMATICA where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')) '; 
+                    sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
+                    console.log(sql); 
+                    console.log('**************************');
+                    imprimeTRACE.logOperacion('Desc: OOAD Problematicas por SKILL a(IMSS-CDI)', sql, nivelTRACE);
+                    conexionBBDD.query(sql, (error, resultado)=>{
+                        if (error) {
+                            const codError = "ERROR | Codigo: " + error.code;
+                            const msgError = "     Mensaje: " + error.message;
+                            const errorResult = codError + msgError;
+                            imprimeTRACE.logResultado(errorResult, nivelTRACE);
+                            cadenaJSON = {
+                                status: true,
+                                code: 204,
+                                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD <SIAC_OOAD_PROBLEMATICA)',
+                                respuesta: {}
+                            }
+                            var resError = {};
+                            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+                            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                            respuesta.render('ooadskill', {resultado:resError});
+                        }else{
+                            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
+                            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                            respuesta.render('ooadskill', {resultado:resultado});
+                        }
+                    });
+                  });
+            }else{
+                cadenaJSON = {
+                    status: true,
+                    code: 204,
+                    message: 'Skill NO autorizado para consultar (No existe en SIAT_USUARIO)',
+                    respuesta: {}
+                }
+                const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
+                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                respuesta.render('ooadskill', {resultado:resultado});
+            }
+        }
+    });
+});
 
 
-/*
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*/
+
 // =============================================================================
-// End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: cdi/actualizaOOAD)
+// End Point. GET (EndPoint de Prueba para recibir variables de LivePerson)
 // =============================================================================
 app.get('/testOOAD', ( peticion, respuesta ) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
@@ -924,134 +959,9 @@ app.get('/testOOAD', ( peticion, respuesta ) => {
 });
 
 
-
-
-//////////////////////////////////////////////////
-// CONSULTA DE OOADD PROBLEMATICAS dependiendo del SKILL del Agente
-//////////////////////////////////////////////////
-app.get('/OOADProblematicaSkill/:cveSkill', (peticion, respuesta) => {
-    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/OOADProblematicaSkill', nivelTRACE);
-    const {cveSkill} = peticion.params;
-    const cveCorreo = cveSkill + '@imss.gob.mx';   
-    var sqlUsuario = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
-    sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from siat_usuario where CVE_CORREO = '` + cveCorreo + `')`;
-    imprimeTRACE.logOperacion('Desc: Obtiene Cve Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
-    conexionBBDD.query(sqlUsuario, (error, resultado)=>{
-        if (error) {
-            const codError = "ERROR | Codigo: " + error.code;
-            const msgError = "     Mensaje: " + error.message;
-            const errorResult = codError + msgError;
-            imprimeTRACE.logResultado(errorResult, nivelTRACE);
-            cadenaJSON = {
-                status: true,
-                code: 204,
-                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD <SIAT_USUARIO / SIAT_USUARIO_SUBTIPO_PROBLEMATICA>)',
-                respuesta: {}
-            }
-            var resError = {};
-            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
-            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.render('ooadskill', {resultado:resError});
-        }else{
-            if (resultado.length > 0) {
-                var arregloSubTipo = [];
-                var subTipos = "";
-
-                for (var i = 0; i < resultado.length; i++){
-                    var obj = resultado[i];
-                    for (var key in obj){
-                      if (i > 0) {
-                          subTipos = subTipos + ", ";
-                      } 
-                      var value = obj[key];
-                      arregloSubTipo.push(value);
-                      subTipos = subTipos + value;
-                      console.log(subTipos);
-                    }
-                  }
-                  var nombreUsuario = "";
-                  var sqlUsuario = `select NOM_NOMBRE, NOM_APELLIDOPATERNO,  NOM_APELLIDOMATERNO from SIAT_USUARIO where CVE_CORREO = '` + cveCorreo + `'`;
-                  imprimeTRACE.logOperacion('Desc: Obtiene Nombre Usuario a partir de cve Skill(IMSS-CDI)', sqlUsuario, nivelTRACE);
-                  conexionBBDD.query(sqlUsuario, (error, resultado)=>{
-                    if (error) {
-                        console.log("ERROR AL ACCESAR LA BBDD PARA OBTENER EL NOMBRE DEL USUARIO");
-                        nombreUsuario = cveCorreo;
-                    } else {
-                        var nameUser = JSON.stringify(resultado);
-                        nameUser = JSON.parse(nameUser);    
-                        nombreUsuario = nameUser[0].NOM_NOMBRE + " " + nameUser[0].NOM_APELLIDOPATERNO + " " + nameUser[0].NOM_APELLIDOMATERNO; 
-                    }
-                    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
-                    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
-                    sql = sql + "'" + cveSkill + "' as SKILL, '" + nombreUsuario + "' as USUARIO ";
-                    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
-                    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
-                    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) '; 
-                    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
-                    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
-                    sql = sql + 'WHERE op.CVE_PROBLEMATICA in (select CVE_PROBLEMATICA from SIAC_PROBLEMATICA where CVE_SUBTIPO_PROBLEMATICA in (' + subTipos + ')) '; 
-                    sql = sql + 'ORDER BY op.CVE_OOAD_PROBLEMATICA DESC  '; 
-                    console.log(sql); 
-                    console.log('**************************');
-                    imprimeTRACE.logOperacion('Desc: OOAD Problematicas por SKILL a(IMSS-CDI)', sql, nivelTRACE);
-                    conexionBBDD.query(sql, (error, resultado)=>{
-                        if (error) {
-                            const codError = "ERROR | Codigo: " + error.code;
-                            const msgError = "     Mensaje: " + error.message;
-                            const errorResult = codError + msgError;
-                            imprimeTRACE.logResultado(errorResult, nivelTRACE);
-                            cadenaJSON = {
-                                status: true,
-                                code: 204,
-                                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD <SIAC_OOAD_PROBLEMATICA)',
-                                respuesta: {}
-                            }
-                            var resError = {};
-                            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
-                            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                            respuesta.render('ooadskill', {resultado:resError});
-                        }else{
-                            const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente . Respuesta:  " + JSON.stringify(resultado, null, '-');
-                            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                            respuesta.render('ooadskill', {resultado:resultado});
-                        }
-                    });
-                  });
-            }else{
-                cadenaJSON = {
-                    status: true,
-                    code: 204,
-                    message: 'Skill NO autorizado para consultar (No existe en SIAT_USUARIO)',
-                    respuesta: {}
-                }
-                const cadenaRespuesta = "Autorizacion de Registros por Skill - Agente " + JSON.stringify(cadenaJSON, null, '-');
-                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                respuesta.render('ooadskill', {resultado:resultado});
-            }
-        }
-    });
-});
-
-
-/*
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*/
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Llamamos a la funciòn listen, para verificar si hay eco en el puerto
 ////////////////////////////////////////////////////////////////////////////////
 app.listen( PORT, () => console.log(`Server Running on Port ${PORT}`));
 console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
 
-/*
-app.listen( config.PORT, config.HOST, function () {
-    console.log(`   App NodeJS-Express Running on http://${config.HOST}:${config.PORT}`);
-    console.log('=============================================================');
-});
-*/
