@@ -59,7 +59,7 @@ const conexionBBDD = mySql.createPool({
 */
 
 
- /*
+// /*
 const conexionBBDD = mySql.createPool({
     host: '10.100.8.43',
     user: 'INVAPLCHAT_USER',
@@ -70,9 +70,9 @@ const conexionBBDD = mySql.createPool({
 console.log("Nivel de Trace: " + nivelTRACE);
 console.log("BBDD.Produccion => IMSS");
 console.log("Version: Se integran columnas a consulta de problematicas  v1.5");
- */
+// */
 
-// /*
+/*
 const conexionBBDD = mySql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'be4c93595247c1',
@@ -82,7 +82,7 @@ const conexionBBDD = mySql.createPool({
 console.log("Nivel de Trace: " + nivelTRACE);
 console.log("BBDD.Desarrollo => HEROKU");
 console.log("Version: Se integran columnas a consulta de problematicas  v1.5");
-// */
+*/
 
 
 // =====================================================================
@@ -685,44 +685,18 @@ app.get('/OOADtipoProblematica/:id', (peticion, respuesta) => {
 //////////////////////////////////////////////////
 // EDITA UNA OOADD PROBLEMATICAS
 //////////////////////////////////////////////////
+//app.get('/editaOOAD/:id', (peticion, respuesta) => {
 app.get('/editaOOAD', (peticion, respuesta) => {
     const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
-    const cveCorreo = cveSkill + '@imss.gob.mx';   
-
-    var categoriaFlag = 0;
-    var sqlUsuario = 'select count(CVE_SUBTIPO_PROBLEMATICA) numSubtipos from siac_subtipo_problematica';
-    imprimeTRACE.logOperacion('Desc: Obtiene total de subtipo_problematica', sqlUsuario, nivelTRACE);
-    conexionBBDD.query(sqlUsuario, (error, resultado)=>{
-        if (error) {
-            categoriaFlag = 0;                  // No se autoriza a modificar Categoria / SubCategoria
-        } else {
-            var numSubtipos = parsetInt(resultado[0].numSubtipos);
-            var sqlUsuario = 'select count(CVE_SUBTIPO_PROBLEMATICA) numSTskill from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
-            sqlUsuario = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`; 
-            imprimeTRACE.logOperacion('Desc: Obtiene total de subtipo_problematica del SKILL', sqlUsuario, nivelTRACE);
-            conexionBBDD.query(sqlUsuario, (error, resultado)=>{
-                if (error) {
-                    categoriaFlag = 0;                  // No se autoriza a modificar Categoria / SubCategoria
-                } else {
-                    var numSTskill = parsetInt(resultado[0].numSTskill);
-                    if (numSubtipos === numSTskill){
-                        categoriaFlag = 1;                  // Se autoriza a modificar Categoria / SubCategoria
-                    }
-                }
-            });
-        }
     
-    imprimeTRACE.logOperacion('Desc: Bandera para editar (1) campos categoria/subcategoria: ', categoriaFlag, nivelTRACE);
-
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
     sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
     sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE,";
     sql = sql + "'" + cveSkill + "' as SKILL ";
-    sql = sql + "'" + categoriaFlag + "' as categoriaUPD ";
     sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
     sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
     sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
@@ -748,7 +722,6 @@ app.get('/editaOOAD', (peticion, respuesta) => {
         }
     });
 });
-
 
 // =============================================================================
 // End Point. POST - Actuailiza un registro de OOAD Problematica (Ruta: cdi/actualizaOOAD)
@@ -791,6 +764,64 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     });
 });
     
+
+
+
+/*
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*/
+// =============================================================================
+// End Point. GET (EndPoint de Prueba para recibir variables de LivePerson)
+// =============================================================================
+app.get('/testOOAD', ( peticion, respuesta ) => {
+    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
+    imprimeTRACE.logRuta(ipAddress, '/testOOAD', nivelTRACE);
+    console.log("agentNote: "+peticion.query.agentNote);
+    console.log("behavior: "+peticion.query.behavior);
+    console.log("behaviorDescription: "+peticion.query.behaviorDescription);
+    console.log("campaign: "+peticion.query.campaign);
+    console.log("campaignDescription: "+peticion.query.campaignDescription);
+    console.log("chatSkill: "+peticion.query.chatSkill);
+    console.log("accountID: "+peticion.query.accountID);
+    console.log("agentID: "+peticion.query.agentID);
+    console.log("agentName: "+peticion.query.agentName);
+    console.log("accountName: "+peticion.query.accountName);
+    console.log("customerID: "+peticion.query.customerID);
+    console.log("imei: "+peticion.query.imei);
+    console.log("userName: "+peticion.query.userName);
+
+    const arregloJSON = {
+        agentNote: peticion.query.agentNote,
+        behavior: peticion.query.behavior,
+        behaviorDescription: peticion.query.behaviorDescription,
+        campaign: peticion.query.campaign,
+        campaignDescription: peticion.query.campaignDescription,
+        chatSkill: peticion.query.chatSkill,
+        accountID: peticion.query.accountID,
+        agentID: peticion.query.agentID,
+        agentName: peticion.agentName,
+        accountName: peticion.query.accountName,
+        customerID: peticion.query.customerID,
+        imei: peticion.query.imei,
+        userName: peticion.query.userName
+    }
+    cadenaJSON = {
+        status: true,
+        code: 200,
+        message: 'Parametros enviados desde LivePersoon',
+        respuesta: arregloJSON
+    }
+
+    respuesta.json(cadenaJSON);
+    const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
+    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+});
+
+
+
 
 //////////////////////////////////////////////////
 // CONSULTA DE OOADD PROBLEMATICAS dependiendo del SKILL del Agente
@@ -910,53 +941,13 @@ app.get('/OOADProblematicaSkill', (peticion, respuesta) => {
 });
 
 
+/*
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*/
 
-// =============================================================================
-// End Point. GET (EndPoint de Prueba para recibir variables de LivePerson)
-// =============================================================================
-app.get('/testOOAD', ( peticion, respuesta ) => {
-    const ipAddress = peticion.header('x-forwarded-for') || peticion.connection.remoteAddress;
-    imprimeTRACE.logRuta(ipAddress, '/testOOAD', nivelTRACE);
-    console.log("agentNote: "+peticion.query.agentNote);
-    console.log("behavior: "+peticion.query.behavior);
-    console.log("behaviorDescription: "+peticion.query.behaviorDescription);
-    console.log("campaign: "+peticion.query.campaign);
-    console.log("campaignDescription: "+peticion.query.campaignDescription);
-    console.log("chatSkill: "+peticion.query.chatSkill);
-    console.log("accountID: "+peticion.query.accountID);
-    console.log("agentID: "+peticion.query.agentID);
-    console.log("agentName: "+peticion.query.agentName);
-    console.log("accountName: "+peticion.query.accountName);
-    console.log("customerID: "+peticion.query.customerID);
-    console.log("imei: "+peticion.query.imei);
-    console.log("userName: "+peticion.query.userName);
-
-    const arregloJSON = {
-        agentNote: peticion.query.agentNote,
-        behavior: peticion.query.behavior,
-        behaviorDescription: peticion.query.behaviorDescription,
-        campaign: peticion.query.campaign,
-        campaignDescription: peticion.query.campaignDescription,
-        chatSkill: peticion.query.chatSkill,
-        accountID: peticion.query.accountID,
-        agentID: peticion.query.agentID,
-        agentName: peticion.agentName,
-        accountName: peticion.query.accountName,
-        customerID: peticion.query.customerID,
-        imei: peticion.query.imei,
-        userName: peticion.query.userName
-    }
-    cadenaJSON = {
-        status: true,
-        code: 200,
-        message: 'Parametros enviados desde LivePersoon',
-        respuesta: arregloJSON
-    }
-
-    respuesta.json(cadenaJSON);
-    const cadenaRespuesta = "Test de envio de parametros desde ChatBot - Agente " + JSON.stringify(cadenaJSON, null, '-');
-    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-});
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -964,7 +955,6 @@ app.get('/testOOAD', ( peticion, respuesta ) => {
 ////////////////////////////////////////////////////////////////////////////////
 app.listen( PORT, () => console.log(`Server Running on Port ${PORT}`));
 console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
-
 
 /*
 app.listen( config.PORT, config.HOST, function () {
