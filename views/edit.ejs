@@ -132,13 +132,13 @@
         <div class="card border-success">
             <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
             <div class="card-body">
-                <form action="/actualizaOOAD" method="POST" >
+                <form action="/cdi/actualizaOOAD" method="POST" >
 
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
-                        <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  width="10px">
+                        <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  hidden width="10px">
                         <label for="problema" class="form-label">Clave OOAD: </label>
-                        <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" tabindex="1"><br>
+                        <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" style="width:100px" tabindex="1"><br>
                     </div>
 
                     <div >
@@ -157,13 +157,24 @@
                     </div>
 
                     <div >
-                        <label for="problema" class="form-label">Problematica: </label>
-                        <input type="text" id="PROBLEMATICA_NOMBRE" name="PROBLEMATICA_NOMBRE" value="<%= problema.PROBLEMATICA_NOMBRE %>" readonly disabled="disabled" tabindex="5"><br>
+                        <label for="problema" class="form-label">Categoría: </label>
+                        <input type="text" id="TIPO_PROBLEMATICA_NOMBRE" name="TIPO_PROBLEMATICA_NOMBRE" value="<%= problema.TIPO_PROBLEMATICA_NOMBRE %>" readonly disabled="disabled"  style="width:200px" tabindex="5"><br>
                     </div>
 
                     <div >
+                        <label for="problema" class="form-label">Sub Categoría: </label>
+                        <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>" readonly disabled="disabled" style="width:200px" tabindex="6"><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">FLAG Categoría: </label>
+                        <input type="text" id="categoriaUPD" name="categoriaUPD" value="<%= problema.categoriaUPD %>" readonly disabled="disabled" style="width:200px" tabindex="6"><br>
+                    </div>
+
+
+                    <div >
                         <label for="problema" class="form-label">Status: </label>
-                        <select id="estado" name="estado" >
+                        <select id="estado" name="estado" style="width:200px" >
                             <option <%= problema.STATUS=='Pendientes' ? "selected" : '' %> value="1">Pendientes</option>
                             <option <%= problema.STATUS=='En Atención' ? "selected" : '' %> value="2">En Atención</option>
                             <option <%= problema.STATUS=='Atendidas' ? "selected" : '' %> value="3">Atendidas</option>
@@ -172,7 +183,7 @@
 
                     <div >
                         <label for="problema" class="form-label">Nivel: </label>
-                        <select id="nivel" name="nivel" >
+                        <select id="nivel" name="nivel" style="width:200px" >
                             <option <%= problema.NIVEL=='No Aplica' ? "selected" : '' %> value="1">No Aplica</option>
                             <option <%= problema.NIVEL=='Sin Problemática' ? "selected" : '' %> value="2">Sin Problemática</option>
                             <option <%= problema.NIVEL=='Bajo' ? "selected" : '' %> value="3">Bajo</option>
@@ -184,9 +195,9 @@
 
                     <div >
                         <label for="problema" class="form-label">Fecha alta: </label>
-                        <input type="text" id="FEC_ALTA" name="FEC_ALTA" value="<%= problema.FEC_ALTA %>" readonly disabled="disabled" tabindex="7"><br><br>
+                        <input type="text" id="FEC_ALTA" name="FEC_ALTA" value="<%= problema.FEC_ALTA %>" readonly disabled="disabled" style="width:100px" tabindex="7"><br><br>
                     </div>
-                    <a href="/OOADProblematicaSkill/<%= problema.SKILL %>" class="btn btn-secondary" >Regresar</a>
+                    <a href="/cdi/OOADProblematicaSkill?skill=<%= problema.SKILL %>" class="btn btn-secondary" >Regresar</a>
                     <button type="submit" class="btn btn-primary" tabindex="8">Actualizar</button>     
 
                 </form>
