@@ -104,12 +104,12 @@ app.get('/', ( req, res ) => {
     cadenaJSON = {
         status: true,
         code: 200,
-        message: 'API IMSS_CDI v1.5 Sep-2021',
+        message: 'API IMSS_CDI Sep-2021 v1.6 Version: Se integra vista para actualizar Categoria/Subcategoria ',
         respuesta: ''
     }
     imprimeTRACE.logOperacion('Desc: API Raiz', '', nivelTRACE);
     res.json(cadenaJSON);
-    imprimeTRACE.logResultado('API IMSS_CDI v1.5 Sep-2021', nivelTRACE);
+    imprimeTRACE.logResultado('API IMSS_CDI Sep-2021 v1.6 Version: Se integra vista para actualizar Categoria/Subcategoria', nivelTRACE);
 });
 
 
