@@ -964,3 +964,11 @@ app.get('/testOOAD', ( peticion, respuesta ) => {
 ////////////////////////////////////////////////////////////////////////////////
 app.listen( PORT, () => console.log(`Server Running on Port ${PORT}`));
 console.log('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n\n');   
+
+
+/*
+app.listen( config.PORT, config.HOST, function () {
+    console.log(`   App NodeJS-Express Running on http://${config.HOST}:${config.PORT}`);
+    console.log('=============================================================');
+});
+*/
