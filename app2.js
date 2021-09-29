@@ -711,7 +711,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
             sql = "";
             imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
             // Obtiene la clave de usuario de la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA a partir de la cveSkill + dominio de correo
-            sql = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+            sql = 'select count(CVE_SUBTIPO_PROBLEMATICA) numAsignadas from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
             sql = sql + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
             var descOperacion = 'Obtiene total de sub Categorias asignadas al Skill en SIAT_USUARIO_SUBTIPO_PROBLEMATICA de la BD: ';
             imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
