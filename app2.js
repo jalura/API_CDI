@@ -703,70 +703,64 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     var descOperacion = 'Obtiene total de Sub categorias en SIAC_SUBTIPO_PROBLEMATICA de la BD:';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado) => {
-        if (error) {
-            consulta.log('ERROROROROROOR');
-            flagCategoria = false;
-        } else {
-            var numSubCategorias = parseInt(resultado[0].totalSubCategorias);
-            descOperacion = 'Numero de Sub Categorias en SIAC_SUBTIPO_PROBLEMATICA: ' + numSubCategorias;
+        var numSubCategorias = parseInt(resultado[0].totalSubCategorias);
+        descOperacion = 'Numero de Sub Categorias en SIAC_SUBTIPO_PROBLEMATICA: ' + numSubCategorias;
+        sql = "";
+        imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+        // Obtiene la clave de usuario de la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA a partir de la cveSkill + dominio de correo
+        sql = 'select count(CVE_SUBTIPO_PROBLEMATICA) numAsignadas from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+        sql = sql + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
+        var descOperacion = 'Obtiene total de sub Categorias asignadas al Skill en SIAT_USUARIO_SUBTIPO_PROBLEMATICA de la BD: ';
+        imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
+        conexionBBDD.query(sql, (error, resultado) => {
+            var numSC_asignadas = parseInt(resultado[0].numAsignadas);
+            console.log(numSC_asignadas);
+            if (numSC_asignadas >=  numSubCategorias){
+                flagCategoria = true;
+            }
+            descOperacion = 'Bandera de Upd Categoria / Sub Categoria: <' + flagCategoria + '>  para el skill: ' + cveCorreo;
             sql = "";
             imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-            // Obtiene la clave de usuario de la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA a partir de la cveSkill + dominio de correo
-            sql = 'select count(CVE_SUBTIPO_PROBLEMATICA) numAsignadas from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
-            sql = sql + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
-            var descOperacion = 'Obtiene total de sub Categorias asignadas al Skill en SIAT_USUARIO_SUBTIPO_PROBLEMATICA de la BD: ';
+                
+            var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+            sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
+            sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
+            sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE,";
+            sql = sql + "'" + cveSkill + "' as SKILL ";
+            sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
+            sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
+            sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
+            sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
+            sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
+            sql = sql + 'JOIN  SIAC_SUBTIPO_PROBLEMATICA stp USING(CVE_SUBTIPO_PROBLEMATICA)';
+            sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA tp USING(CVE_TIPO_PROBLEMATICA)';
+            sql = sql + 'WHERE op.CVE_OOAD_PROBLEMATICA = ' + id;
+        
+            var descOperacion = 'OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id;
             imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-            conexionBBDD.query(sql, (error, resultado) => {
+            conexionBBDD.query(sql, (error, resultado)=>{
                 if (error) {
-                    flagCategoria = false;
+                    const codError = "ERROR | Codigo: " + error.code;
+                    const msgError = "     Mensaje: " + error.message;
+                    const errorResult = codError + msgError;
+                    imprimeTRACE.logResultado(errorResult, nivelTRACE);            
+                    respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
                 } else {
-                    var numSC_asignadas = parseInt(resultado[0].numAsignadas);
-                    console.log(numSC_asignadas);
-                    if (numSC_asignadas >=  numSubCategorias){
-                        flagCategoria = true;
+                    const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
+                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                    if (flagCategoria){
+                        respuesta.render('editCategoria', {problema:resultado[0]});
+                    } else{
+                        respuesta.render('edit', {problema:resultado[0]});
                     }
-                }    
+                }
             });
-        }    
-    });
-    descOperacion = 'Bandera de Upd Categoria / Sub Categoria: <' + flagCategoria + '>  para el skill: ' + cveCorreo;
-    sql = "";
-    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-    
-    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
-    sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
-    sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
-    sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE,";
-    sql = sql + "'" + cveSkill + "' as SKILL ";
-    sql = sql + 'FROM  SIAC_OOAD_PROBLEMATICA op ';
-    sql = sql + 'JOIN  SIAC_OOAD so USING(CVE_OOAD) ';
-    sql = sql + 'JOIN  SIAC_PROBLEMATICA sp USING(CVE_PROBLEMATICA) ';
-    sql = sql + 'JOIN  SIAC_STATUS_PROBLEMATICA ss USING(CVE_STATUS_PROBLEMATICA) ';
-    sql = sql + 'JOIN  SIAC_NIVEL sn USING(CVE_NIVEL) ';
-    sql = sql + 'JOIN  SIAC_SUBTIPO_PROBLEMATICA stp USING(CVE_SUBTIPO_PROBLEMATICA)';
-    sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA tp USING(CVE_TIPO_PROBLEMATICA)';
-    sql = sql + 'WHERE op.CVE_OOAD_PROBLEMATICA = ' + id;
+        
 
-    var descOperacion = 'OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id;
-    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
-    conexionBBDD.query(sql, (error, resultado)=>{
-        if (error) {
-            const codError = "ERROR | Codigo: " + error.code;
-            const msgError = "     Mensaje: " + error.message;
-            const errorResult = codError + msgError;
-            imprimeTRACE.logResultado(errorResult, nivelTRACE);            
-//            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
-            respuesta.redirect('/cdi/OOADProblematicaSkill/'+cveSkill);
-        } else {
-            const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
-            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            if (flagCategoria){
-                respuesta.render('editCategoria', {problema:resultado[0]});
-            } else{
-                respuesta.render('edit', {problema:resultado[0]});
-            }
-        }
+
+        });
     });
+    
 });
 
 // =============================================================================
