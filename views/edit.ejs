@@ -173,20 +173,19 @@
                     <div >
                         <label for="problema" class="form-label">Categoria: </label>
                         <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
-                            <option value="0">Seleccione</option>
-                            <option value="1">Capital Humano</option>
-                            <option value="2">Infraestructura</option>
-                            <option value="3">Equipamiento</option>
-                            <option value="4">Seguridad</option>
-                            <option value="5">Aplicaciones</option>
-                            <option value="6">Administrativo</option>
-                            <option value="7">Otros</option>                        </select>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="1">Infraestructura </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="1">Equipamiento </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Seguridad' ? "selected" : '' %> value="1">Seguridad </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="1">Aplicaciones</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="1">Administrativo</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="1">Otros</option>
+                        </select>
                     </div>
-
 
                     <div >
                         <label for="problema" class="form-label">Sub tipo: </label>
-                        <select id="subCategoria" name="subCategoria" style="width:400px" >
+                        <select id="subCategoria" name="subCategoria">
                             <option value="-">-</option>
                         </select>
                     </div>
