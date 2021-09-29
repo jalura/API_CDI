@@ -700,10 +700,11 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     // Si la variable flagCategoria es verdadero se llama la vista editaCategoria (permite actualizar Categoria / Sub Categoria)
     // Si la variable flagCategoria es falso se llama la vista edita (NO permite actualizar Categoria / Sub Categoria)
     var sql = 'SELECT count(NOM_NOMBRE) totalSubCategorias FROM SIAC_SUBTIPO_PROBLEMATICA';
-    var descOperacion = 'Obtiene total de Sub categorias en SIAC_SUBTIPO_PROBLEMATICA de la BD: ';
+    var descOperacion = 'Obtiene total de Sub categorias en SIAC_SUBTIPO_PROBLEMATICA de la BD:';
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) {
+            consulta.log('ERROROROROROOR');
             flagCategoria = false;
         } else {
             var numSubCategorias = parseInt(resultado[0].totalSubCategorias);
