@@ -185,10 +185,12 @@
 
                     <div >
                         <label for="problema" class="form-label">Sub tipo: </label>
+                        <!--                        
                         <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>"  readonly disabled="disabled" style="width:200px" tabindex="6">
                         <input type="text" id="CVE_SUBTIPO_PROBLEMATICA" name="CVE_SUBTIPO_PROBLEMATICA" value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"  readonly disabled="disabled" hidden style="width:200px" tabindex="6">
+                        -->
                         <select id="subCategoria" name="subCategoria">
-                            <option value="-">-</option>
+                            <option> value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>">"<%= problema.TIPO_PROBLEMATICA_NOMBRE %>"</option>
                         </select>
                     </div>
 
