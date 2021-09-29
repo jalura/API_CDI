@@ -159,7 +159,7 @@
                     </div>
 
                     <div >
-                        <label for="problema" class="form-label">Categoria: </label>                        
+                        <label for="problema" class="form-label">Categoría: </label>                        
                         <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="2">Infraestructura </option>
@@ -172,8 +172,8 @@
                     </div>
 
                     <div >
-                        <label for="problema" class="form-label">Sub tipo: </label>
-                        <select id="subCategoria" name="subCategoria">
+                        <label for="problema" class="form-label">Sub Categoría: </label>
+                        <select id="subCategoria" name="subCategoria" style="width:200px" >
                             <option  value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"> <%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %> </option>
                         </select>
                     </div>

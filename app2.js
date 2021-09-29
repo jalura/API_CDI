@@ -691,12 +691,47 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
+    const cveCorreo = cveSkill + '@imss.gob.mx';   
 
     var flagCategoria = false;
-    if (cveSkill === 'jalr'){
-        flagCategoria = true;
-    }
-
+    // Se obtiene el total de sub categorias en la tabla SIAC_SUBTIPO_PROBLEMATICA
+    // Se obtiene el total de sub categorias asigandas al skill en la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA
+    // Si el total de las sub categorias asigandas es mayor o igual se coloca la variable flagCategoria en verdadero
+    // Si la variable flagCategoria es verdadero se llama la vista editaCategoria (permite actualizar Categoria / Sub Categoria)
+    // Si la variable flagCategoria es falso se llama la vista edita (NO permite actualizar Categoria / Sub Categoria)
+    var sql = 'SELECT count(NOM_NOMBRE) totalSubCategorias FROM SIAC_SUBTIPO_PROBLEMATICA';
+    var descOperacion = 'Obtiene total de Sub categorias en SIAC_SUBTIPO_PROBLEMATICA de la BD: ';
+    funcion.logOperacion(descOperacion, sql, nivelTRACE);
+    conexionBBDD.query(sql, (error, resultado) => {
+        if (error) {
+            flagCategoria = false;
+        } else {
+            var numSubCategorias = parseInt(resultado[0].totalSubCategorias);
+            descOperacion = 'Numero de Sub Categorias en SIAC_SUBTIPO_PROBLEMATICA: ' + numSubCategorias;
+            sql = "";
+            funcion.logOperacion(descOperacion, sql, nivelTRACE);
+            // Obtiene la clave de usuario de la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA a partir de la cveSkill + dominio de correo
+            sql = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
+            sql = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
+            var descOperacion = 'Obtiene total de sub Categorias asignadas al Skill en SIAT_USUARIO_SUBTIPO_PROBLEMATICA de la BD: ';
+            funcion.logOperacion(descOperacion, sql, nivelTRACE);
+            conexionBBDD.query(sql, (error, resultado) => {
+                if (error) {
+                    flagCategoria = false;
+                } else {
+                    var numSC_asignadas = parseInt(resultado[0].numAsignadas);
+                    console.log(numSC_asignadas);
+                    if (numSC_asignadas >=  numSubCategorias){
+                        flagCategoria = true;
+                    }
+                }    
+            });
+        }    
+    });
+    descOperacion = 'Bandera de Upd Categoria / Sub Categoria: <' + flagCategoria + '>  para el skill: ' + cveCorreo;
+    sql = "";
+    funcion.logOperacion(descOperacion, sql, nivelTRACE);
+    
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
     sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
