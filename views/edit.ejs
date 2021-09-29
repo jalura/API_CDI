@@ -156,22 +156,38 @@
                         <input type="text" id="OOAD_NOMBRE" name="OOAD_NOMBRE" value="<%= problema.OOAD_NOMBRE %>" readonly disabled="disabled" tabindex="4"><br>
                     </div>
 
+                    <!--
                     <div >
                         <label for="problema" class="form-label">Categoría: </label>
                         <input type="text" id="TIPO_PROBLEMATICA_NOMBRE" name="TIPO_PROBLEMATICA_NOMBRE" value="<%= problema.TIPO_PROBLEMATICA_NOMBRE %>"  style="width:200px" tabindex="5"><br>
                     </div>
+                    -->  
 
+                    <!--
                     <div >
                         <label for="problema" class="form-label">Sub Categoría: </label>
                         <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>"  style="width:200px" tabindex="6"><br>
                     </div>
+                    -->
 
                     <div >
-                        <label for="problema" class="form-label">Status: </label>
-                        <select id="estado" name="estado" style="width:200px" >
-                            <option <%= problema.STATUS=='Pendientes' ? "selected" : '' %> value="1">Pendientes</option>
-                            <option <%= problema.STATUS=='En Atención' ? "selected" : '' %> value="2">En Atención</option>
-                            <option <%= problema.STATUS=='Atendidas' ? "selected" : '' %> value="3">Atendidas</option>
+                        <label for="problema" class="form-label">Categoria: </label>
+                        <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
+                            <option value="0">Seleccione</option>
+                            <option value="1">Capital Humano</option>
+                            <option value="2">Infraestructura</option>
+                            <option value="3">Equipamiento</option>
+                            <option value="4">Seguridad</option>
+                            <option value="5">Aplicaciones</option>
+                            <option value="6">Administrativo</option>
+                            <option value="7">Otros</option>                        </select>
+                    </div>
+
+
+                    <div >
+                        <label for="problema" class="form-label">Sub tipo: </label>
+                        <select id="subCategoria" name="subCategoria" style="width:400px" >
+                            <option value="-">-</option>
                         </select>
                     </div>
 
@@ -206,5 +222,82 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     -->
+    <script type="text/javascript">
+        // 1. Definir las variables correspondientes para Categoria
+        var cat_1 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Capacitacion'}, 
+                     {'clave': 'b', 'descripcion': 'Movimientos de personal'}, 
+                     {'clave': 'c', 'descripcion': 'Otros'},]
+
+        var cat_2 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Redes'},
+                     {'clave': 'b', 'descripcion': 'Telefonía'},
+                     {'clave': 'c', 'descripcion': 'Conmutadores'},
+                     {'clave': 'd', 'descripcion': 'Equipamiento nuevo (biométrico, impresoras, computo, proyector, pantalla)'},           
+                     {'clave': 'e', 'descripcion': 'Mantenimiento correctivo'},           
+                     {'clave': 'f','descripcion': 'Otros'},           
+                     {'clave': 'g', 'descripcion': 'Centro de contacto'},           
+                     {'clave': 'h', 'descripcion': 'Centro de datos Kio e IPICYT'},]
+        var cat_3 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Computo'}, 
+                     {'clave': 'b', 'descripcion': 'Impresion'}, 
+                     {'clave': 'c', 'descripcion': 'Biometrico'},
+                     {'clave': 'd', 'descripcion': 'Refacciones y accesorios'},
+                     {'clave': 'e', 'descripcion': 'Robo o perdida de equipo'},
+                     {'clave': 'f', 'descripcion': 'Ensobretadoras, UPS y toner'},
+                     {'clave': 'g', 'descripcion': 'Otros'},]
+
+        var cat_4 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'VPN'}, 
+                     {'clave': 'b', 'descripcion': 'Ataque'}, 
+                     {'clave': 'c', 'descripcion': 'Acceso no autorizado a informacion'},{'clave': 'd', 'descripcion': 'Otros'},
+                     {'clave': 'e', 'descripcion': 'Herramientas Microsoft, DNS y Directorio Activo'},]
+
+        var cat_5 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Medicos'}, 
+                     {'clave': 'b', 'descripcion': 'Pensiones'}, 
+                     {'clave': 'c', 'descripcion': 'Guarderias, tiendas, velatorios'},
+                     {'clave': 'd', 'descripcion': 'Incorporacion y recaudacion'},
+                     {'clave': 'e', 'descripcion': 'Personal'},
+                     {'clave': 'f', 'descripcion': 'Contabilidad'},
+                     {'clave': 'g', 'descripcion': 'Otros'},]
+
+        var cat_6 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Contratos'}, 
+                     {'clave': 'b', 'descripcion': 'Auditorias'}, 
+                     {'clave': 'c', 'descripcion': 'Juridicos'},
+                     {'clave': 'd', 'descripcion': 'Presupuesto'},
+                     {'clave': 'e', 'descripcion': 'Solicitud de informacion transparencia'},
+                     {'clave': 'f', 'descripcion': 'Otros'},]
+
+        var cat_7 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Otros'},]
+
+
+        // 2. Crear una funcion para ejecutar el cambio dinamico
+        function cambiaCategoria(){
+            var optCategoria;
+            // Se toma el valor de la "categoria seleccionada"
+            optCategoria = document.formulario1.categoria[document.formulario1.categoria.selectedIndex].value
+            // Se verifica si la cosa seleccionada esta definida
+            if(optCategoria!=0){
+                // Seleccionamos las cosas correctas. Se usa eval() para que la variable toma la referencia
+                mis_opts=eval("cat_" + optCategoria);
+                // Se calcula el numero de Sub Categorias
+                num_opts=mis_opts.length;
+                // Se marca el numero de opciones en el select
+                document.formulario1.subCategoria.length = num_opts;
+                // Para cada opcion del array, se coloca en el select
+                var ind = 0
+                for (subCt of mis_opts) {
+                    document.formulario1.subCategoria.options[ind].value=subCt.clave;
+                    document.formulario1.subCategoria.options[ind].text=subCt.descripcion;
+                    ind = ind + 1;
+                }
+            }else{
+                // Si no hay opcion seleccianada, eliminamos las cosas del select
+                document.formulario1.subCategoria.length = 1;
+                // Colocamos un "-" en la opcion que se ha dejado
+                document.formulario1.subCategoria.options[0].value = "-";
+                document.formulario1.subCategoria.options[0].text = "-";
+            }
+            // Se realiza un reset de las opts
+            document.formulario1.subCategoria.options[0].selected = true;
+        }
+</script>
+
   </body>
 </html>
