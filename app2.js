@@ -692,7 +692,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
     
-    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
+    var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
     sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
     sql = sql + "tp.NOM_NOMBRE TIPO_PROBLEMATICA_NOMBRE,";
@@ -738,7 +738,14 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     var fecha_actualizacion = fechaHoy;
     const idOOAD = peticion.body.id;
     const cveSkill = peticion.body.skill;
-    console.log("Clave SKILL:" + cveSkill);
+    var CVE_TIPO_PROBLEMATICA = peticion.body.categoria;
+    var CVE_SUBTIPO_PROBLEMATICA = peticion.body.subCategoria;
+    var CVE_PROBLEMATICA = peticion.body.cve_problematica;
+    console.log("Clave SKILL :" + cveSkill);
+    console.log("Clave idOOAD:" + idOOAD);
+    console.log("Clave Catego:" + CVE_TIPO_PROBLEMATICA);
+    console.log("Clave SubCat:" + CVE_SUBTIPO_PROBLEMATICA);
+    console.log("Clave Proble:" + CVE_PROBLEMATICA);
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
         DES_OTRO: peticion.body.DES_OTRO,

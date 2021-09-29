@@ -137,6 +137,7 @@
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
                         <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  hidden width="10px">
+                        <input type="text" id="skill" name="skill" value="<%= problema.CVE_PROBLEMATICA %>"  width="10px">
                         <label for="problema" class="form-label">Clave OOAD: </label>
                         <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" style="width:100px" tabindex="1"><br>
                     </div>
@@ -156,28 +157,9 @@
                         <input type="text" id="OOAD_NOMBRE" name="OOAD_NOMBRE" value="<%= problema.OOAD_NOMBRE %>" readonly disabled="disabled" tabindex="4"><br>
                     </div>
 
-                    <!--
-                    <div >
-                        <label for="problema" class="form-label">Categoría: </label>
-                        <input type="text" id="TIPO_PROBLEMATICA_NOMBRE" name="TIPO_PROBLEMATICA_NOMBRE" value="<%= problema.TIPO_PROBLEMATICA_NOMBRE %>"  style="width:200px" tabindex="5"><br>
-                    </div>
-                    -->  
-
-                    <!--
-                    <div >
-                        <label for="problema" class="form-label">Sub Categoría: </label>
-                        <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>"  style="width:200px" tabindex="6"><br>
-                    </div>
-                    -->
-
                     <div >
                         <label for="problema" class="form-label">Categoria: </label>                        
                         <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
-                            <!--
-
-                            <option  value="<%= problema.CVE_TIPO_PROBLEMATICA %>"> <%= problema.TIPO_PROBLEMATICA_NOMBRE %> </option>
--->
-
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="2">Infraestructura </option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="3">Equipamiento </option>
@@ -185,16 +167,11 @@
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="5">Aplicaciones</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="6">Administrativo</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="7">Otros</option>
-
                         </select>
                     </div>
 
                     <div >
                         <label for="problema" class="form-label">Sub tipo: </label>
-                        <!--                        
-                        <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>"  readonly disabled="disabled" style="width:200px" tabindex="6">
-                        <input type="text" id="CVE_SUBTIPO_PROBLEMATICA" name="CVE_SUBTIPO_PROBLEMATICA" value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"  readonly disabled="disabled" hidden style="width:200px" tabindex="6">
-                        -->
                         <select id="subCategoria" name="subCategoria">
                             <option  value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"> <%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %> </option>
                         </select>
