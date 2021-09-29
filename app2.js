@@ -746,7 +746,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     sql = sql + 'JOIN  SIAC_TIPO_PROBLEMATICA tp USING(CVE_TIPO_PROBLEMATICA)';
     sql = sql + 'WHERE op.CVE_OOAD_PROBLEMATICA = ' + id;
 
-    const descOperacion = 'OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id;
+    var descOperacion = 'OOAD Problematicas (IMSS-CDI) - Pantalla de consulta particular, clave:' + id;
     imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado)=>{
         if (error) {
