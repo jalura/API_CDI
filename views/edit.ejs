@@ -132,7 +132,7 @@
         <div class="card border-success">
             <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
             <div class="card-body">
-                <form action="/cdi/actualizaOOAD" method="POST" >
+                <form name="editooad" action="/cdi/actualizaOOAD" method="POST" >
 
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
@@ -271,7 +271,7 @@
         function cambiaCategoria(){
             var optCategoria;
             // Se toma el valor de la "categoria seleccionada"
-            optCategoria = document.formulario1.categoria[document.formulario1.categoria.selectedIndex].value
+            optCategoria = document.editooad.categoria[document.editooad.categoria.selectedIndex].value
             // Se verifica si la cosa seleccionada esta definida
             if(optCategoria!=0){
                 // Seleccionamos las cosas correctas. Se usa eval() para que la variable toma la referencia
@@ -279,23 +279,23 @@
                 // Se calcula el numero de Sub Categorias
                 num_opts=mis_opts.length;
                 // Se marca el numero de opciones en el select
-                document.formulario1.subCategoria.length = num_opts;
+                document.editooad.subCategoria.length = num_opts;
                 // Para cada opcion del array, se coloca en el select
                 var ind = 0
                 for (subCt of mis_opts) {
-                    document.formulario1.subCategoria.options[ind].value=subCt.clave;
-                    document.formulario1.subCategoria.options[ind].text=subCt.descripcion;
+                    document.editooad.subCategoria.options[ind].value=subCt.clave;
+                    document.editooad.subCategoria.options[ind].text=subCt.descripcion;
                     ind = ind + 1;
                 }
             }else{
                 // Si no hay opcion seleccianada, eliminamos las cosas del select
-                document.formulario1.subCategoria.length = 1;
+                document.editooad.subCategoria.length = 1;
                 // Colocamos un "-" en la opcion que se ha dejado
-                document.formulario1.subCategoria.options[0].value = "-";
-                document.formulario1.subCategoria.options[0].text = "-";
+                document.editooad.subCategoria.options[0].value = "-";
+                document.editooad.subCategoria.options[0].text = "-";
             }
             // Se realiza un reset de las opts
-            document.formulario1.subCategoria.options[0].selected = true;
+            document.editooad.subCategoria.options[0].selected = true;
         }
 </script>
 
