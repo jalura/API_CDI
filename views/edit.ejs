@@ -179,12 +179,12 @@
 -->
 
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="1">Infraestructura </option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="1">Equipamiento </option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Seguridad' ? "selected" : '' %> value="1">Seguridad </option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="1">Aplicaciones</option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="1">Administrativo</option>
-                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="1">Otros</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="2">Infraestructura </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="3">Equipamiento </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Seguridad' ? "selected" : '' %> value="4">Seguridad </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="5">Aplicaciones</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="6">Administrativo</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="7">Otros</option>
 
                         </select>
                     </div>
@@ -281,6 +281,8 @@
             var optCategoria;
             // Se toma el valor de la "categoria seleccionada"
             optCategoria = document.editooad.categoria[document.editooad.categoria.selectedIndex].value
+            console.log('Value: ' + document.editooad.categoria[document.editooad.categoria.selectedIndex].value);
+            console.log('DESCR: ' + document.editooad.categoria[document.editooad.categoria.selectedIndex].text);
             console.log('Entra a funcion cambiaCategoria: ' + optCategoria);
             // Se verifica si la cosa seleccionada esta definida
             if(optCategoria!=0){
