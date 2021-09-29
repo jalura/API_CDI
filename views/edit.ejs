@@ -268,9 +268,11 @@
 
         // 2. Crear una funcion para ejecutar el cambio dinamico
         function cambiaCategoria(){
+            console.log('Entra a funcion cambiaCategoria: ' + );
             var optCategoria;
             // Se toma el valor de la "categoria seleccionada"
             optCategoria = document.editooad.categoria[document.editooad.categoria.selectedIndex].value
+            console.log('Entra a funcion cambiaCategoria: ' + optCategoria);
             // Se verifica si la cosa seleccionada esta definida
             if(optCategoria!=0){
                 // Seleccionamos las cosas correctas. Se usa eval() para que la variable toma la referencia
