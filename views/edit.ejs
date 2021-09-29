@@ -173,9 +173,11 @@
                     <div >
                         <label for="problema" class="form-label">Categoria: </label>                        
                         <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
-
-                            <option  value="<%= problema.CVE_TIPO_PROBLEMATICA %>">  "<%= problema.TIPO_PROBLEMATICA_NOMBRE %>" </option>
                             <!--
+
+                            <option  value="<%= problema.CVE_TIPO_PROBLEMATICA %>"> <%= problema.TIPO_PROBLEMATICA_NOMBRE %> </option>
+-->
+
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="1">Infraestructura </option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="1">Equipamiento </option>
@@ -183,7 +185,6 @@
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="1">Aplicaciones</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="1">Administrativo</option>
                             <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="1">Otros</option>
--->
 
                         </select>
                     </div>
@@ -195,7 +196,7 @@
                         <input type="text" id="CVE_SUBTIPO_PROBLEMATICA" name="CVE_SUBTIPO_PROBLEMATICA" value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"  readonly disabled="disabled" hidden style="width:200px" tabindex="6">
                         -->
                         <select id="subCategoria" name="subCategoria">
-                            <option  value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>">  "<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>" </option>
+                            <option  value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"> <%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %> </option>
                         </select>
                     </div>
 
@@ -287,6 +288,7 @@
                 mis_opts=eval("cat_" + optCategoria);
                 // Se calcula el numero de Sub Categorias
                 num_opts=mis_opts.length;
+                console.log('tamaño de SubCategoria: ' + num_opts);
                 // Se marca el numero de opciones en el select
                 document.editooad.subCategoria.length = num_opts;
                 // Para cada opcion del array, se coloca en el select
