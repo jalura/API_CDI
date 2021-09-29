@@ -751,7 +751,6 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
         DES_OTRO: peticion.body.DES_OTRO,
         CVE_STATUS_PROBLEMATICA: peticion.body.estado,
         CVE_NIVEL: peticion.body.nivel, 
-        CVE_STATUS_PROBLEMATICA: peticion.body.status, 
         FEC_ACTUALIZACION: fecha_actualizacion
     }
     const sql = 'UPDATE SIAC_OOAD_PROBLEMATICA SET ? WHERE CVE_OOAD_PROBLEMATICA = ?';
