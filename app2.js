@@ -691,7 +691,12 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     imprimeTRACE.logRuta(ipAddress, '/editaOOAD/:id', nivelTRACE);
     const id = peticion.query.id;
     const cveSkill = peticion.query.skill;
-    
+
+    var flagCategoria = false;
+    if (cveSkill === 'jalr'){
+        flagCategoria = true;
+    }
+
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
     sql = sql + "sp.CVE_SUBTIPO_PROBLEMATICA, stp.NOM_NOMBRE SUBTIPO_PROBLEMATICA_NOMBRE, stp.CVE_TIPO_PROBLEMATICA,";
@@ -719,7 +724,11 @@ app.get('/editaOOAD', (peticion, respuesta) => {
         } else {
             const cadenaRespuesta = "Consulta OOAD Problematicas (IMSS-CDI). Respuesta:  " + JSON.stringify(resultado[0], null, '-');
             imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.render('edit', {problema:resultado[0]});
+            if (flagCategoria){
+                respuesta.render('editCategoria', {problema:resultado[0]});
+            } else{
+                respuesta.render('edit', {problema:resultado[0]});
+            }
         }
     });
 });
@@ -878,7 +887,7 @@ app.get('/OOADProblematicaSkill', (peticion, respuesta) => {
             cadenaJSON = {
                 status: true,
                 code: 204,
-                message: 'Skill NO autorizado pa consultar (ERROR al accesar la BBDD <SIAT_USUARIO / SIAT_USUARIO_SUBTIPO_PROBLEMATICA>)',
+                message: 'Skill NO autorizado para consultar (ERROR al accesar la BBDD <SIAT_USUARIO / SIAT_USUARIO_SUBTIPO_PROBLEMATICA>)',
                 respuesta: {}
             }
             var resError = {};
