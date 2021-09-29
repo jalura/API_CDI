@@ -178,6 +178,15 @@
                     </div>
 
                     <div >
+                        <label for="problema" class="form-label">Status: </label>
+                        <select id="estado" name="estado" style="width:200px" >
+                            <option <%= problema.STATUS=='Pendientes' ? "selected" : '' %> value="1">Pendientes</option>
+                            <option <%= problema.STATUS=='En Atención' ? "selected" : '' %> value="2">En Atención</option>
+                            <option <%= problema.STATUS=='Atendidas' ? "selected" : '' %> value="3">Atendidas</option>
+                        </select>
+                    </div>
+
+                    <div >
                         <label for="problema" class="form-label">Nivel: </label>
                         <select id="nivel" name="nivel" style="width:200px" >
                             <option <%= problema.NIVEL=='No Aplica' ? "selected" : '' %> value="1">No Aplica</option>
