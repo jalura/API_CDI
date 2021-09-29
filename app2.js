@@ -740,21 +740,22 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     const cveSkill = peticion.body.skill;
     var CVE_TIPO_PROBLEMATICA = peticion.body.categoria;
     var CVE_SUBTIPO_PROBLEMATICA = peticion.body.subCategoria;
-    var CVE_PROBLEMATICA = peticion.body.cve_problematica;
+    var id_CVE_PROBLEMATICA = peticion.body.cve_problematica;
     console.log("Clave SKILL :" + cveSkill);
     console.log("Clave idOOAD:" + idOOAD);
     console.log("Clave Catego:" + CVE_TIPO_PROBLEMATICA);
     console.log("Clave SubCat:" + CVE_SUBTIPO_PROBLEMATICA);
-    console.log("Clave Proble:" + CVE_PROBLEMATICA);
+    console.log("Clave Proble:" + id_CVE_PROBLEMATICA);
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
         DES_OTRO: peticion.body.DES_OTRO,
         CVE_STATUS_PROBLEMATICA: peticion.body.estado,
         CVE_NIVEL: peticion.body.nivel, 
+        CVE_STATUS_PROBLEMATICA: peticion.body.status, 
         FEC_ACTUALIZACION: fecha_actualizacion
     }
     const sql = 'UPDATE SIAC_OOAD_PROBLEMATICA SET ? WHERE CVE_OOAD_PROBLEMATICA = ?';
-    const descOperacion = 'Actualizacion de una Problematicas (IMSS-CDI)  id: ' + idOOAD;
+    const descOperacion = 'Actualizacion de SIAC_OOAD_PROBLEMATICA (IMSS-CDI)  id: ' + idOOAD;
     const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematicaObj, null, '-');
     imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
     conexionBBDD.query(sql, [ooadProblematicaObj, idOOAD], error => {
@@ -765,9 +766,28 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
             imprimeTRACE.logResultado(errorResult, nivelTRACE);       
             respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
         } else {
-            const cadenaRespuesta = "Problematica-Actualizada (IMSS-CDI).";
-            imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-            respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+            const ooadProblematica2Obj = {
+                CVE_SUBTIPO_PROBLEMATICA: peticion.body.subCategoria,
+                NOM_NOMBRE: peticion.body.DES_OTRO, 
+                FEC_ACTUALIZACION: fecha_actualizacion
+            }
+            const sql = 'UPDATE SIAC_PROBLEMATICA SET ? WHERE CVE_PROBLEMATICA = ?';
+            const descOperacion = 'Actualizacion de SIAC_PROBLEMATICA (IMSS-CDI)  id: ' + id_CVE_PROBLEMATICA;
+            const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematica2Obj, null, '-');
+            imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
+            conexionBBDD.query(sql, [ooadProblematica2Obj, id_CVE_PROBLEMATICA], error => {
+                if (error) {
+                    const codError = "ERROR | Codigo: " + error.code;
+                    const msgError = "     Mensaje: " + error.message;
+                    const errorResult = codError + msgError;
+                    imprimeTRACE.logResultado(errorResult, nivelTRACE);       
+                    respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+                } else {
+                    const cadenaRespuesta = "Problematicas-Actualizada (IMSS-CDI).";
+                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                    respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+                }
+            });    
         }
     });
 });
