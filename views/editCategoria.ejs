@@ -132,12 +132,13 @@
         <div class="card border-success">
             <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
             <div class="card-body">
-                <form action="/cdi/actualizaOOAD" method="POST" >
+                <form name="editooad" action="/actualizaOOAD" method="POST" >
 
                     <div >
-                        <input type="text" id="viewUPD" name="viewUPD" value="edit" hidden width="10px">
+                        <input type="text" id="viewUPD" name="viewUPD" value="editCategoria" hidden width="10px">
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
                         <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  hidden width="10px">
+                        <input type="text" id="cve_problematica" name="cve_problematica" value="<%= problema.CVE_PROBLEMATICA %>"  hidden width="10px">
                         <label for="problema" class="form-label">Clave OOAD: </label>
                         <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" style="width:100px" tabindex="1"><br>
                     </div>
@@ -158,13 +159,23 @@
                     </div>
 
                     <div >
-                        <label for="problema" class="form-label">Categoría: </label>
-                        <input type="text" id="TIPO_PROBLEMATICA_NOMBRE" name="TIPO_PROBLEMATICA_NOMBRE" value="<%= problema.TIPO_PROBLEMATICA_NOMBRE %>" readonly disabled="disabled"  style="width:200px" tabindex="5"><br>
+                        <label for="problema" class="form-label">Categoria: </label>                        
+                        <select id="categoria" name="categoria" style="width:200px" onchange="cambiaCategoria()">
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Capital Humano' ? "selected" : '' %> value="1">Capital Humano</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Infraestructura' ? "selected" : '' %> value="2">Infraestructura </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Equipamiento' ? "selected" : '' %> value="3">Equipamiento </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Seguridad' ? "selected" : '' %> value="4">Seguridad </option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Aplicaciones' ? "selected" : '' %> value="5">Aplicaciones</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Administrativo' ? "selected" : '' %> value="6">Administrativo</option>
+                            <option <%= problema.TIPO_PROBLEMATICA_NOMBRE=='Otros' ? "selected" : '' %> value="7">Otros</option>
+                        </select>
                     </div>
 
                     <div >
-                        <label for="problema" class="form-label">Sub Categoría: </label>
-                        <input type="text" id="SUBTIPO_PROBLEMATICA_NOMBRE" name="SUBTIPO_PROBLEMATICA_NOMBRE" value="<%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %>" readonly disabled="disabled" style="width:200px" tabindex="6"><br>
+                        <label for="problema" class="form-label">Sub tipo: </label>
+                        <select id="subCategoria" name="subCategoria">
+                            <option  value="<%= problema.CVE_SUBTIPO_PROBLEMATICA %>"> <%= problema.SUBTIPO_PROBLEMATICA_NOMBRE %> </option>
+                        </select>
                     </div>
 
                     <div >
@@ -207,5 +218,94 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     -->
+    <script type="text/javascript">
+        // 1. Definir las variables correspondientes para Categoria
+        var cat_1 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '1', 'descripcion': 'Capacitacion'}, 
+                     {'clave': '2', 'descripcion': 'Movimientos de personal'}, 
+                     {'clave': '3', 'descripcion': 'Otros'},]
+
+        var cat_2 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '4', 'descripcion': 'Redes'},
+                     {'clave': '5', 'descripcion': 'Telefonía'},
+                     {'clave': '6', 'descripcion': 'Conmutadores'},
+                     {'clave': '7', 'descripcion': 'Equipamiento nuevo (biométrico, impresoras, computo, proyector, pantalla)'},           
+                     {'clave': '8', 'descripcion': 'Mantenimiento correctivo'},           
+                     {'clave': '9', 'descripcion': 'Otros'},           
+                     {'clave': '35', 'descripcion': 'Centro de contacto'},           
+                     {'clave': '36', 'descripcion': 'Centro de datos Kio e IPICYT'},]
+
+        var cat_3 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '10', 'descripcion': 'Computo'}, 
+                     {'clave': '11', 'descripcion': 'Impresion'}, 
+                     {'clave': '12', 'descripcion': 'Biometrico'},
+                     {'clave': '13', 'descripcion': 'Refacciones y accesorios'},
+                     {'clave': '14', 'descripcion': 'Robo o perdida de equipo'},
+                     {'clave': '15', 'descripcion': 'Ensobretadoras, UPS y toner'},
+                     {'clave': '16', 'descripcion': 'Otros'},]
+
+        var cat_4 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '17', 'descripcion': 'VPN'}, 
+                     {'clave': '18', 'descripcion': 'Ataque'}, 
+                     {'clave': '19', 'descripcion': 'Acceso no autorizado a informacion'},
+                     {'clave': '20', 'descripcion': 'Otros'},
+                     {'clave': '37', 'descripcion': 'Herramientas Microsoft, DNS y Directorio Activo'},]
+
+        var cat_5 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '21', 'descripcion': 'Medicos'}, 
+                     {'clave': '22', 'descripcion': 'Pensiones'}, 
+                     {'clave': '23', 'descripcion': 'Guarderias, tiendas, velatorios'},
+                     {'clave': '24', 'descripcion': 'Incorporacion y recaudacion'},
+                     {'clave': '25', 'descripcion': 'Personal'},
+                     {'clave': '26', 'descripcion': 'Contabilidad'},
+                     {'clave': '27', 'descripcion': 'Otros'},]
+
+        var cat_6 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '28', 'descripcion': 'Contratos'}, 
+                     {'clave': '29', 'descripcion': 'Auditorias'}, 
+                     {'clave': '30', 'descripcion': 'Juridicos'},
+                     {'clave': '31', 'descripcion': 'Presupuesto'},
+                     {'clave': '32', 'descripcion': 'Solicitud de informacion transparencia'},
+                     {'clave': '33', 'descripcion': 'Otros'},]
+
+        var cat_7 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Otros'},]
+
+
+        // 2. Crear una funcion para ejecutar el cambio dinamico
+        function cambiaCategoria(){
+            var optCategoria;
+            // Se toma el valor de la "categoria seleccionada"
+            optCategoria = document.editooad.categoria[document.editooad.categoria.selectedIndex].value
+            console.log('Value: ' + document.editooad.categoria[document.editooad.categoria.selectedIndex].value);
+            console.log('DESCR: ' + document.editooad.categoria[document.editooad.categoria.selectedIndex].text);
+            console.log('Entra a funcion cambiaCategoria: ' + optCategoria);
+            // Se verifica si la cosa seleccionada esta definida
+            if(optCategoria!=0){
+                // Seleccionamos las cosas correctas. Se usa eval() para que la variable toma la referencia
+                mis_opts=eval("cat_" + optCategoria);
+                // Se calcula el numero de Sub Categorias
+                num_opts=mis_opts.length;
+                console.log('tamaño de SubCategoria: ' + num_opts);
+                // Se marca el numero de opciones en el select
+                document.editooad.subCategoria.length = num_opts;
+                // Para cada opcion del array, se coloca en el select
+                var ind = 0
+                for (subCt of mis_opts) {
+                    document.editooad.subCategoria.options[ind].value=subCt.clave;
+                    document.editooad.subCategoria.options[ind].text=subCt.descripcion;
+                    ind = ind + 1;
+                }
+            }else{
+                // Si no hay opcion seleccianada, eliminamos las cosas del select
+                document.editooad.subCategoria.length = 1;
+                // Colocamos un "-" en la opcion que se ha dejado
+                document.editooad.subCategoria.options[0].value = "-";
+                document.editooad.subCategoria.options[0].text = "-";
+            }
+            // Se realiza un reset de las opts
+            document.editooad.subCategoria.options[0].selected = true;
+        }
+</script>
+
   </body>
 </html>

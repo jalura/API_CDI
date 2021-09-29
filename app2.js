@@ -738,14 +738,19 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
     var fecha_actualizacion = fechaHoy;
     const idOOAD = peticion.body.id;
     const cveSkill = peticion.body.skill;
-    var CVE_TIPO_PROBLEMATICA = peticion.body.categoria;
-    var CVE_SUBTIPO_PROBLEMATICA = peticion.body.subCategoria;
-    var id_CVE_PROBLEMATICA = peticion.body.cve_problematica;
+    const viewID = peticion.body.viewUPD;
     console.log("Clave SKILL :" + cveSkill);
     console.log("Clave idOOAD:" + idOOAD);
-    console.log("Clave Catego:" + CVE_TIPO_PROBLEMATICA);
-    console.log("Clave SubCat:" + CVE_SUBTIPO_PROBLEMATICA);
-    console.log("Clave Proble:" + id_CVE_PROBLEMATICA);
+    console.log("Clave   view:" + viewID);
+
+    if (viewID === 'editCategoria') {
+        var CVE_TIPO_PROBLEMATICA = peticion.body.categoria;
+        var CVE_SUBTIPO_PROBLEMATICA = peticion.body.subCategoria;
+        var id_CVE_PROBLEMATICA = peticion.body.cve_problematica;
+        console.log("Clave Catego:" + CVE_TIPO_PROBLEMATICA);
+        console.log("Clave SubCat:" + CVE_SUBTIPO_PROBLEMATICA);
+        console.log("Clave Proble:" + id_CVE_PROBLEMATICA);
+    }
     // Creamos un objeto customer utilizando la dependecia body-parser
     const ooadProblematicaObj = {
         DES_OTRO: peticion.body.DES_OTRO,
@@ -765,41 +770,39 @@ app.post('/actualizaOOAD', ( peticion, respuesta ) => {
             imprimeTRACE.logResultado(errorResult, nivelTRACE);       
             respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
         } else {
-            const ooadProblematica2Obj = {
-                CVE_SUBTIPO_PROBLEMATICA: peticion.body.subCategoria,
-                NOM_NOMBRE: peticion.body.DES_OTRO, 
-                FEC_ACTUALIZACION: fecha_actualizacion
-            }
-            const sql = 'UPDATE SIAC_PROBLEMATICA SET ? WHERE CVE_PROBLEMATICA = ?';
-            const descOperacion = 'Actualizacion de SIAC_PROBLEMATICA (IMSS-CDI)  id: ' + id_CVE_PROBLEMATICA;
-            const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematica2Obj, null, '-');
-            imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
-            conexionBBDD.query(sql, [ooadProblematica2Obj, id_CVE_PROBLEMATICA], error => {
-                if (error) {
-                    const codError = "ERROR | Codigo: " + error.code;
-                    const msgError = "     Mensaje: " + error.message;
-                    const errorResult = codError + msgError;
-                    imprimeTRACE.logResultado(errorResult, nivelTRACE);       
-                    respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
-                } else {
-                    const cadenaRespuesta = "Problematicas-Actualizada (IMSS-CDI).";
-                    imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
-                    respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+            if (viewID === 'editCategoria') {
+                const ooadProblematica2Obj = {
+                    CVE_SUBTIPO_PROBLEMATICA: peticion.body.subCategoria,
+                    NOM_NOMBRE: peticion.body.DES_OTRO, 
+                    FEC_ACTUALIZACION: fecha_actualizacion
                 }
-            });    
+                const sql = 'UPDATE SIAC_PROBLEMATICA SET ? WHERE CVE_PROBLEMATICA = ?';
+                const descOperacion = 'Actualizacion de SIAC_PROBLEMATICA (IMSS-CDI)  id: ' + id_CVE_PROBLEMATICA;
+                const sqlDesc = sql + " JSON: " + JSON.stringify(ooadProblematica2Obj, null, '-');
+                imprimeTRACE.logOperacion(descOperacion, sqlDesc, nivelTRACE);
+                conexionBBDD.query(sql, [ooadProblematica2Obj, id_CVE_PROBLEMATICA], error => {
+                    if (error) {
+                        const codError = "ERROR | Codigo: " + error.code;
+                        const msgError = "     Mensaje: " + error.message;
+                        const errorResult = codError + msgError;
+                        imprimeTRACE.logResultado(errorResult, nivelTRACE);       
+                        respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+                    } else {
+                        const cadenaRespuesta = "Problematicas Categoria-Actualizada (IMSS-CDI).";
+                        imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                        respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+                    }
+                });    
+            } else {
+                const cadenaRespuesta = "Problematica-Actualizada (IMSS-CDI).";
+                imprimeTRACE.logResultado(cadenaRespuesta, nivelTRACE);
+                respuesta.redirect('/cdi/OOADProblematicaSkill?skill='+cveSkill);
+            }    
         }
     });
 });
     
 
-
-
-/*
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*************************************************************************************
-*/
 // =============================================================================
 // End Point. GET (EndPoint de Prueba para recibir variables de LivePerson)
 // =============================================================================
