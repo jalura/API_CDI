@@ -701,7 +701,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     // Si la variable flagCategoria es falso se llama la vista edita (NO permite actualizar Categoria / Sub Categoria)
     var sql = 'SELECT count(NOM_NOMBRE) totalSubCategorias FROM SIAC_SUBTIPO_PROBLEMATICA';
     var descOperacion = 'Obtiene total de Sub categorias en SIAC_SUBTIPO_PROBLEMATICA de la BD: ';
-    funcion.logOperacion(descOperacion, sql, nivelTRACE);
+    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     conexionBBDD.query(sql, (error, resultado) => {
         if (error) {
             flagCategoria = false;
@@ -709,12 +709,12 @@ app.get('/editaOOAD', (peticion, respuesta) => {
             var numSubCategorias = parseInt(resultado[0].totalSubCategorias);
             descOperacion = 'Numero de Sub Categorias en SIAC_SUBTIPO_PROBLEMATICA: ' + numSubCategorias;
             sql = "";
-            funcion.logOperacion(descOperacion, sql, nivelTRACE);
+            imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
             // Obtiene la clave de usuario de la tabla SIAT_USUARIO_SUBTIPO_PROBLEMATICA a partir de la cveSkill + dominio de correo
             sql = 'select CVE_SUBTIPO_PROBLEMATICA from SIAT_USUARIO_SUBTIPO_PROBLEMATICA '
             sql = sqlUsuario + `where CVE_USUARIO = (select CVE_USUARIO from SIAT_USUARIO WHERE CVE_CORREO = '` + cveCorreo + `')`;
             var descOperacion = 'Obtiene total de sub Categorias asignadas al Skill en SIAT_USUARIO_SUBTIPO_PROBLEMATICA de la BD: ';
-            funcion.logOperacion(descOperacion, sql, nivelTRACE);
+            imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
             conexionBBDD.query(sql, (error, resultado) => {
                 if (error) {
                     flagCategoria = false;
@@ -730,7 +730,7 @@ app.get('/editaOOAD', (peticion, respuesta) => {
     });
     descOperacion = 'Bandera de Upd Categoria / Sub Categoria: <' + flagCategoria + '>  para el skill: ' + cveCorreo;
     sql = "";
-    funcion.logOperacion(descOperacion, sql, nivelTRACE);
+    imprimeTRACE.logOperacion(descOperacion, sql, nivelTRACE);
     
     var sql = 'select op.CVE_OOAD_PROBLEMATICA, op.NOM_RESPONSABLE, op.DES_OTRO, op.CVE_PROBLEMATICA, so.NOM_NOMBRE OOAD_NOMBRE, ss.NOM_NOMBRE STATUS, ';
     sql = sql + "sp.NOM_NOMBRE PROBLEMATICA_NOMBRE , sn.NOM_NOMBRE NIVEL, DATE_FORMAT(op.FEC_ALTA, '%Y-%m-%d') FEC_ALTA, ";
