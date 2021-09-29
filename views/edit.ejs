@@ -137,7 +137,7 @@
                     <div >
                         <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
                         <input type="text" id="skill" name="skill" value="<%= problema.SKILL %>"  hidden width="10px">
-                        <input type="text" id="skill" name="skill" value="<%= problema.CVE_PROBLEMATICA %>"  width="10px">
+                        <input type="text" id="cve_problematica" name="cve_problematica" value="<%= problema.CVE_PROBLEMATICA %>"  width="10px">
                         <label for="problema" class="form-label">Clave OOAD: </label>
                         <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" style="width:100px" tabindex="1"><br>
                     </div>
@@ -210,45 +210,53 @@
     -->
     <script type="text/javascript">
         // 1. Definir las variables correspondientes para Categoria
-        var cat_1 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Capacitacion'}, 
-                     {'clave': 'b', 'descripcion': 'Movimientos de personal'}, 
-                     {'clave': 'c', 'descripcion': 'Otros'},]
+        var cat_1 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '1', 'descripcion': 'Capacitacion'}, 
+                     {'clave': '2', 'descripcion': 'Movimientos de personal'}, 
+                     {'clave': '3', 'descripcion': 'Otros'},]
 
-        var cat_2 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Redes'},
-                     {'clave': 'b', 'descripcion': 'Telefonía'},
-                     {'clave': 'c', 'descripcion': 'Conmutadores'},
-                     {'clave': 'd', 'descripcion': 'Equipamiento nuevo (biométrico, impresoras, computo, proyector, pantalla)'},           
-                     {'clave': 'e', 'descripcion': 'Mantenimiento correctivo'},           
-                     {'clave': 'f','descripcion': 'Otros'},           
-                     {'clave': 'g', 'descripcion': 'Centro de contacto'},           
-                     {'clave': 'h', 'descripcion': 'Centro de datos Kio e IPICYT'},]
-        var cat_3 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Computo'}, 
-                     {'clave': 'b', 'descripcion': 'Impresion'}, 
-                     {'clave': 'c', 'descripcion': 'Biometrico'},
-                     {'clave': 'd', 'descripcion': 'Refacciones y accesorios'},
-                     {'clave': 'e', 'descripcion': 'Robo o perdida de equipo'},
-                     {'clave': 'f', 'descripcion': 'Ensobretadoras, UPS y toner'},
-                     {'clave': 'g', 'descripcion': 'Otros'},]
+        var cat_2 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '4', 'descripcion': 'Redes'},
+                     {'clave': '5', 'descripcion': 'Telefonía'},
+                     {'clave': '6', 'descripcion': 'Conmutadores'},
+                     {'clave': '7', 'descripcion': 'Equipamiento nuevo (biométrico, impresoras, computo, proyector, pantalla)'},           
+                     {'clave': '8', 'descripcion': 'Mantenimiento correctivo'},           
+                     {'clave': '9', 'descripcion': 'Otros'},           
+                     {'clave': '35', 'descripcion': 'Centro de contacto'},           
+                     {'clave': '36', 'descripcion': 'Centro de datos Kio e IPICYT'},]
 
-        var cat_4 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'VPN'}, 
-                     {'clave': 'b', 'descripcion': 'Ataque'}, 
-                     {'clave': 'c', 'descripcion': 'Acceso no autorizado a informacion'},{'clave': 'd', 'descripcion': 'Otros'},
-                     {'clave': 'e', 'descripcion': 'Herramientas Microsoft, DNS y Directorio Activo'},]
+        var cat_3 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '10', 'descripcion': 'Computo'}, 
+                     {'clave': '11', 'descripcion': 'Impresion'}, 
+                     {'clave': '12', 'descripcion': 'Biometrico'},
+                     {'clave': '13', 'descripcion': 'Refacciones y accesorios'},
+                     {'clave': '14', 'descripcion': 'Robo o perdida de equipo'},
+                     {'clave': '15', 'descripcion': 'Ensobretadoras, UPS y toner'},
+                     {'clave': '16', 'descripcion': 'Otros'},]
 
-        var cat_5 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Medicos'}, 
-                     {'clave': 'b', 'descripcion': 'Pensiones'}, 
-                     {'clave': 'c', 'descripcion': 'Guarderias, tiendas, velatorios'},
-                     {'clave': 'd', 'descripcion': 'Incorporacion y recaudacion'},
-                     {'clave': 'e', 'descripcion': 'Personal'},
-                     {'clave': 'f', 'descripcion': 'Contabilidad'},
-                     {'clave': 'g', 'descripcion': 'Otros'},]
+        var cat_4 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '17', 'descripcion': 'VPN'}, 
+                     {'clave': '18', 'descripcion': 'Ataque'}, 
+                     {'clave': '19', 'descripcion': 'Acceso no autorizado a informacion'},
+                     {'clave': '20', 'descripcion': 'Otros'},
+                     {'clave': '37', 'descripcion': 'Herramientas Microsoft, DNS y Directorio Activo'},]
 
-        var cat_6 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Contratos'}, 
-                     {'clave': 'b', 'descripcion': 'Auditorias'}, 
-                     {'clave': 'c', 'descripcion': 'Juridicos'},
-                     {'clave': 'd', 'descripcion': 'Presupuesto'},
-                     {'clave': 'e', 'descripcion': 'Solicitud de informacion transparencia'},
-                     {'clave': 'f', 'descripcion': 'Otros'},]
+        var cat_5 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '21', 'descripcion': 'Medicos'}, 
+                     {'clave': '22', 'descripcion': 'Pensiones'}, 
+                     {'clave': '23', 'descripcion': 'Guarderias, tiendas, velatorios'},
+                     {'clave': '24', 'descripcion': 'Incorporacion y recaudacion'},
+                     {'clave': '25', 'descripcion': 'Personal'},
+                     {'clave': '26', 'descripcion': 'Contabilidad'},
+                     {'clave': '27', 'descripcion': 'Otros'},]
+
+        var cat_6 = [{'clave': '-', 'descripcion': '-'}, 
+                     {'clave': '28', 'descripcion': 'Contratos'}, 
+                     {'clave': '29', 'descripcion': 'Auditorias'}, 
+                     {'clave': '30', 'descripcion': 'Juridicos'},
+                     {'clave': '31', 'descripcion': 'Presupuesto'},
+                     {'clave': '32', 'descripcion': 'Solicitud de informacion transparencia'},
+                     {'clave': '33', 'descripcion': 'Otros'},]
 
         var cat_7 = [{'clave': '-', 'descripcion': '-'}, {'clave': 'a', 'descripcion': 'Otros'},]
 
